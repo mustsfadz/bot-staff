@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>بوت الموظفين</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 30px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        .button {
+            display: block;
+            width: 250px;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .hidden {
+            display: none;
+        }
+        .sub-buttons {
+            margin-top: 10px;
+        }
+        .phone-list {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        .phone-list p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>مرحبًا بك في بوت الموظفين</h2>
+
+    <button class="button" onclick="toggleSection('forms')">📄 النماذج</button>
+    <div id="forms" class="sub-buttons hidden">
+        <button class="button" onclick="showFile('طلب-إجازة')">📝 طلب إجازة</button>
+        <button class="button" onclick="showFile('طلب-سلفة')">💰 طلب سلفة مالية</button>
+        <button class="button" onclick="showFile('صيانة-سيارة')">🚗 طلب صيانة سيارة</button>
+        <button class="button" onclick="showFile('مبلغ-الخزينة')">💵 طلب مبلغ من الخزينة</button>
+        <button class="button" onclick="showFile('عمل-إضافي')">⏱️ طلب عمل إضافي</button>
+        <button class="button" onclick="showFile('تحويل-عهدة')">📦 تحويل عهدة شخصية</button>
+        <button class="button" onclick="showFile('علاوة-سفر')">✈️ علاوة سفر</button>
+        <button class="button" onclick="showFile('أمر-عمل')">🛠️ أمر عمل ورشة (الحدادة - النجارة - PVC)</button>
+        <button class="button" onclick="showFile('طلب-إذن')">📅 طلب إذن</button>
+        <button class="button" onclick="showFile('ترجيع-مواد')">🔁 ترجيع مواد للمخزن</button>
+    </div>
+
+    <button class="button" onclick="toggleSection('phones')">📞 أرقام الهواتف الداخلية</button>
+    <div id="phones" class="phone-list">
+        <p>📌 المدير العام: 116</p>
+        <p>📌 المالية: 102</p>
+        <p>📌 الموارد البشرية: 105</p>
+    </div>
+
+    <script>
+        function toggleSection(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle("hidden");
+            if (id === 'phones') {
+                el.style.display = el.style.display === "none" || el.style.display === "" ? "block" : "none";
+            }
+        }
+
+        function showFile(type) {
+            const files = {
+                "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
+                "طلب-سلفة": "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
+                "صيانة-سيارة": "https://drive.google.com/file/d/1p7KYwqv2fj4hxbRp2lH7Pt38jzcD2h1p/view?usp=drive_link",
+                "مبلغ-الخزينة": "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
+                "عمل-إضافي": "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
+                "تحويل-عهدة": "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
+                "علاوة-سفر": "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
+                "أمر-عمل": "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
+                "طلب-إذن": "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
+                "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link"
+            };
+
+            const fileUrl = files[type];
+            if (fileUrl) {
+                window.open(fileUrl, '_blank');
+            } else {
+                alert("لم يتم تحديد ملف لهذا النموذج بعد.");
+            }
+        }
+    </script>
+</body>
+</html>
