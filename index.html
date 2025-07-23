@@ -1,194 +1,265 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوت الموظفين</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>بوت الموظفين</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+    body {
+        font-family: 'Cairo', sans-serif;
+        background: linear-gradient(to right, #e0f7fa, #e1bee7);
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+        color: #333;
+    }
+    h2 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        color: #4a148c;
+    }
+    button.button {
+        background-color: #4a148c;
+        color: white;
+        border: none;
+        border-radius: 14px;
+        padding: 14px 20px;
+        margin: 10px auto;
+        width: 90%;
+        max-width: 360px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 8px rgba(74, 20, 140, 0.3);
+    }
+    button.button:hover {
+        background-color: #6a1b9a;
+        transform: translateY(-3px);
+    }
+    button.button:active {
+        transform: scale(0.97);
+    }
+    button.button.active {
+        background-color: #7b1fa2;
+        box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6);
+    }
+    /* الأقسام الفرعية */
+    .sub-buttons, .phone-list, .links-box {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        margin: 10px auto 25px;
+        max-width: 360px;
+        width: 90%;
+        padding: 15px 20px;
+        text-align: right;
+        direction: rtl;
+        animation: fadeIn 0.4s ease forwards;
+    }
+    .hidden {
+        display: none;
+    }
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    /* أزرار داخل الأقسام الفرعية */
+    .sub-buttons .button,
+    .links-box .button {
+        background-color: #9575cd;
+        color: white;
+        font-size: 1rem;
+        padding: 12px 15px;
+        margin: 8px auto;
+        max-width: 320px;
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(149, 117, 205, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: background-color 0.3s ease;
+    }
+    .sub-buttons .button:hover,
+    .links-box .button:hover {
+        background-color: #7e57c2;
+    }
+    /* نص أرقام الهواتف */
+    .phone-list p {
+        font-size: 1rem;
+        margin: 8px 0;
+        color: #555;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+    .phone-list p::before {
+        content: "📌";
+        font-size: 1.1rem;
+    }
+
+    /* أيقونات للأزرار الرئيسية */
+    button.button i {
+        font-size: 1.4rem;
+        color: #ffd700;
+    }
+
+    /* استجابة الشاشات */
+    @media (max-width: 600px) {
         h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 25px;
+            font-size: 1.5rem;
         }
-        .button {
-            display: block;
-            width: 90%;
-            max-width: 320px;
-            margin: 8px auto;
-            padding: 14px 12px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 17px;
-            line-height: 1.3;
-            transition: background-color .25s ease, transform .15s ease;
+        button.button {
+            font-size: 1rem;
+            padding: 12px 16px;
         }
-        .button:hover {
-            background-color: #45a049;
-        }
-        .button:active {
-            transform: scale(.97);
-        }
-        /* لون مختلف عند تفعيل (فتح) القائمة */
-        .button.active {
-            background-color: #1e88e5;
-        }
-        .button.active:hover {
-            background-color: #166fb8;
-        }
-
-        .hidden { display: none; }
-
-        .sub-buttons {
-            margin-top: 5px;
-            animation: fade .35s ease;
-        }
-
-        @keyframes fade {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .phone-list, .links-box {
-            background: #fff;
-            padding: 14px 16px;
-            border-radius: 12px;
-            margin: 10px auto 15px;
-            width: 92%;
-            max-width: 360px;
-            text-align: right;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            animation: fade .35s ease;
-        }
-        .phone-list p {
-            margin: 6px 0;
-            font-size: 15px;
-        }
-
-        /* أزرار فرعية داخل الأقسام */
         .sub-buttons .button,
         .links-box .button {
-            background-color: #607d8b;
-            font-size: 15px;
-            padding: 11px 10px;
-            margin: 6px auto;
+            font-size: 0.95rem;
+            padding: 10px 14px;
         }
-        .sub-buttons .button:hover,
-        .links-box .button:hover {
-            background-color: #546e7a;
+        .phone-list p {
+            font-size: 0.9rem;
         }
-
-        @media (max-width: 600px) {
-            h2 { font-size: 21px; }
-            .button { font-size: 16px; padding: 12px; }
-            .sub-buttons .button { font-size: 14px; padding: 10px; }
-            .phone-list p { font-size: 14px; }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <h2>👋مرحبًا بك في البوت الخاص بشركة الدعم للمقاولات</h2>
 
-    <!-- زر النماذج -->
-    <button class="button" data-target="forms" onclick="toggleSection(event)">📄 النماذج</button>
-    <div id="forms" class="sub-buttons hidden">
-        <button class="button" onclick="showFile('طلب-إجازة')">📝 طلب إجازة</button>
-        <button class="button" onclick="showFile('طلب-سلفة')">💰 طلب سلفة مالية</button>
-        <button class="button" onclick="showFile('صيانة-سيارة')">🚗 طلب صيانة سيارة</button>
-        <button class="button" onclick="showFile('مبلغ-الخزينة')">💵 طلب مبلغ من الخزينة</button>
-        <button class="button" onclick="showFile('عمل-إضافي')">⏱ طلب عمل إضافي</button>
-        <button class="button" onclick="showFile('تحويل-عهدة')">📦 تحويل عهدة شخصية</button>
-        <button class="button" onclick="showFile('علاوة-سفر')">✈ علاوة سفر</button>
-        <button class="button" onclick="showFile('أمر-عمل')">🛠 أمر عمل ورشة (الحدادة - النجارة - PVC)</button>
-        <button class="button" onclick="showFile('طلب-إذن')">📅 طلب إذن</button>
-        <button class="button" onclick="showFile('ترجيع-مواد')">🔁 ترجيع مواد للمخزن</button>
-        <button class="button" onclick="showFile('طلب-بذل-وأحذية')">👟🧥 طلب بذل وأحذية</button>
+<h2>👋 مرحبًا بك في البوت الخاص بشركة الدعم للمقاولات</h2>
 
-    </div>
+<!-- زر النماذج -->
+<button class="button" data-target="forms" onclick="toggleSection(event)">
+    <i class="fas fa-file-alt"></i> النماذج
+</button>
+<div id="forms" class="sub-buttons hidden" role="region" aria-label="نماذج الطلبات">
+    <button class="button" onclick="showFile('طلب-إجازة')">
+        <i class="fas fa-file-signature"></i> طلب إجازة
+    </button>
+    <button class="button" onclick="showFile('طلب-سلفة')">
+        <i class="fas fa-money-check-alt"></i> طلب سلفة مالية
+    </button>
+    <button class="button" onclick="showFile('صيانة-سيارة')">
+        <i class="fas fa-car-side"></i> طلب صيانة سيارة
+    </button>
+    <button class="button" onclick="showFile('مبلغ-الخزينة')">
+        <i class="fas fa-wallet"></i> طلب مبلغ من الخزينة
+    </button>
+    <button class="button" onclick="showFile('عمل-إضافي')">
+        <i class="fas fa-clock"></i> طلب عمل إضافي
+    </button>
+    <button class="button" onclick="showFile('تحويل-عهدة')">
+        <i class="fas fa-box"></i> تحويل عهدة شخصية
+    </button>
+    <button class="button" onclick="showFile('علاوة-سفر')">
+        <i class="fas fa-plane"></i> علاوة سفر
+    </button>
+    <button class="button" onclick="showFile('أمر-عمل')">
+        <i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)
+    </button>
+    <button class="button" onclick="showFile('طلب-إذن')">
+        <i class="fas fa-calendar-check"></i> طلب إذن
+    </button>
+    <button class="button" onclick="showFile('ترجيع-مواد')">
+        <i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن
+    </button>
+    <button class="button" onclick="showFile('طلب-بذل-وأحذية')">
+        <i class="fas fa-shoe-prints"></i> طلب بذل وأحذية
+    </button>
+</div>
 
-    <!-- زر الأرقام -->
-    <button class="button" data-target="phones" onclick="toggleSection(event)">📞 أرقام الهواتف الداخلية</button>
-    <div id="phones" class="phone-list hidden">
-        <p>📌 المدير العام: 116</p>
-        <p>📌 مراقبة الجودة: 101</p>
-        <p>📌 إدارة الشؤون المالية: 102</p>
-        <p>📌 الشؤون الإدارية: 103</p>
-        <p>📌 الخزينة: 104</p>
-        <p>📌 المشتريات: 106</p>
-        <p>📌 مكتب المراجعة: 107</p>
-        <p>📌 مكتب الأصول: 108</p>
-        <p>📌 مكتب التصاميم: 109</p>
-        <p>📌 إدارة المشروعات: 110</p>
-        <p>📌 الشؤون الفنية: 112</p>
-        <p>📌 مكتب الحسابات: 113</p>
-        <p>📌 مكتب مصطفى درز: 115</p>
-        <p>📌 مكتب التوثيق والمتابعة: 117</p>
-        <p>📌 مكتب الإعلام: 118</p>
-        <p>📌 مكتب عبدالسلام أبو حجر: 123</p>
-        <p>📌 قسم الكهرباء: 120</p>
-        <p>📌 مقهى (غاندي): 223</p>
-        <p>📌 مقهى (حسن): 105</p>
-    </div>
+<!-- زر الأرقام -->
+<button class="button" data-target="phones" onclick="toggleSection(event)">
+    <i class="fas fa-phone"></i> أرقام الهواتف الداخلية
+</button>
+<div id="phones" class="phone-list hidden" role="region" aria-label="أرقام الهواتف الداخلية">
+    <p>المدير العام: <strong>116</strong></p>
+    <p>مراقبة الجودة: <strong>101</strong></p>
+    <p>إدارة الشؤون المالية: <strong>102</strong></p>
+    <p>الشؤون الإدارية: <strong>103</strong></p>
+    <p>الخزينة: <strong>104</strong></p>
+    <p>المشتريات: <strong>106</strong></p>
+    <p>مكتب المراجعة: <strong>107</strong></p>
+    <p>مكتب الأصول: <strong>108</strong></p>
+    <p>مكتب التصاميم: <strong>109</strong></p>
+    <p>إدارة المشروعات: <strong>110</strong></p>
+    <p>الشؤون الفنية: <strong>112</strong></p>
+    <p>مكتب الحسابات: <strong>113</strong></p>
+    <p>مكتب مصطفى درز: <strong>115</strong></p>
+    <p>مكتب التوثيق والمتابعة: <strong>117</strong></p>
+    <p>مكتب الإعلام: <strong>118</strong></p>
+    <p>مكتب عبدالسلام أبو حجر: <strong>123</strong></p>
+    <p>قسم الكهرباء: <strong>120</strong></p>
+    <p>مقهى (غاندي): <strong>223</strong></p>
+    <p>مقهى (حسن): <strong>105</strong></p>
+</div>
 
-    <!-- زر الروابط -->
-    <button class="button" data-target="links" onclick="toggleSection(event)">🌐 الصفحات والمجموعات الرسمية</button>
-    <div id="links" class="links-box hidden">
-        <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')">🌍 الصفحة الرسمية على فيسبوك</button>
-        <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')">💬 مجموعة الواتساب</button>
-    </div>
+<!-- زر الروابط -->
+<button class="button" data-target="links" onclick="toggleSection(event)">
+    <i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية
+</button>
+<div id="links" class="links-box hidden" role="region" aria-label="روابط الصفحات الرسمية">
+    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')">
+        <i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك
+    </button>
+    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')">
+        <i class="fab fa-whatsapp"></i> مجموعة الواتساب
+    </button>
+</div>
 
-    <script>
-        function toggleSection(e) {
-            const btn = e.currentTarget;
-            const targetId = btn.getAttribute('data-target');
-            const section = document.getElementById(targetId);
+<script>
+    function toggleSection(e) {
+        const btn = e.currentTarget;
+        const targetId = btn.getAttribute('data-target');
+        const section = document.getElementById(targetId);
 
-            // تبديل إظهار القسم
-            const isHidden = section.classList.contains('hidden');
-            section.classList.toggle('hidden');
-
-            // تبديل حالة الزر
-            if (isHidden) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
+        const isHidden = section.classList.contains('hidden');
+        // إخفاء جميع الأقسام أولاً لضمان فتح قسم واحد فقط في نفس الوقت (اختياري)
+        ['forms', 'phones', 'links'].forEach(id => {
+            if(id !== targetId) {
+                document.getElementById(id).classList.add('hidden');
+                document.querySelector(`button[data-target="${id}"]`).classList.remove('active');
             }
-        }
+        });
 
-        function openLink(url) {
-            window.open(url, '_blank');
-        }
+        section.classList.toggle('hidden', !isHidden);
+        btn.classList.toggle('active', isHidden);
+    }
 
-        function showFile(type) {
-            const files = {
-                "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
-                "طلب-سلفة": "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
-                "صيانة-سيارة": "https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link",
-                "مبلغ-الخزينة": "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
-                "عمل-إضافي": "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
-                "تحويل-عهدة": "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
-                "علاوة-سفر": "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
-                "أمر-عمل": "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
-                "طلب-إذن": "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
-                "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
-                "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
+    function openLink(url) {
+        window.open(url, '_blank');
+    }
 
-            };
-            const fileUrl = files[type];
-            if (fileUrl) {
-                window.open(fileUrl, '_blank');
-            } else {
-                alert("لم يتم تحديد ملف لهذا النموذج بعد.");
-            }
+    function showFile(type) {
+        const files = {
+            "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
+            "طلب-سلفة": "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
+            "صيانة-سيارة": "https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link",
+            "مبلغ-الخزينة": "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
+            "عمل-إضافي": "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
+            "تحويل-عهدة": "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
+            "علاوة-سفر": "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
+            "أمر-عمل": "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
+            "طلب-إذن": "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
+            "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
+            "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
+        };
+        const fileUrl = files[type];
+        if (fileUrl) {
+            window.open(fileUrl, '_blank');
+        } else {
+            alert("لم يتم تحديد ملف لهذا النموذج بعد.");
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
