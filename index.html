@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
-
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8CKZNWLD81"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8CKZNWLD81');
-</script>
-
-    
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>بوت الموظفين</title>
+
+<!-- الخطوط والأيقونات -->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 <style>
     body {
         font-family: 'Cairo', sans-serif;
-        background: linear-gradient(to right, #e0f7fa, #e1bee7);
+        background: linear-gradient(135deg, #e0f7fa, #d1c4e9);
         margin: 0;
         padding: 20px;
-        text-align: center;
         color: #333;
+        min-height: 100vh;
     }
     h2 {
         font-weight: 700;
-        font-size: 1.8rem;
+        font-size: 1.9rem;
         margin-bottom: 25px;
+        text-align: center;
         color: #4a148c;
+        animation: fadeDown 0.6s ease;
     }
+    @keyframes fadeDown {
+        from {opacity: 0; transform: translateY(-20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* الأزرار الرئيسية */
     button.button {
-        background-color: #4a148c;
+        background: linear-gradient(135deg, #4a148c, #6a1b9a);
         color: white;
         border: none;
         border-radius: 14px;
@@ -45,66 +43,62 @@
         max-width: 360px;
         font-size: 1.1rem;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.15s ease;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        box-shadow: 0 4px 8px rgba(74, 20, 140, 0.3);
+        box-shadow: 0 4px 10px rgba(74, 20, 140, 0.4);
     }
     button.button:hover {
-        background-color: #6a1b9a;
+        background: linear-gradient(135deg, #6a1b9a, #8e24aa);
         transform: translateY(-3px);
-    }
-    button.button:active {
-        transform: scale(0.97);
+        box-shadow: 0 6px 14px rgba(74, 20, 140, 0.6);
     }
     button.button.active {
-        background-color: #7b1fa2;
-        box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6);
+        background: linear-gradient(135deg, #7b1fa2, #9c27b0);
     }
-    /* الأقسام الفرعية */
+    button.button i {
+        font-size: 1.4rem;
+        color: #ffd54f;
+    }
+
+    /* الأقسام */
     .sub-buttons, .phone-list, .links-box {
-        background: white;
+        background: #fff;
         border-radius: 16px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         margin: 10px auto 25px;
         max-width: 360px;
         width: 90%;
         padding: 15px 20px;
         text-align: right;
         direction: rtl;
-        animation: fadeIn 0.4s ease forwards;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease, padding 0.4s ease;
     }
-    .hidden {
-        display: none;
+    .sub-buttons.show, .phone-list.show, .links-box.show {
+        max-height: 1000px;
+        padding: 15px 20px;
     }
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(10px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
-    /* أزرار داخل الأقسام الفرعية */
+
+    /* أزرار داخلية */
     .sub-buttons .button,
     .links-box .button {
-        background-color: #9575cd;
-        color: white;
+        background: linear-gradient(135deg, #9575cd, #7e57c2);
         font-size: 1rem;
         padding: 12px 15px;
         margin: 8px auto;
-        max-width: 320px;
         width: 100%;
-        box-shadow: 0 3px 6px rgba(149, 117, 205, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: background-color 0.3s ease;
+        box-shadow: 0 3px 8px rgba(149, 117, 205, 0.3);
     }
     .sub-buttons .button:hover,
     .links-box .button:hover {
-        background-color: #7e57c2;
+        background: linear-gradient(135deg, #7e57c2, #673ab7);
     }
-    /* نص أرقام الهواتف */
+
+    /* أرقام الهواتف */
     .phone-list p {
         font-size: 1rem;
         margin: 8px 0;
@@ -116,32 +110,13 @@
     }
     .phone-list p::before {
         content: "📌";
-        font-size: 1.1rem;
-    }
-
-    /* أيقونات للأزرار الرئيسية */
-    button.button i {
-        font-size: 1.4rem;
-        color: #ffd700;
     }
 
     /* استجابة الشاشات */
     @media (max-width: 600px) {
-        h2 {
-            font-size: 1.5rem;
-        }
-        button.button {
-            font-size: 1rem;
-            padding: 12px 16px;
-        }
-        .sub-buttons .button,
-        .links-box .button {
-            font-size: 0.95rem;
-            padding: 10px 14px;
-        }
-        .phone-list p {
-            font-size: 0.9rem;
-        }
+        h2 { font-size: 1.6rem; }
+        button.button { font-size: 1rem; }
+        .phone-list p { font-size: 0.9rem; }
     }
 </style>
 </head>
@@ -149,51 +124,25 @@
 
 <h2>👋 مرحبًا بك في البوت الخاص بشركة الدعم للمقاولات</h2>
 
-<!-- زر النماذج -->
-<button class="button" data-target="forms" onclick="toggleSection(event)">
-    <i class="fas fa-file-alt"></i> النماذج
-</button>
-<div id="forms" class="sub-buttons hidden" role="region" aria-label="نماذج الطلبات">
-    <button class="button" onclick="showFile('طلب-إجازة')">
-        <i class="fas fa-file-signature"></i> طلب إجازة
-    </button>
-    <button class="button" onclick="showFile('طلب-سلفة')">
-        <i class="fas fa-money-check-alt"></i> طلب سلفة مالية
-    </button>
-    <button class="button" onclick="showFile('صيانة-سيارة')">
-        <i class="fas fa-car-side"></i> طلب صيانة سيارة
-    </button>
-    <button class="button" onclick="showFile('مبلغ-الخزينة')">
-        <i class="fas fa-wallet"></i> طلب مبلغ من الخزينة
-    </button>
-    <button class="button" onclick="showFile('عمل-إضافي')">
-        <i class="fas fa-clock"></i> طلب عمل إضافي
-    </button>
-    <button class="button" onclick="showFile('تحويل-عهدة')">
-        <i class="fas fa-box"></i> تحويل عهدة شخصية
-    </button>
-    <button class="button" onclick="showFile('علاوة-سفر')">
-        <i class="fas fa-plane"></i> علاوة سفر
-    </button>
-    <button class="button" onclick="showFile('أمر-عمل')">
-        <i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)
-    </button>
-    <button class="button" onclick="showFile('طلب-إذن')">
-        <i class="fas fa-calendar-check"></i> طلب إذن
-    </button>
-    <button class="button" onclick="showFile('ترجيع-مواد')">
-        <i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن
-    </button>
-    <button class="button" onclick="showFile('طلب-بذل-وأحذية')">
-        <i class="fas fa-shoe-prints"></i> طلب بذل وأحذية
-    </button>
+<!-- النماذج -->
+<button class="button" data-target="forms"><i class="fas fa-file-alt"></i> النماذج</button>
+<div id="forms" class="sub-buttons">
+    <button class="button" onclick="showFile('طلب-إجازة')"><i class="fas fa-file-signature"></i> طلب إجازة</button>
+    <button class="button" onclick="showFile('طلب-سلفة')"><i class="fas fa-money-check-alt"></i> طلب سلفة مالية</button>
+    <button class="button" onclick="showFile('صيانة-سيارة')"><i class="fas fa-car-side"></i> طلب صيانة سيارة</button>
+    <button class="button" onclick="showFile('مبلغ-الخزينة')"><i class="fas fa-wallet"></i> طلب مبلغ من الخزينة</button>
+    <button class="button" onclick="showFile('عمل-إضافي')"><i class="fas fa-clock"></i> طلب عمل إضافي</button>
+    <button class="button" onclick="showFile('تحويل-عهدة')"><i class="fas fa-box"></i> تحويل عهدة شخصية</button>
+    <button class="button" onclick="showFile('علاوة-سفر')"><i class="fas fa-plane"></i> علاوة سفر</button>
+    <button class="button" onclick="showFile('أمر-عمل')"><i class="fas fa-tools"></i> أمر عمل ورشة</button>
+    <button class="button" onclick="showFile('طلب-إذن')"><i class="fas fa-calendar-check"></i> طلب إذن</button>
+    <button class="button" onclick="showFile('ترجيع-مواد')"><i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن</button>
+    <button class="button" onclick="showFile('طلب-بذل-وأحذية')"><i class="fas fa-shoe-prints"></i> طلب بذل وأحذية</button>
 </div>
 
-<!-- زر الأرقام -->
-<button class="button" data-target="phones" onclick="toggleSection(event)">
-    <i class="fas fa-phone"></i> أرقام الهواتف الداخلية
-</button>
-<div id="phones" class="phone-list hidden" role="region" aria-label="أرقام الهواتف الداخلية">
+<!-- الأرقام -->
+<button class="button" data-target="phones"><i class="fas fa-phone"></i> أرقام الهواتف الداخلية</button>
+<div id="phones" class="phone-list">
     <p>المدير العام: <strong>116</strong></p>
     <p>مراقبة الجودة: <strong>101</strong></p>
     <p>إدارة الشؤون المالية: <strong>102</strong></p>
@@ -215,42 +164,36 @@
     <p>مقهى (حسن): <strong>105</strong></p>
 </div>
 
-<!-- زر الروابط -->
-<button class="button" data-target="links" onclick="toggleSection(event)">
-    <i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية
-</button>
-<div id="links" class="links-box hidden" role="region" aria-label="روابط الصفحات الرسمية">
-    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')">
-        <i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك
-    </button>
-    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')">
-        <i class="fab fa-whatsapp"></i> مجموعة الواتساب
-    </button>
+<!-- الروابط -->
+<button class="button" data-target="links"><i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية</button>
+<div id="links" class="links-box">
+    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')"><i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك</button>
+    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')"><i class="fab fa-whatsapp"></i> مجموعة الواتساب</button>
 </div>
 
 <script>
-    function toggleSection(e) {
-        const btn = e.currentTarget;
-        const targetId = btn.getAttribute('data-target');
-        const section = document.getElementById(targetId);
+    // توسيع وإغلاق الأقسام
+    document.querySelectorAll("button[data-target]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetId = btn.getAttribute("data-target");
+            const section = document.getElementById(targetId);
 
-        const isHidden = section.classList.contains('hidden');
-        // إخفاء جميع الأقسام أولاً لضمان فتح قسم واحد فقط في نفس الوقت (اختياري)
-        ['forms', 'phones', 'links'].forEach(id => {
-            if(id !== targetId) {
-                document.getElementById(id).classList.add('hidden');
-                document.querySelector(`button[data-target="${id}"]`).classList.remove('active');
-            }
+            document.querySelectorAll(".sub-buttons, .phone-list, .links-box").forEach(sec => {
+                if (sec !== section) sec.classList.remove("show");
+            });
+            document.querySelectorAll("button[data-target]").forEach(b => b.classList.remove("active"));
+
+            section.classList.toggle("show");
+            btn.classList.toggle("active");
         });
+    });
 
-        section.classList.toggle('hidden', !isHidden);
-        btn.classList.toggle('active', isHidden);
-    }
-
+    // فتح الروابط
     function openLink(url) {
-        window.open(url, '_blank');
+        window.open(url, "_blank");
     }
 
+    // روابط النماذج
     function showFile(type) {
         const files = {
             "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
@@ -265,12 +208,8 @@
             "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
             "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
         };
-        const fileUrl = files[type];
-        if (fileUrl) {
-            window.open(fileUrl, '_blank');
-        } else {
-            alert("لم يتم تحديد ملف لهذا النموذج بعد.");
-        }
+        if (files[type]) window.open(files[type], "_blank");
+        else alert("لم يتم تحديد ملف لهذا النموذج بعد.");
     }
 </script>
 
