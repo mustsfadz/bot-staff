@@ -364,11 +364,17 @@
             if(data.error) {
                 resultDiv.textContent = data.error;
             } else {
-                resultDiv.textContent = 
-                    `الاسم: ${data.name}\n` +
-                    `الراتب الأساسي: ${data.basic}\n` +
-                    `الخصميات: ${data.discount}\n` +
-                    `الصافي: ${data.net}`;
+              resultDiv.textContent = 
+                      `الاسم: ${data.name}\n` +
+  `الراتب الأساسي: ${data.basic}\n` +
+  `مكافأة: ${data.bonus}\n` +
+  `إضافي: ${data.extra}\n` +
+  `بدل هاتف: ${data.phoneAllowance}\n` +
+  `خصم غياب: ${data.absenceDeduct}\n` +
+  `خصم عقوبة: ${data.penaltyDeduct}\n` +
+  `خصم سلفة: ${data.loanDeduct}\n` +
+  `الصافي: ${data.net}`;
+
             }
         } catch(err) {
             resultDiv.textContent = "حدث خطأ في الاتصال، حاول مرة أخرى.";
