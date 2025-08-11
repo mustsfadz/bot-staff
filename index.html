@@ -1,145 +1,59 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CKZNWLD81"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-8CKZNWLD81');
-    </script>
+  <!-- ...باقي الكود كما هو... -->
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>بوت الموظفين</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to right, #e0f7fa, #e1bee7);
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-            color: #333;
-        }
-        h2 {
-            font-weight: 700;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #4a148c;
-        }
-        button.button {
-            background-color: #4a148c;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            padding: 14px 20px;
-            margin: 10px auto;
-            width: 90%;
-            max-width: 360px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.15s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 8px rgba(74, 20, 140, 0.3);
-        }
-        button.button:hover {
-            background-color: #6a1b9a;
-            transform: translateY(-3px);
-        }
-        button.button:active {
-            transform: scale(0.97);
-        }
-        button.button.active {
-            background-color: #7b1fa2;
-            box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6);
-        }
-        /* الأقسام الفرعية */
-        .sub-buttons, .phone-list, .links-box {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            margin: 10px auto 25px;
-            max-width: 360px;
-            width: 90%;
-            padding: 15px 20px;
-            text-align: right;
-            direction: rtl;
-            animation: fadeIn 0.4s ease forwards;
-        }
-        .hidden {
-            display: none;
-        }
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(10px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-        /* أزرار داخل الأقسام الفرعية */
-        .sub-buttons .button,
-        .links-box .button {
-            background-color: #9575cd;
-            color: white;
-            font-size: 1rem;
-            padding: 12px 15px;
-            margin: 8px auto;
-            max-width: 320px;
-            width: 100%;
-            box-shadow: 0 3px 6px rgba(149, 117, 205, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background-color 0.3s ease;
-        }
-        .sub-buttons .button:hover,
-        .links-box .button:hover {
-            background-color: #7e57c2;
-        }
-        /* نص أرقام الهواتف */
-        .phone-list p {
-            font-size: 1rem;
-            margin: 8px 0;
-            color: #555;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-        .phone-list p::before {
-            content: "📌";
-            font-size: 1.1rem;
-        }
+  <style>
+    /* ...باقي الستايلات كما هي... */
 
-        /* أيقونات للأزرار الرئيسية */
-        button.button i {
-            font-size: 1.4rem;
-            color: #ffd700;
-        }
-
-        /* استجابة الشاشات */
-        @media (max-width: 600px) {
-            h2 {
-                font-size: 1.5rem;
-            }
-            button.button {
-                font-size: 1rem;
-                padding: 12px 16px;
-            }
-            .sub-buttons .button,
-            .links-box .button {
-                font-size: 0.95rem;
-                padding: 10px 14px;
-            }
-            .phone-list p {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    /* نافذة الإدخال */
+    #salaryQueryModal {
+      display: none; 
+      position: fixed;
+      top: 0; left: 0; right:0; bottom:0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #salaryQueryModal .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 350px;
+      width: 90%;
+      text-align: right;
+      direction: rtl;
+    }
+    #salaryQueryModal input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0 15px 0;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    #salaryQueryModal button {
+      background-color: #4a148c;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 1rem;
+      width: 100%;
+    }
+    #salaryQueryModal button:hover {
+      background-color: #6a1b9a;
+    }
+    #salaryResult {
+      margin-top: 15px;
+      text-align: right;
+      color: #333;
+      font-weight: 600;
+      white-space: pre-line;
+    }
+  </style>
 </head>
 <body>
 
@@ -147,150 +61,113 @@
 
 <!-- زر النماذج -->
 <button class="button" data-target="forms" onclick="toggleSection(event)">
-    <i class="fas fa-file-alt"></i> النماذج
+  <i class="fas fa-file-alt"></i> النماذج
 </button>
-<div id="forms" class="sub-buttons hidden" role="region" aria-label="نماذج الطلبات">
-    <button class="button" onclick="showFile('طلب-إجازة')">
-        <i class="fas fa-file-signature"></i> طلب إجازة
-    </button>
-    <button class="button" onclick="showFile('طلب-سلفة')">
-        <i class="fas fa-money-check-alt"></i> طلب سلفة مالية
-    </button>
-    <button class="button" onclick="showFile('صيانة-سيارة')">
-        <i class="fas fa-car-side"></i> طلب صيانة سيارة
-    </button>
-    <button class="button" onclick="showFile('مبلغ-الخزينة')">
-        <i class="fas fa-wallet"></i> طلب مبلغ من الخزينة
-    </button>
-    <button class="button" onclick="showFile('عمل-إضافي')">
-        <i class="fas fa-clock"></i> طلب عمل إضافي
-    </button>
-    <button class="button" onclick="showFile('تحويل-عهدة')">
-        <i class="fas fa-box"></i> تحويل عهدة شخصية
-    </button>
-    <button class="button" onclick="showFile('علاوة-سفر')">
-        <i class="fas fa-plane"></i> علاوة سفر
-    </button>
-    <button class="button" onclick="showFile('أمر-عمل')">
-        <i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)
-    </button>
-    <button class="button" onclick="showFile('طلب-إذن')">
-        <i class="fas fa-calendar-check"></i> طلب إذن
-    </button>
-    <button class="button" onclick="showFile('ترجيع-مواد')">
-        <i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن
-    </button>
-    <button class="button" onclick="showFile('طلب-بذل-وأحذية')">
-        <i class="fas fa-shoe-prints"></i> طلب بذل وأحذية
-    </button>
-</div>
+<!-- ... باقي أزرار النماذج كما في كودك ... -->
 
-<!-- زر الأرقام -->
+<!-- زر أرقام الهواتف -->
 <button class="button" data-target="phones" onclick="toggleSection(event)">
-    <i class="fas fa-phone"></i> أرقام الهواتف الداخلية
+  <i class="fas fa-phone"></i> أرقام الهواتف الداخلية
 </button>
-<div id="phones" class="phone-list hidden" role="region" aria-label="أرقام الهواتف الداخلية">
-    <p>المدير العام: <strong>116</strong></p>
-    <p>مراقبة الجودة: <strong>101</strong></p>
-    <p>إدارة الشؤون المالية: <strong>102</strong></p>
-    <p>الشؤون الإدارية: <strong>103</strong></p>
-    <p>الخزينة: <strong>104</strong></p>
-    <p>المشتريات: <strong>106</strong></p>
-    <p>مكتب المراجعة: <strong>107</strong></p>
-    <p>مكتب الأصول: <strong>108</strong></p>
-    <p>مكتب التصاميم: <strong>109</strong></p>
-    <p>إدارة المشروعات: <strong>110</strong></p>
-    <p>الشؤون الفنية: <strong>112</strong></p>
-    <p>مكتب الحسابات: <strong>113</strong></p>
-    <p>مكتب مصطفى درز: <strong>115</strong></p>
-    <p>مكتب التوثيق والمتابعة: <strong>117</strong></p>
-    <p>مكتب الإعلام: <strong>118</strong></p>
-    <p>مكتب عبدالسلام أبو حجر: <strong>123</strong></p>
-    <p>قسم الكهرباء: <strong>120</strong></p>
-    <p>مقهى (غاندي): <strong>223</strong></p>
-    <p>مقهى (حسن): <strong>105</strong></p>
-</div>
+<!-- ... باقي أرقام الهواتف ... -->
 
-<!-- زر الروابط -->
+<!-- زر الصفحات والمجموعات -->
 <button class="button" data-target="links" onclick="toggleSection(event)">
-    <i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية
+  <i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية
 </button>
-<div id="links" class="links-box hidden" role="region" aria-label="روابط الصفحات الرسمية">
-    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')">
-        <i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك
-    </button>
-    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')">
-        <i class="fab fa-whatsapp"></i> مجموعة الواتساب
-    </button>
-</div>
+<!-- ... باقي الروابط ... -->
 
-<!-- زر استعلام عن الراتب -->
-<button class="button" onclick="checkSalary()">
-    <i class="fas fa-money-bill-wave"></i> استعلام عن الراتب
+<!-- زر استعلام الراتب -->
+<button class="button" onclick="openSalaryModal()">
+  <i class="fas fa-money-bill-wave"></i> الاستعلام عن الراتب
 </button>
+
+<!-- مودال الاستعلام -->
+<div id="salaryQueryModal">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">الاستعلام عن الراتب</h3>
+    <label for="employeeNumber">الرقم الوظيفي:</label>
+    <input type="text" id="employeeNumber" placeholder="أدخل الرقم الوظيفي" autocomplete="off" />
+    <label for="employeePass">الرمز السري:</label>
+    <input type="password" id="employeePass" placeholder="أدخل الرمز السري" autocomplete="off" />
+    <button onclick="querySalary()">استعلام</button>
+    <div id="salaryResult" role="alert" aria-live="polite"></div>
+  </div>
+</div>
 
 <script>
-    function toggleSection(e) {
-        const btn = e.currentTarget;
-        const targetId = btn.getAttribute('data-target');
-        const section = document.getElementById(targetId);
+  const webAppUrl = "https://script.google.com/macros/s/AKfycbzU3OkV-8QpPtHTmNDCrGOB5WWt4e1UaL_cfym87PesSW3Vok0k7pcbke5N0QFlwDq_/exec";
 
-        const isHidden = section.classList.contains('hidden');
-        // إخفاء جميع الأقسام أولاً لضمان فتح قسم واحد فقط في نفس الوقت (اختياري)
-        ['forms', 'phones', 'links'].forEach(id => {
-            if(id !== targetId) {
-                document.getElementById(id).classList.add('hidden');
-                document.querySelector(`button[data-target="${id}"]`).classList.remove('active');
-            }
-        });
+  function toggleSection(e) {
+    const btn = e.currentTarget;
+    const targetId = btn.getAttribute('data-target');
+    const section = document.getElementById(targetId);
 
-        section.classList.toggle('hidden', !isHidden);
-        btn.classList.toggle('active', isHidden);
+    const isHidden = section.classList.contains('hidden');
+    ['forms', 'phones', 'links'].forEach(id => {
+      if(id !== targetId) {
+        document.getElementById(id).classList.add('hidden');
+        document.querySelector(`button[data-target="${id}"]`).classList.remove('active');
+      }
+    });
+
+    section.classList.toggle('hidden', !isHidden);
+    btn.classList.toggle('active', isHidden);
+  }
+
+  function openLink(url) {
+    window.open(url, '_blank');
+  }
+
+  function showFile(type) {
+    // ... كما في كودك الأصلي ...
+  }
+
+  // فتح نافذة الاستعلام
+  function openSalaryModal() {
+    document.getElementById('salaryQueryModal').style.display = 'flex';
+    document.getElementById('salaryResult').textContent = '';
+    document.getElementById('employeeNumber').value = '';
+    document.getElementById('employeePass').value = '';
+    document.getElementById('employeeNumber').focus();
+  }
+
+  // إغلاق النافذة (يمكنك إضافة زر إغلاق لو تريد)
+  // هنا تقدر تضيف مستقبلاً زر إغلاق أو إغلاق عند الضغط خارج المودال
+
+  // إجراء الاستعلام
+  async function querySalary() {
+    const number = document.getElementById('employeeNumber').value.trim();
+    const pass = document.getElementById('employeePass').value.trim();
+    const resultDiv = document.getElementById('salaryResult');
+
+    if(!number || !pass) {
+      resultDiv.textContent = "يرجى إدخال الرقم الوظيفي والرمز السري.";
+      return;
     }
 
-    function openLink(url) {
-        window.open(url, '_blank');
+    resultDiv.textContent = "جاري جلب البيانات...";
+
+    try {
+      const response = await fetch(`${webAppUrl}?number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
+      if(!response.ok) throw new Error("خطأ في الاتصال بالخادم");
+
+      const data = await response.json();
+
+      if(data.error) {
+        resultDiv.textContent = data.error;
+      } else {
+        resultDiv.textContent = 
+          `الاسم: ${data.name}\n` +
+          `الراتب الأساسي: ${data.basic}\n` +
+          `الخصميات: ${data.discount}\n` +
+          `الصافي: ${data.net}`;
+      }
+    } catch(err) {
+      resultDiv.textContent = "حدث خطأ في الاتصال، حاول مرة أخرى.";
+      console.error(err);
     }
-
-    function showFile(type) {
-        const files = {
-            "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
-            "طلب-سلفة": "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
-            "صيانة-سيارة": "https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link",
-            "مبلغ-الخزينة": "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
-            "عمل-إضافي": "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
-            "تحويل-عهدة": "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
-            "علاوة-سفر": "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
-            "أمر-عمل": "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
-            "طلب-إذن": "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
-            "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
-            "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
-        };
-        const fileUrl = files[type];
-        if (fileUrl) {
-            window.open(fileUrl, '_blank');
-        } else {
-            alert("لم يتم تحديد ملف لهذا النموذج بعد.");
-        }
-    }
-
-    function checkSalary() {
-        var number = prompt("أدخل الرقم الوظيفي:");
-        var pass = prompt("أدخل الرمز السري:");
-
-        if (!number || !pass) return;
-        fetch(`https://script.google.com/macros/s/AKfycbzMOoD3_Ta9YE47bYa-UYLZMskZHdtnZLXXTWA-GY0QRQlhJU10LTf6T57yyD1QU4eM/exec?number=${number}&pass=${pass}`)
-
-          .then(res => res.json())
-          .then(data => {
-              if (data.error) {
-                  alert(data.error);
-              } else {
-                  alert(`الاسم: ${data.name}\nالراتب الأساسي: ${data.basic}\nالخصميات: ${data.discount}\nالصافي: ${data.net}`);
-              }
-          })
-          .catch(() => alert("حدث خطأ في الاتصال، حاول مرة أخرى."));
-    }
+  }
 </script>
 
 </body>
