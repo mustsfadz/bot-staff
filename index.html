@@ -364,8 +364,8 @@
             if(data.error) {
                 resultDiv.textContent = data.error;
             } else {
-              resultDiv.textContent = 
-                      `الاسم: ${data.name}\n` +
+            resultDiv.textContent = 
+  `الاسم: ${data.name}\n` +
   `الراتب الأساسي: ${data.basic}\n` +
   `مكافأة: ${data.bonus}\n` +
   `إضافي: ${data.extra}\n` +
@@ -374,6 +374,7 @@
   `خصم عقوبة: ${data.penaltyDeduct}\n` +
   `خصم سلفة: ${data.loanDeduct}\n` +
   `الصافي: ${data.net}`;
+
 
             }
         } catch(err) {
