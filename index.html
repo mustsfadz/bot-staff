@@ -42,9 +42,9 @@
     }
     table {
         border-collapse: collapse;
-        width: 90%; /* تصغير العرض قليلاً */
-        max-width: 450px; /* تحديد أقصى عرض */
-        font-size: 13px; /* تصغير حجم الخط */
+        width: 85%; /* تصغير العرض قليلاً */
+        max-width: 400px; /* أقصى عرض للجدول */
+        font-size: 12px; /* تصغير الخط */
         margin: auto;
         background-color: #fff;
         border-radius: 8px;
@@ -59,9 +59,20 @@
     }
     .salary-title {
         font-weight: bold;
-        font-size: 16px;
+        font-size: 15px;
         margin-bottom: 10px;
         color: #444;
+    }
+
+    /* تحسين العرض على الشاشات الصغيرة */
+    @media (max-width: 480px) {
+        table {
+            width: 95%;
+            font-size: 11px;
+        }
+        input {
+            width: 90%;
+        }
     }
 </style>
 </head>
