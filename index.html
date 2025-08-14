@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* === أنماط CSS كما في الكود الأصلي === */
+        /* === CSS كما في الكود الثاني مع بعض التعديلات البسيطة للجداول === */
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to right, #e0f7fa, #e1bee7);
@@ -49,17 +49,11 @@
             gap: 8px;
             box-shadow: 0 4px 8px rgba(74, 20, 140, 0.3);
         }
-        button.button:hover {
-            background-color: #6a1b9a;
-            transform: translateY(-3px);
-        }
-        button.button:active {
-            transform: scale(0.97);
-        }
-        button.button.active {
-            background-color: #7b1fa2;
-            box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6);
-        }
+        button.button:hover { background-color: #6a1b9a; transform: translateY(-3px); }
+        button.button:active { transform: scale(0.97); }
+        button.button.active { background-color: #7b1fa2; box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6); }
+
+        /* الأقسام الفرعية */
         .sub-buttons, .phone-list, .links-box {
             background: white;
             border-radius: 16px;
@@ -73,10 +67,9 @@
             animation: fadeIn 0.4s ease forwards;
         }
         .hidden { display: none; }
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(10px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+
+        /* أزرار داخل الأقسام الفرعية */
         .sub-buttons .button, .links-box .button {
             background-color: #9575cd;
             color: white;
@@ -92,9 +85,9 @@
             gap: 8px;
             transition: background-color 0.3s ease;
         }
-        .sub-buttons .button:hover, .links-box .button:hover {
-            background-color: #7e57c2;
-        }
+        .sub-buttons .button:hover, .links-box .button:hover { background-color: #7e57c2; }
+
+        /* نص أرقام الهواتف */
         .phone-list p {
             font-size: 1rem;
             margin: 8px 0;
@@ -105,7 +98,11 @@
             justify-content: flex-end;
         }
         .phone-list p::before { content: "📌"; font-size: 1.1rem; }
+
+        /* أيقونات للأزرار الرئيسية */
         button.button i { font-size: 1.4rem; color: #ffd700; }
+
+        /* استجابة الشاشات */
         @media (max-width: 600px) {
             h2 { font-size: 1.5rem; }
             button.button { font-size: 1rem; padding: 12px 16px; }
@@ -113,6 +110,7 @@
             .phone-list p { font-size: 0.9rem; }
         }
 
+        /* مودال استعلام الراتب */
         #salaryQueryModal {
             display: none; 
             position: fixed;
@@ -145,6 +143,8 @@
         #salaryQueryModal .btn { flex:1; background-color: #4a148c; color: white; border: none; padding: 10px; border-radius: 10px; cursor:pointer; }
         #salaryQueryModal .btn.secondary { background:#777; }
         #salaryResult { margin-top: 15px; text-align: right; color: #333; font-weight: 600; white-space: pre-line; }
+
+        /* جدول النتيجة */
         .result-table { margin-top: 12px; border-collapse: collapse; width: 100%; }
         .result-table th, .result-table td { padding: 8px 10px; border: 1px solid #eee; text-align: right; }
         .result-table th { background: #fafafa; font-weight:700; }
@@ -154,26 +154,57 @@
 
 <h2>👋 مرحبًا بك في الموقع الخاص بشركة الدعم للمقاولات</h2>
 
-<!-- الأزرار كما في الكود الأصلي -->
+<!-- زر النماذج -->
 <button class="button" data-target="forms" onclick="toggleSection(event)">
     <i class="fas fa-file-alt"></i> النماذج
 </button>
 <div id="forms" class="sub-buttons hidden" role="region" aria-label="نماذج الطلبات">
-    <!-- أزرار النماذج كما هي بدون تغيير -->
+    <button class="button" onclick="showFile('طلب-إجازة')"><i class="fas fa-file-signature"></i> طلب إجازة</button>
+    <button class="button" onclick="showFile('طلب-سلفة')"><i class="fas fa-money-check-alt"></i> طلب سلفة مالية</button>
+    <button class="button" onclick="showFile('صيانة-سيارة')"><i class="fas fa-car-side"></i> طلب صيانة سيارة</button>
+    <button class="button" onclick="showFile('مبلغ-الخزينة')"><i class="fas fa-wallet"></i> طلب مبلغ من الخزينة</button>
+    <button class="button" onclick="showFile('عمل-إضافي')"><i class="fas fa-clock"></i> طلب عمل إضافي</button>
+    <button class="button" onclick="showFile('تحويل-عهدة')"><i class="fas fa-box"></i> تحويل عهدة شخصية</button>
+    <button class="button" onclick="showFile('علاوة-سفر')"><i class="fas fa-plane"></i> علاوة سفر</button>
+    <button class="button" onclick="showFile('أمر-عمل')"><i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)</button>
+    <button class="button" onclick="showFile('طلب-إذن')"><i class="fas fa-calendar-check"></i> طلب إذن</button>
+    <button class="button" onclick="showFile('ترجيع-مواد')"><i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن</button>
+    <button class="button" onclick="showFile('طلب-بذل-وأحذية')"><i class="fas fa-shoe-prints"></i> طلب بذل وأحذية</button>
 </div>
 
+<!-- زر أرقام الهواتف -->
 <button class="button" data-target="phones" onclick="toggleSection(event)">
     <i class="fas fa-phone"></i> أرقام الهواتف الداخلية
 </button>
 <div id="phones" class="phone-list hidden" role="region" aria-label="أرقام الهواتف الداخلية">
-    <!-- أرقام الهواتف كما هي -->
+    <p>المدير العام: <strong>116</strong></p>
+    <p>مراقبة الجودة: <strong>101</strong></p>
+    <p>إدارة الشؤون المالية: <strong>102</strong></p>
+    <p>الشؤون الإدارية: <strong>103</strong></p>
+    <p>الخزينة: <strong>104</strong></p>
+    <p>المشتريات: <strong>106</strong></p>
+    <p>مكتب المراجعة: <strong>107</strong></p>
+    <p>مكتب الأصول: <strong>108</strong></p>
+    <p>مكتب التصاميم: <strong>109</strong></p>
+    <p>إدارة المشروعات: <strong>110</strong></p>
+    <p>الشؤون الفنية: <strong>112</strong></p>
+    <p>مكتب الحسابات: <strong>113</strong></p>
+    <p>مكتب مصطفى درز: <strong>115</strong></p>
+    <p>مكتب التوثيق والمتابعة: <strong>117</strong></p>
+    <p>مكتب الإعلام: <strong>118</strong></p>
+    <p>مكتب عبدالسلام أبو حجر: <strong>123</strong></p>
+    <p>قسم الكهرباء: <strong>120</strong></p>
+    <p>مقهى (غاندي): <strong>223</strong></p>
+    <p>مقهى (حسن): <strong>105</strong></p>
 </div>
 
+<!-- زر الصفحات والمجموعات -->
 <button class="button" data-target="links" onclick="toggleSection(event)">
     <i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية
 </button>
 <div id="links" class="links-box hidden" role="region" aria-label="روابط الصفحات الرسمية">
-    <!-- روابط الفيسبوك والواتساب كما هي -->
+    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')"><i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك</button>
+    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')"><i class="fab fa-whatsapp"></i> مجموعة الواتساب</button>
 </div>
 
 <!-- زر استعلام الراتب -->
@@ -184,12 +215,7 @@
 <!-- مودال استعلام الراتب -->
 <div id="salaryQueryModal" onclick="closeModalOnOutsideClick(event)">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <h3 id="modalTitle"> الاستعلام عن الراتب </h3>
-
-        <label for="salaryMonth">اختر الشهر:</label>
-        <select id="salaryMonth">
-            <option value="">جاري تحميل الأشهر...</option>
-        </select>
+        <h3 id="modalTitle"> الاستعلام عن الراتب شهر (7) لسنة 2025</h3>
 
         <label for="employeeNumber">الرقم الوظيفي:</label>
         <input type="text" id="employeeNumber" placeholder="أدخل الرقم الوظيفي" autocomplete="off" />
@@ -207,7 +233,7 @@
 </div>
 
 <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxtADW37J10eJ5o7jRkiWvLeEOGCT02Iv75IQd-EjYXlduAxP8faKy7is7y8uBhH9H_/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycby7DLdIBmSRn3uuXw16LafNpsuRDRwW_n6ZWfcn-aTv5GlZv2P5Qx2aTtXlBj0wPQN9/exec";
 
     function toggleSection(e) {
         const btn = e.currentTarget;
@@ -225,7 +251,24 @@
     }
 
     function openLink(url) { window.open(url, '_blank'); }
-    function showFile(type) { /* كما في الكود الأصلي */ }
+    function showFile(type) {
+        const files = {
+            "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
+            "طلب-سلفة": "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
+            "صيانة-سيارة": "https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link",
+            "مبلغ-الخزينة": "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
+            "عمل-إضافي": "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
+            "تحويل-عهدة": "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
+            "علاوة-سفر": "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
+            "أمر-عمل": "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
+            "طلب-إذن": "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
+            "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
+            "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
+        };
+        const fileUrl = files[type];
+        if (fileUrl) { window.open(fileUrl, '_blank'); }
+        else { alert("لم يتم تحديد ملف لهذا النموذج بعد."); }
+    }
 
     function openSalaryModal() {
         document.getElementById('salaryQueryModal').style.display = 'flex';
@@ -233,45 +276,24 @@
         document.getElementById('employeeNumber').value = '';
         document.getElementById('employeePass').value = '';
         document.getElementById('employeeNumber').focus();
-        loadMonths();
     }
-
     function closeSalaryModal() { document.getElementById('salaryQueryModal').style.display = 'none'; }
     function closeModalOnOutsideClick(e) { if (e.target.id === 'salaryQueryModal') closeSalaryModal(); }
-    function safeValue(value) { return value === undefined || value === null || value === "" ? 0 : value; }
 
-    async function loadMonths() {
-        const select = document.getElementById('salaryMonth');
-        select.innerHTML = "<option value=''>جاري التحميل...</option>";
-        try {
-            const res = await fetch(`${webAppUrl}?action=months`);
-            const months = await res.json();
-            select.innerHTML = "<option value=''>اختر الشهر</option>";
-            months.forEach(m => {
-                const opt = document.createElement('option');
-                opt.value = m; opt.textContent = m;
-                select.appendChild(opt);
-            });
-        } catch(e) {
-            select.innerHTML = "<option value=''>حدث خطأ في تحميل الأشهر</option>";
-            console.error(e);
-        }
-    }
+    function safeValue(value) { return (value === undefined || value === null || value === "") ? 0 : value; }
 
     async function querySalary() {
         const number = document.getElementById('employeeNumber').value.trim();
         const pass = document.getElementById('employeePass').value.trim();
-        const month = document.getElementById('salaryMonth').value;
         const resultDiv = document.getElementById('salaryResult');
 
-        if(!month) { resultDiv.textContent = "يرجى اختيار الشهر."; return; }
         if(!number || !pass) { resultDiv.textContent = "يرجى إدخال الرقم الوظيفي والرمز السري."; return; }
 
         resultDiv.textContent = "جاري جلب البيانات...";
-
         try {
-            const response = await fetch(`${webAppUrl}?action=query&month=${encodeURIComponent(month)}&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
+            const response = await fetch(`${webAppUrl}?number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
             if(!response.ok) throw new Error("خطأ في الاتصال بالخادم");
+
             const data = await response.json();
             console.log("Response from Apps Script:", data);
 
