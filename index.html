@@ -16,7 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* === CSS كما في الكود الثاني مع بعض التعديلات البسيطة للجداول === */
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to right, #e0f7fa, #e1bee7);
@@ -49,11 +48,17 @@
             gap: 8px;
             box-shadow: 0 4px 8px rgba(74, 20, 140, 0.3);
         }
-        button.button:hover { background-color: #6a1b9a; transform: translateY(-3px); }
-        button.button:active { transform: scale(0.97); }
-        button.button.active { background-color: #7b1fa2; box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6); }
-
-        /* الأقسام الفرعية */
+        button.button:hover {
+            background-color: #6a1b9a;
+            transform: translateY(-3px);
+        }
+        button.button:active {
+            transform: scale(0.97);
+        }
+        button.button.active {
+            background-color: #7b1fa2;
+            box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6);
+        }
         .sub-buttons, .phone-list, .links-box {
             background: white;
             border-radius: 16px;
@@ -67,10 +72,12 @@
             animation: fadeIn 0.4s ease forwards;
         }
         .hidden { display: none; }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
-
-        /* أزرار داخل الأقسام الفرعية */
-        .sub-buttons .button, .links-box .button {
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        .sub-buttons .button,
+        .links-box .button {
             background-color: #9575cd;
             color: white;
             font-size: 1rem;
@@ -85,9 +92,8 @@
             gap: 8px;
             transition: background-color 0.3s ease;
         }
-        .sub-buttons .button:hover, .links-box .button:hover { background-color: #7e57c2; }
-
-        /* نص أرقام الهواتف */
+        .sub-buttons .button:hover,
+        .links-box .button:hover { background-color: #7e57c2; }
         .phone-list p {
             font-size: 1rem;
             margin: 8px 0;
@@ -98,19 +104,13 @@
             justify-content: flex-end;
         }
         .phone-list p::before { content: "📌"; font-size: 1.1rem; }
-
-        /* أيقونات للأزرار الرئيسية */
         button.button i { font-size: 1.4rem; color: #ffd700; }
-
-        /* استجابة الشاشات */
         @media (max-width: 600px) {
             h2 { font-size: 1.5rem; }
             button.button { font-size: 1rem; padding: 12px 16px; }
             .sub-buttons .button, .links-box .button { font-size: 0.95rem; padding: 10px 14px; }
             .phone-list p { font-size: 0.9rem; }
         }
-
-        /* مودال استعلام الراتب */
         #salaryQueryModal {
             display: none; 
             position: fixed;
@@ -139,12 +139,28 @@
             border-radius: 6px;
             box-sizing: border-box;
         }
-        #salaryQueryModal .modal-actions { display:flex; gap:10px; margin-top:8px; }
-        #salaryQueryModal .btn { flex:1; background-color: #4a148c; color: white; border: none; padding: 10px; border-radius: 10px; cursor:pointer; }
+        #salaryQueryModal .modal-actions {
+            display:flex;
+            gap:10px;
+            margin-top:8px;
+        }
+        #salaryQueryModal .btn {
+            flex:1;
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor:pointer;
+        }
         #salaryQueryModal .btn.secondary { background:#777; }
-        #salaryResult { margin-top: 15px; text-align: right; color: #333; font-weight: 600; white-space: pre-line; }
-
-        /* جدول النتيجة */
+        #salaryResult {
+            margin-top: 15px;
+            text-align: right;
+            color: #333;
+            font-weight: 600;
+            white-space: pre-line;
+        }
         .result-table { margin-top: 12px; border-collapse: collapse; width: 100%; }
         .result-table th, .result-table td { padding: 8px 10px; border: 1px solid #eee; text-align: right; }
         .result-table th { background: #fafafa; font-weight:700; }
@@ -166,7 +182,7 @@
     <button class="button" onclick="showFile('عمل-إضافي')"><i class="fas fa-clock"></i> طلب عمل إضافي</button>
     <button class="button" onclick="showFile('تحويل-عهدة')"><i class="fas fa-box"></i> تحويل عهدة شخصية</button>
     <button class="button" onclick="showFile('علاوة-سفر')"><i class="fas fa-plane"></i> علاوة سفر</button>
-    <button class="button" onclick="showFile('أمر-عمل')"><i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)</button>
+    <button class="button" onclick="showFile('أمر-عمل')"><i class="fas fa-tools"></i> أمر عمل ورشة</button>
     <button class="button" onclick="showFile('طلب-إذن')"><i class="fas fa-calendar-check"></i> طلب إذن</button>
     <button class="button" onclick="showFile('ترجيع-مواد')"><i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن</button>
     <button class="button" onclick="showFile('طلب-بذل-وأحذية')"><i class="fas fa-shoe-prints"></i> طلب بذل وأحذية</button>
@@ -212,16 +228,39 @@
     <i class="fas fa-money-bill-wave"></i> الاستعلام عن الراتب
 </button>
 
-<!-- مودال استعلام الراتب -->
+<!-- مودال استعلام الراتب مع اختيار الشهر والسنة -->
 <div id="salaryQueryModal" onclick="closeModalOnOutsideClick(event)">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <h3 id="modalTitle"> الاستعلام عن الراتب شهر (7) لسنة 2025</h3>
+        <h3 id="modalTitle">الاستعلام عن الراتب</h3>
 
         <label for="employeeNumber">الرقم الوظيفي:</label>
         <input type="text" id="employeeNumber" placeholder="أدخل الرقم الوظيفي" autocomplete="off" />
 
         <label for="employeePass">الرمز السري:</label>
         <input type="password" id="employeePass" placeholder="أدخل الرمز السري" autocomplete="off" />
+
+        <label for="salaryMonth">الشهر:</label>
+        <select id="salaryMonth">
+            <option value="1">يناير</option>
+            <option value="2">فبراير</option>
+            <option value="3">مارس</option>
+            <option value="4">أبريل</option>
+            <option value="5">مايو</option>
+            <option value="6">يونيو</option>
+            <option value="7" selected>يوليو</option>
+            <option value="8">أغسطس</option>
+            <option value="9">سبتمبر</option>
+            <option value="10">أكتوبر</option>
+            <option value="11">نوفمبر</option>
+            <option value="12">ديسمبر</option>
+        </select>
+
+        <label for="salaryYear">السنة:</label>
+        <select id="salaryYear">
+            <option value="2024">2024</option>
+            <option value="2025" selected>2025</option>
+            <option value="2026">2026</option>
+        </select>
 
         <div class="modal-actions">
             <button class="btn" onclick="querySalary()">استعلام</button>
@@ -251,6 +290,7 @@
     }
 
     function openLink(url) { window.open(url, '_blank'); }
+
     function showFile(type) {
         const files = {
             "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
@@ -266,8 +306,8 @@
             "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
         };
         const fileUrl = files[type];
-        if (fileUrl) { window.open(fileUrl, '_blank'); }
-        else { alert("لم يتم تحديد ملف لهذا النموذج بعد."); }
+        if (fileUrl) window.open(fileUrl, '_blank');
+        else alert("لم يتم تحديد ملف لهذا النموذج بعد.");
     }
 
     function openSalaryModal() {
@@ -277,49 +317,55 @@
         document.getElementById('employeePass').value = '';
         document.getElementById('employeeNumber').focus();
     }
-    function closeSalaryModal() { document.getElementById('salaryQueryModal').style.display = 'none'; }
-    function closeModalOnOutsideClick(e) { if (e.target.id === 'salaryQueryModal') closeSalaryModal(); }
 
-    function safeValue(value) { return (value === undefined || value === null || value === "") ? 0 : value; }
+    function closeSalaryModal() { document.getElementById('salaryQueryModal').style.display = 'none'; }
+    function closeModalOnOutsideClick(e) { if(e.target.id === 'salaryQueryModal') closeSalaryModal(); }
+
+    function safeValue(val) { return val !== undefined && val !== null ? val : "-"; }
 
     async function querySalary() {
         const number = document.getElementById('employeeNumber').value.trim();
         const pass = document.getElementById('employeePass').value.trim();
+        const month = document.getElementById('salaryMonth').value;
+        const year = document.getElementById('salaryYear').value;
         const resultDiv = document.getElementById('salaryResult');
 
-        if(!number || !pass) { resultDiv.textContent = "يرجى إدخال الرقم الوظيفي والرمز السري."; return; }
+        if (!number || !pass) {
+            resultDiv.textContent = "يرجى إدخال الرقم الوظيفي والرمز السري.";
+            return;
+        }
 
         resultDiv.textContent = "جاري جلب البيانات...";
+
         try {
-            const response = await fetch(`${webAppUrl}?number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
-            if(!response.ok) throw new Error("خطأ في الاتصال بالخادم");
+            const response = await fetch(`${webAppUrl}?number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}&month=${encodeURIComponent(month)}&year=${encodeURIComponent(year)}`);
+            if (!response.ok) throw new Error("خطأ في الاتصال بالخادم");
 
             const data = await response.json();
             console.log("Response from Apps Script:", data);
 
-            if(data.error) {
+            if (data.error) {
                 resultDiv.innerHTML = `<p style="color:red">${data.error}</p>`;
             } else {
                 resultDiv.innerHTML = `
-                  <table class="result-table" role="table" aria-label="تفاصيل الراتب">
-                    <tr><th>الاسم</th><td>${safeValue(data.name)}</td></tr>
-                    <tr><th>الراتب الأساسي</th><td>${safeValue(data.basic)}</td></tr>
-                    <tr><th>مكافأة</th><td>${safeValue(data.bonus)}</td></tr>
-                    <tr><th>إضافي</th><td>${safeValue(data.extra)}</td></tr>
-                    <tr><th>بدل هاتف</th><td>${safeValue(data.phoneAllowance)}</td></tr>
-                    <tr><th>خصم غياب</th><td>${safeValue(data.absenceDeduct)}</td></tr>
-                    <tr><th>خصم عقوبة</th><td>${safeValue(data.penaltyDeduct)}</td></tr>
-                    <tr><th>خصم سلفة</th><td>${safeValue(data.loanDeduct)}</td></tr>
-                    <tr><th>الصافي</th><td>${safeValue(data.net)}</td></tr>
-                  </table>
+                    <table class="result-table" role="table" aria-label="تفاصيل الراتب">
+                        <tr><th>الاسم</th><td>${safeValue(data.name)}</td></tr>
+                        <tr><th>الراتب الأساسي</th><td>${safeValue(data.basic)}</td></tr>
+                        <tr><th>مكافأة</th><td>${safeValue(data.bonus)}</td></tr>
+                        <tr><th>إضافي</th><td>${safeValue(data.extra)}</td></tr>
+                        <tr><th>بدل هاتف</th><td>${safeValue(data.phoneAllowance)}</td></tr>
+                        <tr><th>خصم غياب</th><td>${safeValue(data.absenceDeduct)}</td></tr>
+                        <tr><th>خصم عقوبة</th><td>${safeValue(data.penaltyDeduct)}</td></tr>
+                        <tr><th>خصم سلفة</th><td>${safeValue(data.loanDeduct)}</td></tr>
+                        <tr><th>الصافي</th><td>${safeValue(data.net)}</td></tr>
+                    </table>
                 `;
             }
-        } catch(err) {
+        } catch (err) {
             resultDiv.textContent = "حدث خطأ في الاتصال، حاول مرة أخرى.";
             console.error(err);
         }
     }
 </script>
-
 </body>
 </html>
