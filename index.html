@@ -16,6 +16,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
+        .result-table {
+    margin-top: 8px;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem; /* تقليل حجم الخط */
+}
+
+.result-table th, .result-table td {
+    padding: 4px 6px; /* تقليل الحشو */
+    border: 1px solid #eee;
+    text-align: right;
+}
+
+.result-table th {
+    background: #fafafa;
+    font-weight: 600;
+    width: 40%;
+}
+
+.result-table td {
+    width: 60%;
+    white-space: nowrap; /* منع التفاف النص */
+    overflow: hidden;
+    text-overflow: ellipsis; /* إظهار نقاط عند النص الطويل */
+}
+
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to right, #e0f7fa, #e1bee7);
@@ -59,6 +85,7 @@
             background-color: #7b1fa2;
             box-shadow: 0 6px 12px rgba(123, 31, 162, 0.6);
         }
+        /* الأقسام الفرعية */
         .sub-buttons, .phone-list, .links-box {
             background: white;
             border-radius: 16px;
@@ -71,9 +98,16 @@
             direction: rtl;
             animation: fadeIn 0.4s ease forwards;
         }
-        .hidden { display: none; }
-        @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform:translateY(0);} }
-        .sub-buttons .button, .links-box .button {
+        .hidden {
+            display: none;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        /* أزرار داخل الأقسام الفرعية */
+        .sub-buttons .button,
+        .links-box .button {
             background-color: #9575cd;
             color: white;
             font-size: 1rem;
@@ -81,14 +115,18 @@
             margin: 8px auto;
             max-width: 320px;
             width: 100%;
-            box-shadow: 0 3px 6px rgba(149,117,205,0.5);
+            box-shadow: 0 3px 6px rgba(149, 117, 205, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             transition: background-color 0.3s ease;
         }
-        .sub-buttons .button:hover, .links-box .button:hover { background-color: #7e57c2; }
+        .sub-buttons .button:hover,
+        .links-box .button:hover {
+            background-color: #7e57c2;
+        }
+        /* نص أرقام الهواتف */
         .phone-list p {
             font-size: 1rem;
             margin: 8px 0;
@@ -98,60 +136,100 @@
             gap: 8px;
             justify-content: flex-end;
         }
-        .phone-list p::before { content:"📌"; font-size:1.1rem; }
-        button.button i { font-size: 1.4rem; color: #ffd700; }
-        @media (max-width:600px){
-            h2 { font-size:1.5rem; }
-            button.button { font-size:1rem; padding:12px 16px; }
-            .sub-buttons .button, .links-box .button { font-size:0.95rem; padding:10px 14px; }
-            .phone-list p { font-size:0.9rem; }
+        .phone-list p::before {
+            content: "📌";
+            font-size: 1.1rem;
         }
+
+        /* أيقونات للأزرار الرئيسية */
+        button.button i {
+            font-size: 1.4rem;
+            color: #ffd700;
+        }
+
+        /* استجابة الشاشات */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+            button.button {
+                font-size: 1rem;
+                padding: 12px 16px;
+            }
+            .sub-buttons .button,
+            .links-box .button {
+                font-size: 0.95rem;
+                padding: 10px 14px;
+            }
+            .phone-list p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* مودال استعلام الراتب */
         #salaryQueryModal {
             display: none; 
             position: fixed;
-            top:0; left:0; right:0; bottom:0;
+            top: 0; left: 0; right:0; bottom:0;
             background: rgba(0,0,0,0.6);
             justify-content: center;
             align-items: center;
             z-index: 9999;
         }
-        #salaryQueryModal.show { display:flex; }
         #salaryQueryModal .modal-content {
-            background:white;
-            padding:20px;
-            border-radius:12px;
-            max-width:420px;
-            width:92%;
-            text-align:right;
-            direction:rtl;
-            transform: translateY(-10px);
-            opacity:0;
-            transition: all 0.25s ease-in-out;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 420px;
+            width: 92%;
+            text-align: right;
+            direction: rtl;
         }
-        #salaryQueryModal.show .modal-content { transform:translateY(0); opacity:1; }
         #salaryQueryModal label { display:block; margin-top:8px; text-align:right; }
         #salaryQueryModal input {
-            width:100%;
-            padding:10px;
-            margin:8px 0;
-            font-size:1rem;
-            border:1px solid #ccc;
-            border-radius:6px;
-            box-sizing:border-box;
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 8px 0;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
         }
         #salaryQueryModal .modal-actions {
             display:flex;
             gap:10px;
             margin-top:8px;
         }
-        #salaryQueryModal .btn { flex:1; background-color:#4a148c; color:white; border:none; padding:10px; border-radius:10px; cursor:pointer; }
+        #salaryQueryModal .btn {
+            flex:1;
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor:pointer;
+        }
         #salaryQueryModal .btn.secondary { background:#777; }
-        #salaryResult { margin-top:15px; text-align:right; color:#333; font-weight:600; white-space:pre-line; }
-        .result-table { margin-top:12px; border-collapse:collapse; width:100%; }
-        .result-table th, .result-table td { padding:8px 10px; border:1px solid #eee; text-align:right; }
-        .result-table th { background:#fafafa; font-weight:700; }
-        #togglePass { position:absolute; top:51%; right:10px; transform:translateY(-50%); cursor:pointer; color:#555; }
-        .input-wrapper { position:relative; }
+        #salaryResult {
+            margin-top: 15px;
+            text-align: right;
+            color: #333;
+            font-weight: 600;
+            white-space: pre-line;
+        }
+
+        /* جدول النتيجة */
+        .result-table {
+            margin-top: 12px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .result-table th, .result-table td {
+            padding: 8px 10px;
+            border: 1px solid #eee;
+            text-align: right;
+        }
+        .result-table th { background: #fafafa; font-weight:700; }
     </style>
 </head>
 <body>
@@ -163,17 +241,39 @@
     <i class="fas fa-file-alt"></i> النماذج
 </button>
 <div id="forms" class="sub-buttons hidden" role="region" aria-label="نماذج الطلبات">
-    <button class="button" onclick="showFile('طلب-إجازة')"><i class="fas fa-file-signature"></i> طلب إجازة</button>
-    <button class="button" onclick="showFile('طلب-سلفة')"><i class="fas fa-money-check-alt"></i> طلب سلفة مالية</button>
-    <button class="button" onclick="showFile('صيانة-سيارة')"><i class="fas fa-car-side"></i> طلب صيانة سيارة</button>
-    <button class="button" onclick="showFile('مبلغ-الخزينة')"><i class="fas fa-wallet"></i> طلب مبلغ من الخزينة</button>
-    <button class="button" onclick="showFile('عمل-إضافي')"><i class="fas fa-clock"></i> طلب عمل إضافي</button>
-    <button class="button" onclick="showFile('تحويل-عهدة')"><i class="fas fa-box"></i> تحويل عهدة شخصية</button>
-    <button class="button" onclick="showFile('علاوة-سفر')"><i class="fas fa-plane"></i> علاوة سفر</button>
-    <button class="button" onclick="showFile('أمر-عمل')"><i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)</button>
-    <button class="button" onclick="showFile('طلب-إذن')"><i class="fas fa-calendar-check"></i> طلب إذن</button>
-    <button class="button" onclick="showFile('ترجيع-مواد')"><i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن</button>
-    <button class="button" onclick="showFile('طلب-بذل-وأحذية')"><i class="fas fa-shoe-prints"></i> طلب بذل وأحذية</button>
+    <button class="button" onclick="showFile('طلب-إجازة')">
+        <i class="fas fa-file-signature"></i> طلب إجازة
+    </button>
+    <button class="button" onclick="showFile('طلب-سلفة')">
+        <i class="fas fa-money-check-alt"></i> طلب سلفة مالية
+    </button>
+    <button class="button" onclick="showFile('صيانة-سيارة')">
+        <i class="fas fa-car-side"></i> طلب صيانة سيارة
+    </button>
+    <button class="button" onclick="showFile('مبلغ-الخزينة')">
+        <i class="fas fa-wallet"></i> طلب مبلغ من الخزينة
+    </button>
+    <button class="button" onclick="showFile('عمل-إضافي')">
+        <i class="fas fa-clock"></i> طلب عمل إضافي
+    </button>
+    <button class="button" onclick="showFile('تحويل-عهدة')">
+        <i class="fas fa-box"></i> تحويل عهدة شخصية
+    </button>
+    <button class="button" onclick="showFile('علاوة-سفر')">
+        <i class="fas fa-plane"></i> علاوة سفر
+    </button>
+    <button class="button" onclick="showFile('أمر-عمل')">
+        <i class="fas fa-tools"></i> أمر عمل ورشة (الحدادة - النجارة - PVC)
+    </button>
+    <button class="button" onclick="showFile('طلب-إذن')">
+        <i class="fas fa-calendar-check"></i> طلب إذن
+    </button>
+    <button class="button" onclick="showFile('ترجيع-مواد')">
+        <i class="fas fa-undo-alt"></i> ترجيع مواد للمخزن
+    </button>
+    <button class="button" onclick="showFile('طلب-بذل-وأحذية')">
+        <i class="fas fa-shoe-prints"></i> طلب بذل وأحذية
+    </button>
 </div>
 
 <!-- زر أرقام الهواتف -->
@@ -207,8 +307,12 @@
     <i class="fas fa-globe"></i> الصفحات والمجموعات الرسمية
 </button>
 <div id="links" class="links-box hidden" role="region" aria-label="روابط الصفحات الرسمية">
-    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')"><i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك</button>
-    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')"><i class="fab fa-whatsapp"></i> مجموعة الواتساب</button>
+    <button class="button" onclick="openLink('https://www.facebook.com/share/15ws7sBHJe/')">
+        <i class="fab fa-facebook"></i> الصفحة الرسمية على فيسبوك
+    </button>
+    <button class="button" onclick="openLink('https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c')">
+        <i class="fab fa-whatsapp"></i> مجموعة الواتساب
+    </button>
 </div>
 
 <!-- زر استعلام الراتب -->
@@ -225,10 +329,7 @@
         <input type="text" id="employeeNumber" placeholder="أدخل الرقم الوظيفي" autocomplete="off" />
 
         <label for="employeePass">الرمز السري:</label>
-        <div class="input-wrapper">
-            <input type="password" id="employeePass" placeholder="أدخل الرمز السري" autocomplete="off" />
-            <i id="togglePass" class="fas fa-eye"></i>
-        </div>
+        <input type="password" id="employeePass" placeholder="أدخل الرمز السري" autocomplete="off" />
 
         <div class="modal-actions">
             <button class="btn" onclick="querySalary()">استعلام</button>
@@ -240,88 +341,116 @@
 </div>
 
 <script>
+    // ======= ضع هنا رابط Web App الخاص بك =======
     const webAppUrl = "https://script.google.com/macros/s/AKfycby7DLdIBmSRn3uuXw16LafNpsuRDRwW_n6ZWfcn-aTv5GlZv2P5Qx2aTtXlBj0wPQN9/exec";
 
-    function toggleSection(e){
+    function toggleSection(e) {
         const btn = e.currentTarget;
         const targetId = btn.getAttribute('data-target');
         const section = document.getElementById(targetId);
+
         const isHidden = section.classList.contains('hidden');
-        ['forms','phones','links'].forEach(id=>{
-            if(id!==targetId){
+        ['forms', 'phones', 'links'].forEach(id => {
+            if(id !== targetId) {
                 document.getElementById(id).classList.add('hidden');
                 document.querySelector(`button[data-target="${id}"]`).classList.remove('active');
             }
         });
-        if(section) section.classList.toggle('hidden',!isHidden);
-        btn.classList.toggle('active',isHidden);
+
+        if (section) section.classList.toggle('hidden', !isHidden);
+        btn.classList.toggle('active', isHidden);
     }
 
-    function openLink(url){ window.open(url,'_blank'); }
-    function showFile(type){
-        const files={
-            "طلب-إجازة":"https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
-            "طلب-سلفة":"https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
-            "صيانة-سيارة":"https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link",
-            "مبلغ-الخزينة":"https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
-            "عمل-إضافي":"https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
-            "تحويل-عهدة":"https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
-            "علاوة-سفر":"https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
-            "أمر-عمل":"https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
-            "طلب-إذن":"https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
-            "ترجيع-مواد":"https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
-            "طلب-بذل-وأحذية":"https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
+    function openLink(url) {
+        window.open(url, '_blank');
+    }
+
+    function showFile(type) {
+        const files = {
+            "طلب-إجازة": "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link",
+            "طلب-سلفة": "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link",
+            "صيانة-سيارة": "https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link",
+            "مبلغ-الخزينة": "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link",
+            "عمل-إضافي": "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link",
+            "تحويل-عهدة": "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link",
+            "علاوة-سفر": "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link",
+            "أمر-عمل": "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link",
+            "طلب-إذن": "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link",
+            "ترجيع-مواد": "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link",
+            "طلب-بذل-وأحذية": "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link"
         };
         const fileUrl = files[type];
-        if(fileUrl){ window.open(fileUrl,'_blank'); } 
-        else { alert("لم يتم تحديد ملف لهذا النموذج بعد."); }
+        if (fileUrl) {
+            window.open(fileUrl, '_blank');
+        } else {
+            alert("لم يتم تحديد ملف لهذا النموذج بعد.");
+        }
     }
 
-    function openSalaryModal(){
-        const modal=document.getElementById('salaryQueryModal');
-        modal.classList.add('show');
-        document.getElementById('salaryResult').textContent='';
-        document.getElementById('employeeNumber').value='';
-        document.getElementById('employeePass').value='';
+    // فتح مودال الاستعلام
+    function openSalaryModal() {
+        document.getElementById('salaryQueryModal').style.display = 'flex';
+        document.getElementById('salaryResult').textContent = '';
+        document.getElementById('employeeNumber').value = '';
+        document.getElementById('employeePass').value = '';
         document.getElementById('employeeNumber').focus();
     }
-    function closeSalaryModal(){ document.getElementById('salaryQueryModal').classList.remove('show'); }
-    function closeModalOnOutsideClick(e){ if(e.target.id==='salaryQueryModal') closeSalaryModal(); }
 
-    document.getElementById('togglePass').addEventListener('click',()=>{
-        const passInput=document.getElementById('employeePass');
-        passInput.type = passInput.type==='password' ? 'text' : 'password';
-    });
+    function closeSalaryModal() {
+        document.getElementById('salaryQueryModal').style.display = 'none';
+    }
 
-    document.getElementById('employeeNumber').addEventListener('input', e=>{
-        e.target.value = e.target.value.replace(/\D/g,'');
-    });
+    function closeModalOnOutsideClick(e) {
+        if (e.target.id === 'salaryQueryModal') closeSalaryModal();
+    }
 
-    function safeValue(value){ return (value===undefined||value===null||value==="")?0:value; }
+    // دالة لحماية القيم من ال undefined
+    function safeValue(value) {
+        if (value === undefined || value === null || value === "") return 0;
+        return value;
+    }
 
-    async function querySalary(){
-        const number=document.getElementById('employeeNumber').value.trim();
-        const pass=document.getElementById('employeePass').value.trim();
-        const resultDiv=document.getElementById('salaryResult');
-        if(number==="" || pass===""){ resultDiv.textContent="الرجاء إدخال الرقم الوظيفي والرمز السري"; return; }
+    // إجراء استعلام الراتب
+    async function querySalary() {
+        const number = document.getElementById('employeeNumber').value.trim();
+        const pass = document.getElementById('employeePass').value.trim();
+        const resultDiv = document.getElementById('salaryResult');
 
-        resultDiv.textContent="جاري التحميل...";
-        try{
-            const url=`${webAppUrl}?employeeNumber=${encodeURIComponent(number)}&employeePass=${encodeURIComponent(pass)}`;
-            const resp=await fetch(url);
-            const data=await resp.json();
-            if(data.error){ resultDiv.textContent="الرقم الوظيفي أو الرمز السري غير صحيح"; return; }
-            resultDiv.innerHTML = `
-            <table class="result-table">
-                <tr><th>الاسم</th><td>${safeValue(data.name)}</td></tr>
-                <tr><th>الراتب الأساسي</th><td>${safeValue(data.basic)}</td></tr>
-                <tr><th>العلاوات</th><td>${safeValue(data.allowance)}</td></tr>
-                <tr><th>الخصومات</th><td>${safeValue(data.deduction)}</td></tr>
-                <tr><th>الراتب النهائي</th><td>${safeValue(data.final)}</td></tr>
-            </table>`;
-        }catch(err){
-            console.error("Salary Query Error:", err);
-            resultDiv.textContent="حدث خطأ في الاتصال بالخادم، حاول لاحقاً.";
+        if(!number || !pass) {
+            resultDiv.textContent = "يرجى إدخال الرقم الوظيفي والرمز السري.";
+            return;
+        }
+
+        resultDiv.textContent = "جاري جلب البيانات...";
+
+        try {
+            const response = await fetch(`${webAppUrl}?number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
+            if(!response.ok) throw new Error("خطأ في الاتصال بالخادم");
+
+            const data = await response.json();
+            console.log("Response from Apps Script:", data); // لتصحيح الأخطاء
+
+            if(data.error) {
+                resultDiv.innerHTML = `<p style="color:red">${data.error}</p>`;
+            } else {
+                // عرض النتائج في جدول مرتب
+                resultDiv.innerHTML = `
+                  <table class="result-table" role="table" aria-label="تفاصيل الراتب">
+                    <tr><th>الاسم</th><td>${safeValue(data.name)}</td></tr>
+                    <tr><th>الراتب الأساسي</th><td>${safeValue(data.basic)}</td></tr>
+                    <tr><th>مكافأة</th><td>${safeValue(data.bonus)}</td></tr>
+                    <tr><th>إضافي</th><td>${safeValue(data.extra)}</td></tr>
+                    <tr><th>بدل هاتف</th><td>${safeValue(data.phoneAllowance)}</td></tr>
+                    <tr><th>خصم غياب</th><td>${safeValue(data.absenceDeduct)}</td></tr>
+                    <tr><th>خصم عقوبة</th><td>${safeValue(data.penaltyDeduct)}</td></tr>
+                    <tr><th>خصم سلفة</th><td>${safeValue(data.loanDeduct)}</td></tr>
+                    <tr><th>الصافي</th><td>${safeValue(data.net)}</td></tr>
+                  </table>
+                `;
+            }
+        } catch(err) {
+            resultDiv.textContent = "حدث خطأ في الاتصال، حاول مرة أخرى.";
+            console.error(err);
         }
     }
 </script>
