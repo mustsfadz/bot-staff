@@ -733,7 +733,7 @@ async function querySalary(){
         <div class="salary-card">
             <div class="salary-header">
                 <h3>بيانات الراتب لشهر ${month}</h3>
-                <span class="salary-amount">${safeValue(data.net)} ر.س</span>
+                <span class="salary-amount">${safeValue(data.net)}  د.ل</span>
             </div>
             <div class="salary-details">
                 <div class="detail-row">
@@ -742,19 +742,19 @@ async function querySalary(){
                 </div>
                 <div class="detail-row">
                     <span>الراتب الأساسي</span>
-                    <strong>${safeValue(data.basic)} ر.س</strong>
+                    <strong>${safeValue(data.basic)}  د.ل</strong>
                 </div>
                 <div class="detail-row">
                     <span>العلاوات</span>
-                    <strong>${safeValue(data.bonus)} ر.س</strong>
+                    <strong>${safeValue(data.bonus)} د.ل</strong>
                 </div>
                 <div class="detail-row">
                     <span>العمل الإضافي</span>
-                    <strong>${safeValue(data.extra)} ر.س</strong>
+                    <strong>${safeValue(data.extra)} د.ل</strong>
                 </div>
                 <div class="detail-row">
                     <span>بدل هاتف</span>
-                    <strong>${safeValue(data.phoneAllowance)} ر.س</strong>
+                    <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
                 </div>
                 
                 <!-- تفصيل الخصومات في جدول -->
@@ -767,15 +767,15 @@ async function querySalary(){
                     <tbody>
                         <tr>
                             <td>خصم الغياب</td>
-                            <td class="deduction-value">-${safeValue(data.absenceDeduct)} ر.س</td>
+                            <td class="deduction-value">-${safeValue(data.absenceDeduct)} د.ل</td>
                         </tr>
                         <tr>
                             <td>خصم العقوبة</td>
-                            <td class="deduction-value">-${safeValue(data.penaltyDeduct)} ر.س</td>
+                            <td class="deduction-value">-${safeValue(data.penaltyDeduct)}  د.ل</td>
                         </tr>
                         <tr>
                             <td>خصم السلفة</td>
-                            <td class="deduction-value">-${safeValue(data.loanDeduct)} ر.س</td>
+                            <td class="deduction-value">-${safeValue(data.loanDeduct)}  د.ل</td>
                         </tr>
                         <tr>
                             <td><strong>إجمالي الخصومات</strong></td>
