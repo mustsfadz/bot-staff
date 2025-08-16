@@ -8,6 +8,28 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <style>
+
+/* اجعل الجدول قابل للتمرير على الشاشات الصغيرة */
+.salary-table-container {
+    overflow-x: auto; /* تفعيل التمرير الأفقي */
+    -webkit-overflow-scrolling: touch; /* للتمرير السلس على الهواتف */
+    margin-top:12px;
+}
+.result-table {
+    width:100%;
+    border-collapse:collapse;
+    min-width: 300px; /* ضمان عرض الجدول الأساسي */
+}
+.result-table th, .result-table td {
+    padding:8px 10px;
+    border:1px solid #eee;
+    text-align:right;
+    white-space: nowrap; /* منع كسر النصوص داخل الخلية */
+}
+.result-table th { background:#fafafa; font-weight:700; }
+
+
+    
 /* ===== CSS كما في الكود الأصلي مع تحسينات ===== */
 body {
     font-family: 'Cairo', sans-serif;
@@ -245,9 +267,8 @@ async function querySalary(){
         if(data.error){ resultDiv.textContent=data.error; return; }
 
 // عرض النتيجة في جدول ديناميكي
-let html = "<table class='result-table'>";
-
-// خريطة ترجمة الحقول من إنجليزي لعربي
+// عرض النتيجة في جدول ديناميكي مع إمكانية التمرير
+let html = "<div class='salary-table-container'><table class='result-table'>";
 const labels = {
     "name": "الاسم",
     "basic": "الراتب الأساسي",
@@ -259,14 +280,13 @@ const labels = {
     "loanDeduct": "خصم سلفة",
     "net": "الصافي"
 };
-
 for (const key in data) {
-    const label = labels[key] || key; // لو مفيش ترجمة يظهر الاسم الأصلي
+    const label = labels[key] || key;
     html += `<tr><th>${label}</th><td>${safeValue(data[key])}</td></tr>`;
 }
-
-html += "</table>";
+html += "</table></div>";
 resultDiv.innerHTML = html;
+
        
 
     }catch(err){
