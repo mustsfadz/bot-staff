@@ -244,11 +244,30 @@ async function querySalary(){
 
         if(data.error){ resultDiv.textContent=data.error; return; }
 
-        // عرض النتيجة في جدول ديناميكي
-        let html = "<table class='result-table'>";
-        for(const key in data){ html+=`<tr><th>${key}</th><td>${safeValue(data[key])}</td></tr>`; }
-        html+="</table>";
-        resultDiv.innerHTML = html;
+// عرض النتيجة في جدول ديناميكي
+let html = "<table class='result-table'>";
+
+// خريطة ترجمة الحقول من إنجليزي لعربي
+const labels = {
+    "name": "الاسم",
+    "basic": "الراتب الأساسي",
+    "bonus": "العلاوة",
+    "extra": "الإضافي",
+    "phoneAllowance": "بدل هاتف",
+    "absenceDeduct": "خصم غياب",
+    "penaltyDeduct": "خصم سلفة",
+    "loanDeduct": "خصم سلفة",
+    "net": "الصافي"
+};
+
+for (const key in data) {
+    const label = labels[key] || key; // لو مفيش ترجمة يظهر الاسم الأصلي
+    html += `<tr><th>${label}</th><td>${safeValue(data[key])}</td></tr>`;
+}
+
+html += "</table>";
+resultDiv.innerHTML = html;
+       
 
     }catch(err){
         console.error(err);
