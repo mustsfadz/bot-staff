@@ -729,73 +729,83 @@ async function querySalary(){
         }
 
         // عرض النتيجة في بطاقة جميلة
-        let html = `
-        <div class="salary-card">
-            <div class="salary-header">
-                <h3>بيانات الراتب لشهر ${month}</h3>
-                <span class="salary-amount">${safeValue(data.net)}  د.ل</span>
+      async function querySalary(){
+    // ... الكود الحالي حتى جزء النتائج ...
+
+    // عرض النتيجة في بطاقة جميلة
+    let html = `
+    <div class="salary-card">
+        <div class="salary-header">
+            <h3>بيانات الراتب لشهر ${month}</h3>
+            <span class="salary-amount">${safeValue(data.net)} د.ل</span>
+        </div>
+        <div class="salary-details">
+            <!-- الأساسي -->
+            <div class="detail-row">
+                <span><i class="fas fa-money-bill-wave"></i> الراتب الأساسي</span>
+                <strong>${safeValue(data.basic)} د.ل</strong>
             </div>
-            <div class="salary-details">
-                <div class="detail-row">
-                    <span>الاسم</span>
-                    <strong>${data.name || 'غير متوفر'}</strong>
-                </div>
-                <div class="detail-row">
-                    <span>الراتب الأساسي</span>
-                    <strong>${safeValue(data.basic)}  د.ل</strong>
-                </div>
-                <div class="detail-row">
-                    <span>العلاوات</span>
-                    <strong>${safeValue(data.bonus)} د.ل</strong>
-                </div>
-                <div class="detail-row">
-                    <span>العمل الإضافي</span>
-                    <strong>${safeValue(data.extra)} د.ل</strong>
-                </div>
-                <div class="detail-row">
-                    <span>بدل هاتف</span>
-                    <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
-                </div>
-                
-                <!-- تفصيل الخصومات في جدول -->
-                <table class="deductions-table">
-                    <thead>
-                        <tr>
-                            <th colspan="2">تفاصيل الخصومات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>خصم الغياب</td>
-                            <td class="deduction-value">-${safeValue(data.absenceDeduct)} د.ل</td>
-                        </tr>
-                        <tr>
-                            <td>خصم العقوبة</td>
-                            <td class="deduction-value">-${safeValue(data.penaltyDeduct)}  د.ل</td>
-                        </tr>
-                        <tr>
-                            <td>خصم السلفة</td>
-                            <td class="deduction-value">-${safeValue(data.loanDeduct)}  د.ل</td>
-                        </tr>
-                        <tr>
-                            <td><strong>إجمالي الخصومات</strong></td>
-                            <td class="deduction-value"><strong>-${(parseFloat(safeValue(data.absenceDeduct)) + parseFloat(safeValue(data.penaltyDeduct)) + parseFloat(safeValue(data.loanDeduct))).toFixed(2)}  د.ل</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            <!-- الإضافي -->
+            <div class="detail-row">
+                <span><i class="fas fa-clock"></i> العمل الإضافي</span>
+                <strong>${safeValue(data.extra)} د.ل</strong>
+            </div>
+            
+            <!-- المكافأة -->
+            <div class="detail-row">
+                <span><i class="fas fa-gift"></i> المكافأة</span>
+                <strong>${safeValue(data.bonus)} د.ل</strong>
+            </div>
+            
+            <!-- العلاوات -->
+            <div class="detail-row">
+                <span><i class="fas fa-chart-line"></i> العلاوات</span>
+                <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
+            </div>
+            
+            <!-- الإجمالي قبل الخصومات -->
+            <div class="detail-row total-before">
+                <span><i class="fas fa-calculator"></i> الإجمالي قبل الخصومات</span>
+                <strong>${(parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.bonus)) + parseFloat(safeValue(data.phoneAllowance))).toFixed(2)} د.ل</strong>
+            </div>
+            
+            <!-- تفصيل الخصومات في جدول -->
+            <table class="deductions-table">
+                <thead>
+                    <tr>
+                        <th colspan="2"><i class="fas fa-minus-circle"></i> تفاصيل الخصومات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>خصم الغياب</td>
+                        <td class="deduction-value">-${safeValue(data.absenceDeduct)} د.ل</td>
+                    </tr>
+                    <tr>
+                        <td>خصم العقوبة</td>
+                        <td class="deduction-value">-${safeValue(data.penaltyDeduct)} د.ل</td>
+                    </tr>
+                    <tr>
+                        <td>خصم السلفة</td>
+                        <td class="deduction-value">-${safeValue(data.loanDeduct)} د.ل</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- الصافي -->
+            <div class="detail-row net-salary">
+                <span><i class="fas fa-wallet"></i> الراتب الصافي</span>
+                <strong class="net-value">${safeValue(data.net)} د.ل</strong>
             </div>
         </div>
-        <button class="button print-btn" onclick="window.print()">
-            <i class="fas fa-print"></i> طباعة البيان
-        </button>`;
-        
-        resultDiv.innerHTML = html;
-        showToast("تم جلب بيانات الراتب بنجاح", 'success');
-       
-    }catch(err){
-        console.error(err);
-        showToast("حدث خطأ أثناء جلب البيانات. حاول مرة أخرى لاحقًا.", 'error');
-    }
+    </div>
+    <button class="button print-btn" onclick="window.print()">
+        <i class="fas fa-print"></i> طباعة البيان
+    </button>`;
+    
+    resultDiv.innerHTML = html;
+    showToast("تم جلب بيانات الراتب بنجاح", 'success');
 }
 
 // Phone Search Functionality
