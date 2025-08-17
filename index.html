@@ -640,7 +640,7 @@ button.button:hover::after {
 </div>
 
 <script>
-const webAppUrl = "https://script.google.com/macros/s/AKfycbx8x83GkH9ApC4KdRQeaGz7s1T4mtsNwuBhkfCFcaK1KQYcovGH15VlmQMMxu00l4cb/exec";
+const webAppUrl = "https://script.google.com/macros/s/AKfycbwfszKsldIpQZmUf9d1fY11QFuhjyVB1D0C7owusgaVQRQiMttXWMJ_T8m4-hixHLM6/exec";
 
 // DOM Loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -788,34 +788,34 @@ async function querySalary(){
                 <!-- الإضافي -->
                 <div class="detail-row">
                     <span><i class="fas fa-clock"></i> العمل الإضافي</span>
-                    <strong>${safeValue(data.extra)} د.ل</strong>
+                    <strong>${safeValue(data.bonus)} د.ل</strong>
                 </div>
                 
                 <!-- بدل هاتف -->
                 <div class="detail-row">
                     <span><i class="fas fa-mobile-alt"></i> بدل هاتف</span>
-                    <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
+                    <strong>${safeValue(data.badal)} د.ل</strong>
                 </div>
                 
                 <!-- المكافأة -->
                 <div class="detail-row">
                     <span><i class="fas fa-gift"></i> المكافأة</span>
-                    <strong>${safeValue(data.bonus)} د.ل</strong>
+                    <strong>${safeValue(data.extr)} د.ل</strong>
                 </div>
                 
                 <!-- العلاوة -->
                 <div class="detail-row">
                     <span><i class="fas fa-chart-line"></i> العلاوة</span>
-                    <strong>${safeValue(data.allowance)} د.ل</strong>
+                    <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
                 </div>
                 
                 <!-- الإجمالي قبل الخصومات -->
                 <div class="detail-row total-before">
                     <span><i class="fas fa-calculator"></i> الإجمالي قبل الخصومات</span>
                     <strong>${(parseFloat(safeValue(data.basic)) + 
-                            parseFloat(safeValue(data.extra)) + 
-                            parseFloat(safeValue(data.phoneAllowance)) + 
                             parseFloat(safeValue(data.bonus)) + 
+                            parseFloat(safeValue(data.badal)) + 
+                            parseFloat(safeValue(data.extra)) + 
                             parseFloat(safeValue(data.allowance))).toFixed(2)} د.ل</strong>
                 </div>
                 
