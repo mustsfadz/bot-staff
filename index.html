@@ -785,23 +785,24 @@ async function querySalary(){
                     <strong>${safeValue(data.basic)} د.ل</strong>
                 </div>
                 
-                <!-- الإضافي -->
-                <div class="detail-row">
-                    <span><i class="fas fa-clock"></i> العمل الإضافي</span>
-                    <strong>${safeValue(data.data)} د.ل</strong>
-                </div>
-                
-                  <!--بدل هاتف-->
-                <div class="detail-row">
-                    <span><i class="fas fa-gift"></i>بدل هاتف</span>
-                    <strong>${safeValue(data.extra)} د.ل</strong>
-                </div>
-                
-                <!-- المكافأة -->
-                <div class="detail-row">
-                    <span><i class="fas fa-gift"></i> المكافأة</span>
-                    <strong>${safeValue(data.bonus)} د.ل</strong>
-                </div>
+               <!-- الإضافي -->
+<div class="detail-row">
+    <span><i class="fas fa-clock"></i> العمل الإضافي</span>
+    <strong>${safeValue(data.extra)} د.ل</strong>
+</div>
+
+<!-- بدل هاتف -->
+<div class="detail-row">
+    <span><i class="fas fa-mobile-alt"></i> بدل هاتف</span>
+    <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
+</div>
+
+<!-- المكافأة -->
+<div class="detail-row">
+    <span><i class="fas fa-gift"></i> المكافأة</span>
+    <strong>${safeValue(data.bonus)} د.ل</strong>
+</div>
+
                 
                 <!-- العلاوات -->
                 <div class="detail-row">
@@ -809,11 +810,11 @@ async function querySalary(){
                     <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
                 </div>
                 
-                <!-- الإجمالي قبل الخصومات -->
-                <div class="detail-row total-before">
-                    <span><i class="fas fa-calculator"></i> الإجمالي قبل الخصومات</span>
-                    <strong>${(parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.bonus)) + parseFloat(safeValue(data.phoneAllowance))).toFixed(2)} د.ل</strong>
-                </div>
+               <!-- الإجمالي قبل الخصومات -->
+<div class="detail-row total-before">
+    <span><i class="fas fa-calculator"></i> الإجمالي قبل الخصومات</span>
+    <strong>${(parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.bonus)) + parseFloat(safeValue(data.phoneAllowance))).toFixed(2)} د.ل</strong>
+</div>
                 
                 <!-- تفصيل الخصومات في جدول -->
                 <table class="deductions-table">
