@@ -381,6 +381,44 @@ button.button:hover::after {
     margin: 10px 0;
 }
 
+/* أيقونات العناصر */
+.detail-row span i {
+    margin-left: 8px;
+    width: 20px;
+    color: var(--primary-color);
+}
+
+/* الإجمالي قبل الخصومات */
+.detail-row.total-before {
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    padding: 10px 0;
+    margin: 15px 0;
+}
+
+.detail-row.total-before strong {
+    color: var(--primary-color);
+    font-size: 1.1em;
+}
+
+/* الراتب الصافي */
+.detail-row.net-salary {
+    background: rgba(74, 20, 140, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.detail-row.net-salary .net-value {
+    color: var(--primary-color);
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.deductions-table th i {
+    margin-left: 8px;
+}
+
 .print-btn {
     margin-top: 15px !important;
     background-color: #607d8b !important;
@@ -729,83 +767,89 @@ async function querySalary(){
         }
 
         // عرض النتيجة في بطاقة جميلة
-      async function querySalary(){
-    // ... الكود الحالي حتى جزء النتائج ...
-
-    // عرض النتيجة في بطاقة جميلة
-    let html = `
-    <div class="salary-card">
-        <div class="salary-header">
-            <h3>بيانات الراتب لشهر ${month}</h3>
-            <span class="salary-amount">${safeValue(data.net)} د.ل</span>
+        let html = `
+        <div class="salary-card">
+            <div class="salary-header">
+                <h3>بيانات الراتب لشهر ${month}</h3>
+                <span class="salary-amount">${safeValue(data.net)} د.ل</span>
+            </div>
+            <div class="salary-details">
+                <div class="detail-row">
+                    <span><i class="fas fa-user"></i> الاسم</span>
+                    <strong>${data.name || 'غير متوفر'}</strong>
+                </div>
+                
+                <!-- الأساسي -->
+                <div class="detail-row">
+                    <span><i class="fas fa-money-bill-wave"></i> الراتب الأساسي</span>
+                    <strong>${safeValue(data.basic)} د.ل</strong>
+                </div>
+                
+                <!-- الإضافي -->
+                <div class="detail-row">
+                    <span><i class="fas fa-clock"></i> العمل الإضافي</span>
+                    <strong>${safeValue(data.extra)} د.ل</strong>
+                </div>
+                
+                <!-- المكافأة -->
+                <div class="detail-row">
+                    <span><i class="fas fa-gift"></i> المكافأة</span>
+                    <strong>${safeValue(data.bonus)} د.ل</strong>
+                </div>
+                
+                <!-- العلاوات -->
+                <div class="detail-row">
+                    <span><i class="fas fa-chart-line"></i> العلاوات</span>
+                    <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
+                </div>
+                
+                <!-- الإجمالي قبل الخصومات -->
+                <div class="detail-row total-before">
+                    <span><i class="fas fa-calculator"></i> الإجمالي قبل الخصومات</span>
+                    <strong>${(parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.bonus)) + parseFloat(safeValue(data.phoneAllowance))).toFixed(2)} د.ل</strong>
+                </div>
+                
+                <!-- تفصيل الخصومات في جدول -->
+                <table class="deductions-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2"><i class="fas fa-minus-circle"></i> تفاصيل الخصومات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>خصم الغياب</td>
+                            <td class="deduction-value">-${safeValue(data.absenceDeduct)} د.ل</td>
+                        </tr>
+                        <tr>
+                            <td>خصم العقوبة</td>
+                            <td class="deduction-value">-${safeValue(data.penaltyDeduct)} د.ل</td>
+                        </tr>
+                        <tr>
+                            <td>خصم السلفة</td>
+                            <td class="deduction-value">-${safeValue(data.loanDeduct)} د.ل</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!-- الصافي -->
+                <div class="detail-row net-salary">
+                    <span><i class="fas fa-wallet"></i> الراتب الصافي</span>
+                    <strong class="net-value">${safeValue(data.net)} د.ل</strong>
+                </div>
+            </div>
         </div>
-        <div class="salary-details">
-            <!-- الأساسي -->
-            <div class="detail-row">
-                <span><i class="fas fa-money-bill-wave"></i> الراتب الأساسي</span>
-                <strong>${safeValue(data.basic)} د.ل</strong>
-            </div>
-            
-            <!-- الإضافي -->
-            <div class="detail-row">
-                <span><i class="fas fa-clock"></i> العمل الإضافي</span>
-                <strong>${safeValue(data.extra)} د.ل</strong>
-            </div>
-            
-            <!-- المكافأة -->
-            <div class="detail-row">
-                <span><i class="fas fa-gift"></i> المكافأة</span>
-                <strong>${safeValue(data.bonus)} د.ل</strong>
-            </div>
-            
-            <!-- العلاوات -->
-            <div class="detail-row">
-                <span><i class="fas fa-chart-line"></i> العلاوات</span>
-                <strong>${safeValue(data.phoneAllowance)} د.ل</strong>
-            </div>
-            
-            <!-- الإجمالي قبل الخصومات -->
-            <div class="detail-row total-before">
-                <span><i class="fas fa-calculator"></i> الإجمالي قبل الخصومات</span>
-                <strong>${(parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.bonus)) + parseFloat(safeValue(data.phoneAllowance))).toFixed(2)} د.ل</strong>
-            </div>
-            
-            <!-- تفصيل الخصومات في جدول -->
-            <table class="deductions-table">
-                <thead>
-                    <tr>
-                        <th colspan="2"><i class="fas fa-minus-circle"></i> تفاصيل الخصومات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>خصم الغياب</td>
-                        <td class="deduction-value">-${safeValue(data.absenceDeduct)} د.ل</td>
-                    </tr>
-                    <tr>
-                        <td>خصم العقوبة</td>
-                        <td class="deduction-value">-${safeValue(data.penaltyDeduct)} د.ل</td>
-                    </tr>
-                    <tr>
-                        <td>خصم السلفة</td>
-                        <td class="deduction-value">-${safeValue(data.loanDeduct)} د.ل</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <!-- الصافي -->
-            <div class="detail-row net-salary">
-                <span><i class="fas fa-wallet"></i> الراتب الصافي</span>
-                <strong class="net-value">${safeValue(data.net)} د.ل</strong>
-            </div>
-        </div>
-    </div>
-    <button class="button print-btn" onclick="window.print()">
-        <i class="fas fa-print"></i> طباعة البيان
-    </button>`;
-    
-    resultDiv.innerHTML = html;
-    showToast("تم جلب بيانات الراتب بنجاح", 'success');
+        <button class="button print-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> طباعة البيان
+        </button>`;
+        
+        resultDiv.innerHTML = html;
+        showToast("تم جلب بيانات الراتب بنجاح", 'success');
+       
+    }catch(err){
+        console.error(err);
+        showToast("حدث خطأ أثناء جلب البيانات. حاول مرة أخرى لاحقًا.", 'error');
+    }
 }
 
 // Phone Search Functionality
