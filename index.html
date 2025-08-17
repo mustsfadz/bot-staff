@@ -800,7 +800,7 @@ async function querySalary(){
                 <!-- المكافأة -->
                 <div class="detail-row">
                     <span><i class="fas fa-gift"></i> المكافأة</span>
-                    <strong>${safeValue(data.extr)} د.ل</strong>
+                    <strong>${safeValue(data.extra)} د.ل</strong>
                 </div>
                 
                 <!-- العلاوة -->
@@ -816,7 +816,7 @@ async function querySalary(){
                             parseFloat(safeValue(data.bonus)) + 
                             parseFloat(safeValue(data.badal)) + 
                             parseFloat(safeValue(data.extra)) + 
-                            parseFloat(safeValue(data.allowance))).toFixed(2)} د.ل</strong>
+                            parseFloat(safeValue(data.phoneAllowance))).toFixed(2)} د.ل</strong>
                 </div>
                 
                 <!-- تفصيل الخصومات في جدول -->
@@ -877,7 +877,6 @@ function initPhoneSearch() {
         });
     }
 }
-
 // Dark Mode Toggle
 function addDarkModeToggle() {
     const toggle = document.createElement('div');
