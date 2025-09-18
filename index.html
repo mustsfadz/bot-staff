@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
     <style>
-        /* ===== المتغيرات العامة ===== */
+        /* نفس أنماط CSS السابقة */
         :root {
             --primary: #5e35b1;
             --primary-dark: #4527a0;
@@ -35,7 +35,7 @@
             --transition: all 0.3s ease;
         }
 
-        /* ===== الأنماط العامة ===== */
+        /* باقي أنماط CSS كما هي... */
         * {
             margin: 0;
             padding: 0;
@@ -51,7 +51,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== الشريط العلوي ===== */
+        /* باقي أنماط CSS كما هي... */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: var(--white);
@@ -160,14 +160,13 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* ===== المحتوى الرئيسي ===== */
+        /* باقي أنماط CSS كما هي... */
         .main-container {
             max-width: 1400px;
             margin: 30px auto;
             padding: 0 15px;
         }
 
-        /* ===== صفحة تسجيل الدخول ===== */
         .login-container {
             display: none;
             justify-content: center;
@@ -291,7 +290,6 @@
             transform: translateY(0);
         }
 
-        /* ===== شريط الترحيب ===== */
         .welcome-banner {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: var(--white);
@@ -341,7 +339,6 @@
             opacity: 0.9;
         }
 
-        /* ===== بطاقات الوظائف ===== */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -424,7 +421,6 @@
             border-radius: 20px;
         }
 
-        /* ===== الألوان الخاصة بالبطاقات ===== */
         .forms-card .card-icon {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
         }
@@ -445,7 +441,6 @@
             background: linear-gradient(135deg, var(--danger), #d32f2f);
         }
 
-        /* ===== النوافذ المنبثقة ===== */
         .modal {
             display: none;
             position: fixed;
@@ -529,23 +524,31 @@
             padding: 20px;
         }
 
-        /* ===== النماذج ===== */
         .form-container {
             margin-bottom: 15px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .search-container {
             margin-bottom: 15px;
+            position: relative;
         }
 
-        .form-group-full {
-            grid-column: span 2;
+        .search-input {
+            width: 100%;
+            padding: 10px 35px 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
         }
 
-        /* ===== الجداول ===== */
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
         .table-container {
             overflow-x: auto;
             border-radius: 8px;
@@ -579,7 +582,6 @@
             background: rgba(94, 53, 177, 0.05);
         }
 
-        /* ===== أزرار الإجراءات ===== */
         .action-btn {
             background: none;
             border: none;
@@ -604,29 +606,6 @@
             background: rgba(244, 67, 54, 0.1);
         }
 
-        /* ===== البحث ===== */
-        .search-container {
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 35px 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        /* ===== الإشعارات ===== */
         .notification {
             position: fixed;
             bottom: 20px;
@@ -687,7 +666,6 @@
             font-size: 14px;
         }
 
-        /* ===== الإشعارات الفورية ===== */
         .notifications-panel {
             position: fixed;
             top: 70px;
@@ -753,7 +731,6 @@
             text-align: left;
         }
 
-        /* ===== استعلام الراتب ===== */
         .salary-form {
             margin-bottom: 15px;
         }
@@ -810,7 +787,6 @@
             font-weight: 700;
         }
 
-        /* ===== التذييل ===== */
         .footer {
             text-align: center;
             padding: 15px;
@@ -820,7 +796,6 @@
             border-top: 1px solid var(--light-gray);
         }
 
-        /* ===== الوضع الليلي ===== */
         .dark-mode {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: var(--white);
@@ -866,7 +841,6 @@
             background: #333;
         }
 
-        /* ===== تصميم متجاوب ===== */
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -881,14 +855,6 @@
             .dashboard-grid {
                 grid-template-columns: 1fr;
                 gap: 15px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-group-full {
-                grid-column: span 1;
             }
 
             .modal-content {
@@ -969,7 +935,6 @@
             }
         }
 
-        /* ===== تحميل ===== */
         .loader {
             display: inline-block;
             width: 18px;
@@ -993,7 +958,6 @@
             gap: 12px;
         }
 
-        /* ===== لا توجد نتائج ===== */
         .no-results {
             text-align: center;
             padding: 30px 15px;
@@ -1006,7 +970,6 @@
             opacity: 0.5;
         }
 
-        /* ===== زر الوضع الليلي ===== */
         .dark-mode-toggle {
             position: fixed;
             bottom: 20px;
@@ -1029,7 +992,6 @@
             transform: scale(1.05);
         }
 
-        /* ===== زر الإشعارات ===== */
         .notifications-toggle {
             position: relative;
             background: none;
@@ -1062,7 +1024,6 @@
             font-weight: 700;
         }
 
-        /* ===== نموذج إرسال الإشعارات ===== */
         .notification-form {
             margin-bottom: 15px;
         }
@@ -1088,7 +1049,6 @@
             display: flex;
             gap: 10px;
             margin-bottom: 12px;
-            flex-wrap: wrap;
         }
 
         .notification-type label {
@@ -1097,34 +1057,6 @@
             gap: 5px;
             cursor: pointer;
             font-size: 14px;
-        }
-
-        /* ===== تحديثات البيانات ===== */
-        .data-sync-indicator {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: var(--success);
-            color: var(--white);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: none;
-            align-items: center;
-            gap: 5px;
-            z-index: 99;
-        }
-
-        .data-sync-indicator.show {
-            display: flex;
-        }
-
-        .data-sync-indicator.syncing {
-            background: var(--warning);
-        }
-
-        .data-sync-indicator.error {
-            background: var(--danger);
         }
     </style>
 </head>
@@ -1161,12 +1093,6 @@
         </div>
     </header>
 
-    <!-- ===== مؤشر مزامنة البيانات ===== -->
-    <div id="dataSyncIndicator" class="data-sync-indicator">
-        <i class="fas fa-sync-alt fa-spin"></i>
-        <span>جاري تحديث البيانات...</span>
-    </div>
-
     <!-- ===== لوحة الإشعارات ===== -->
     <div id="notificationsPanel" class="notifications-panel">
         <div class="notifications-header">
@@ -1176,9 +1102,11 @@
             </button>
         </div>
         <div id="notificationsBody" class="notifications-body">
-            <div class="loading-container">
-                <div class="loader"></div>
-                <p>جاري تحميل الإشعارات...</p>
+            <div class="no-results">
+                <div class="no-results-icon">
+                    <i class="fas fa-bell-slash"></i>
+                </div>
+                <p>لا توجد إشعارات جديدة</p>
             </div>
         </div>
     </div>
@@ -1239,7 +1167,7 @@
                         عرض النماذج
                         <i class="fas fa-arrow-left"></i>
                     </span>
-                    <span class="card-badge" id="formsCount">0</span>
+                    <span class="card-badge" id="formsCount">11</span>
                 </div>
             </div>
 
@@ -1260,7 +1188,7 @@
                         عرض الأرقام
                         <i class="fas fa-arrow-left"></i>
                     </span>
-                    <span class="card-badge" id="phonesCount">0</span>
+                    <span class="card-badge" id="phonesCount">19</span>
                 </div>
             </div>
 
@@ -1281,7 +1209,7 @@
                         عرض الروابط
                         <i class="fas fa-arrow-left"></i>
                     </span>
-                    <span class="card-badge" id="linksCount">0</span>
+                    <span class="card-badge" id="linksCount">2</span>
                 </div>
             </div>
 
@@ -1353,14 +1281,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="3" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل النماذج...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1393,14 +1314,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="3" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل الأرقام...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1433,14 +1347,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="3" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل الروابط...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1515,14 +1422,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="3" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل النماذج...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1610,14 +1510,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="3" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل الأرقام...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1683,14 +1576,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="3" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل الروابط...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1805,14 +1691,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="4" style="text-align: center; padding: 30px;">
-                                        <div class="loading-container">
-                                            <div class="loader"></div>
-                                            <p>جاري تحميل الإشعارات...</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- سيتم ملؤها ديناميكيًا -->
                             </tbody>
                         </table>
                     </div>
@@ -1846,24 +1725,20 @@
     <script>
         // ===== إعدادات النظام =====
         const CONFIG = {
+            API_URL: 'https://script.google.com/macros/s/AKfycbwqZbrLVVpRw9CRaGSEllLk9HHhdGmoD_S6j87-EnuARN-XGhYCUGQ_LHs5iBWQPiOVPA/exec',
+            SHEET_ID: '1dyg1ZKzc3EFCtkGU3yQoGgu_6dkoTI7hyi8HHdIZpg4',
+            SHEET_NAMES: {
+                FORMS: "Forms",
+                PHONES: "Phones",
+                LINKS: "Links",
+                NOTIFICATIONS: "Notifications",
+                SALARY: "Salary"
+            },
             // بيانات المصادقة
             AUTH: {
                 EMAIL: 'business.2023.8@gmail.com',
                 PASSWORD: 'admin123'
-            },
-            
-            // روابط API
-            API_URLS: {
-                FORMS: 'https://script.google.com/macros/s/AKfycbyIDooWCx1aUkqFXq4WpkWaRnDNv9bsvc8Lw6C47wvPis1UelXKLEOn8M2rEvTpdPPekw/exec',
-                PHONES: 'https://script.google.com/macros/s/AKfycbyIDooWCx1aUkqFXq4WpkWaRnDNv9bsvc8Lw6C47wvPis1UelXKLEOn8M2rEvTpdPPekw/exec',
-                LINKS: 'https://script.google.com/macros/s/AKfycbyIDooWCx1aUkqFXq4WpkWaRnDNv9bsvc8Lw6C47wvPis1UelXKLEOn8M2rEvTpdPPekw/exec',
-                NOTIFICATIONS: 'https://script.google.com/macros/s/AKfycbyIDooWCx1aUkqFXq4WpkWaRnDNv9bsvc8Lw6C47wvPis1UelXKLEOn8M2rEvTpdPPekw/exec',
-                SALARY_MONTHS: 'https://script.google.com/macros/s/AKfycbyIDooWCx1aUkqFXq4WpkWaRnDNv9bsvc8Lw6C47wvPis1UelXKLEOn8M2rEvTpdPPekw/exec',
-                SALARY_QUERY: 'https://script.google.com/macros/s/AKfycbyIDooWCx1aUkqFXq4WpkWaRnDNv9bsvc8Lw6C47wvPis1UelXKLEOn8M2rEvTpdPPekw/exec'
-            },
-            
-            // مهلة التحديث (بالثواني)
-            SYNC_INTERVAL: 30
+            }
         };
 
         // ===== متغيرات عامة =====
@@ -1872,7 +1747,7 @@
         let editingFormId = null;
         let editingPhoneId = null;
         let editingLinkId = null;
-        let syncInterval = null;
+        let notifications = [];
 
         // ===== أحداث الصفحة =====
         document.addEventListener('DOMContentLoaded', function() {
@@ -1882,11 +1757,11 @@
             // إضافة أحداث المستمعين
             setupEventListeners();
             
-            // تحميل البيانات الأولية
-            loadInitialData();
+            // تحميل البيانات
+            loadDashboardData();
             
-            // بدء المزامنة التلقائية
-            startAutoSync();
+            // تحميل الإشعارات المحفوظة
+            loadNotifications();
         });
 
         // ===== التحقق من حالة تسجيل الدخول =====
@@ -1912,81 +1787,6 @@
             document.getElementById('userProfile').classList.remove('show');
             document.getElementById('logoutBtn').classList.remove('show');
             document.getElementById('adminNotificationsCard').style.display = 'none';
-        }
-
-        // ===== تحميل البيانات الأولية =====
-        function loadInitialData() {
-            // تحميل النماذج
-            loadForms();
-            
-            // تحميل الأرقام الداخلية
-            loadPhones();
-            
-            // تحميل الروابط
-            loadLinks();
-            
-            // تحميل الإشعارات
-            loadNotifications();
-        }
-
-        // ===== بدء المزامنة التلقائية =====
-        function startAutoSync() {
-            // مزامنة كل 30 ثانية
-            syncInterval = setInterval(() => {
-                if (document.visibilityState === 'visible') {
-                    syncData();
-                }
-            }, CONFIG.SYNC_INTERVAL * 1000);
-            
-            // مزامنة عند عودة التبويب للنشاط
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'visible') {
-                    syncData();
-                }
-            });
-        }
-
-        // ===== مزامنة البيانات =====
-        function syncData() {
-            showDataSyncIndicator('syncing');
-            
-            Promise.all([
-                loadForms(),
-                loadPhones(),
-                loadLinks(),
-                loadNotifications()
-            ]).then(() => {
-                showDataSyncIndicator('success');
-                setTimeout(() => {
-                    hideDataSyncIndicator();
-                }, 2000);
-            }).catch(error => {
-                console.error('Sync error:', error);
-                showDataSyncIndicator('error');
-                setTimeout(() => {
-                    hideDataSyncIndicator();
-                }, 3000);
-            });
-        }
-
-        // ===== إظهار مؤشر المزامنة =====
-        function showDataSyncIndicator(type) {
-            const indicator = document.getElementById('dataSyncIndicator');
-            indicator.className = `data-sync-indicator show ${type}`;
-            
-            if (type === 'syncing') {
-                indicator.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i><span>جاري تحديث البيانات...</span>';
-            } else if (type === 'success') {
-                indicator.innerHTML = '<i class="fas fa-check-circle"></i><span>تم تحديث البيانات</span>';
-            } else if (type === 'error') {
-                indicator.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>خطأ في تحديث البيانات</span>';
-            }
-        }
-
-        // ===== إخفاء مؤشر المزامنة =====
-        function hideDataSyncIndicator() {
-            const indicator = document.getElementById('dataSyncIndicator');
-            indicator.classList.remove('show');
         }
 
         // ===== إعداد أحداث المستمعين =====
@@ -2136,6 +1936,22 @@
             showNotification('تم تسجيل الخروج بنجاح', 'success');
         }
 
+        // ===== تحميل بيانات لوحة التحكم =====
+        function loadDashboardData() {
+            // تحميل جداول البيانات
+            loadFormsData();
+            loadPhonesData();
+            loadLinksData();
+            
+            // تحميل جداول البيانات للمسؤول
+            if (isLoggedIn) {
+                loadAdminFormsData();
+                loadAdminPhonesData();
+                loadAdminLinksData();
+                loadSentNotificationsData();
+            }
+        }
+
         // ===== فتح قسم =====
         function openSection(section) {
             currentSection = section;
@@ -2186,69 +2002,70 @@
             document.body.style.overflow = 'auto';
         }
 
-        // ===== تحميل النماذج =====
-        async function loadForms() {
+        // ===== تحميل بيانات النماذج =====
+        async function loadFormsData() {
             try {
-                const response = await fetch(`${CONFIG.API_URLS.FORMS}?action=get`);
-                if (!response.ok) throw new Error('فشل في تحميل النماذج');
+                const response = await fetch(`${CONFIG.API_URL}?action=get&sheet=${CONFIG.SHEET_NAMES.FORMS}`);
+                const data = await response.json();
                 
-                const forms = await response.json();
-                
-                // تحديث جدول النماذج للمستخدمين العاديين
-                updateFormsTable(forms, 'formsTable');
-                
-                // تحديث جدول النماذج للمسؤول
-                if (isLoggedIn) {
-                    updateFormsTable(forms, 'adminFormsTable');
+                if (data.status === 'success' && data.data) {
+                    populateFormsTable(data.data);
+                } else {
+                    console.error('Error loading forms:', data.message);
                 }
-                
-                // تحديث العداد
-                document.getElementById('formsCount').textContent = forms.length;
-                
             } catch (error) {
                 console.error('Error loading forms:', error);
-                showNotification('فشل في تحميل النماذج', 'error');
             }
         }
 
-        // ===== تحديث جدول النماذج =====
-        function updateFormsTable(forms, tableId) {
-            const tbody = document.querySelector(`#${tableId} tbody`);
+        // ===== تحميل بيانات النماذج للمسؤول =====
+        async function loadAdminFormsData() {
+            await loadFormsData();
+        }
+
+        // ===== تعبئة جدول النماذج =====
+        function populateFormsTable(forms) {
+            const tbody = document.querySelector('#formsTable tbody');
             tbody.innerHTML = '';
-            
-            if (forms.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3" style="text-align: center; padding: 30px;">
-                            <div class="no-results">
-                                <div class="no-results-icon">
-                                    <i class="fas fa-inbox"></i>
-                                </div>
-                                <p>لا توجد نماذج مضافة بعد</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
             
             forms.forEach(form => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><i class="fas ${form.icon}"></i> ${form.name}</td>
-                    <td>${form.description}</td>
+                    <td><i class="fas ${form.icon || 'fa-file'}"></i> ${form.name || ''}</td>
+                    <td>${form.description || ''}</td>
                     <td>
-                        <button class="action-btn" onclick="viewForm('${form.id}')" title="عرض">
+                        <button class="action-btn" onclick="viewForm('${form.link || ''}')" title="عرض">
                             <i class="fas fa-eye"></i>
                         </button>
-                        ${isLoggedIn ? `
-                            <button class="action-btn" onclick="editForm('${form.id}')" title="تعديل">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteForm('${form.id}')" title="حذف">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // تحديث العداد
+            document.getElementById('formsCount').textContent = forms.length;
+        }
+
+        // ===== تعبئة جدول النماذج للمسؤول =====
+        function populateAdminFormsTable(forms) {
+            const tbody = document.querySelector('#adminFormsTable tbody');
+            tbody.innerHTML = '';
+            
+            forms.forEach(form => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><i class="fas ${form.icon || 'fa-file'}"></i> ${form.name || ''}</td>
+                    <td>${form.description || ''}</td>
+                    <td>
+                        <button class="action-btn" onclick="viewForm('${form.link || ''}')" title="عرض">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" onclick="editForm(${form.id || 0})" title="تعديل">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteForm(${form.id || 0})" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -2256,67 +2073,37 @@
         }
 
         // ===== عرض نموذج =====
-        function viewForm(id) {
-            // البحث عن النموذج في البيانات المحملة
-            const forms = document.querySelectorAll('#formsTable tbody tr, #adminFormsTable tbody tr');
-            
-            for (let row of forms) {
-                const viewBtn = row.querySelector('button[onclick*="viewForm"]');
-                if (viewBtn && viewBtn.getAttribute('onclick').includes(id)) {
-                    const name = row.cells[0].textContent.trim();
-                    const link = row.getAttribute('data-link');
-                    
-                    if (link) {
-                        window.open(link, '_blank');
-                        showNotification(`جاري فتح نموذج ${name}`, 'success');
-                    }
-                    break;
-                }
+        function viewForm(link) {
+            if (link) {
+                window.open(link, '_blank');
+                showNotification('جاري فتح النموذج', 'success');
             }
         }
 
         // ===== تعديل نموذج =====
-        async function editForm(id) {
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.FORMS}?action=get&id=${id}`);
-                if (!response.ok) throw new Error('فشل في تحميل بيانات النموذج');
-                
-                const form = await response.json();
-                
-                editingFormId = id;
-                document.getElementById('formModalTitle').textContent = 'تعديل نموذج';
-                document.getElementById('formId').value = form.id;
-                document.getElementById('formName').value = form.name;
-                document.getElementById('formDescription').value = form.description;
-                document.getElementById('formIcon').value = form.icon;
-                document.getElementById('formLink').value = form.link;
-                openModal('formModal');
-                
-            } catch (error) {
-                console.error('Error loading form for edit:', error);
-                showNotification('فشل في تحميل بيانات النموذج', 'error');
-            }
+        function editForm(id) {
+            // سيتم تنفيذها لاحقاً
+            showNotification('سيتم تنفيذ هذه الميزة قريباً', 'warning');
         }
 
         // ===== حذف نموذج =====
         async function deleteForm(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا النموذج؟')) return;
-            
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.FORMS}?action=delete&id=${id}`, {
-                    method: 'POST'
-                });
-                
-                if (!response.ok) throw new Error('فشل في حذف النموذج');
-                
-                // إعادة تحميل النماذج
-                await loadForms();
-                
-                showNotification('تم حذف النموذج بنجاح', 'success');
-                
-            } catch (error) {
-                console.error('Error deleting form:', error);
-                showNotification('فشل في حذف النموذج', 'error');
+            if (confirm('هل أنت متأكد من حذف هذا النموذج؟')) {
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=delete&sheet=${CONFIG.SHEET_NAMES.FORMS}&id=${id}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم حذف النموذج بنجاح', 'success');
+                        loadFormsData();
+                        loadAdminFormsData();
+                    } else {
+                        showNotification(data.message || 'فشل في حذف النموذج', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error deleting form:', error);
+                    showNotification('فشل في حذف النموذج', 'error');
+                }
             }
         }
 
@@ -2325,7 +2112,7 @@
             e.preventDefault();
             
             const formData = {
-                id: editingFormId || null,
+                sheet: CONFIG.SHEET_NAMES.FORMS,
                 name: document.getElementById('formName').value,
                 description: document.getElementById('formDescription').value,
                 icon: document.getElementById('formIcon').value,
@@ -2333,95 +2120,87 @@
             };
             
             try {
-                const response = await fetch(CONFIG.API_URLS.FORMS, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        action: editingFormId ? 'update' : 'add',
-                        data: formData
-                    })
-                });
+                const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(formData)}`);
+                const data = await response.json();
                 
-                if (!response.ok) throw new Error('فشل في حفظ النموذج');
-                
-                // إعادة تحميل النماذج
-                await loadForms();
-                
-                showNotification(editingFormId ? 'تم تعديل النموذج بنجاح' : 'تم إضافة النموذج بنجاح', 'success');
-                
-                closeModal('formModal');
-                
+                if (data.status === 'success') {
+                    showNotification('تم إضافة النموذج بنجاح', 'success');
+                    loadFormsData();
+                    loadAdminFormsData();
+                    closeModal('formModal');
+                } else {
+                    showNotification(data.message || 'فشل في إضافة النموذج', 'error');
+                }
             } catch (error) {
-                console.error('Error saving form:', error);
-                showNotification('فشل في حفظ النموذج', 'error');
+                console.error('Error adding form:', error);
+                showNotification('فشل في إضافة النموذج', 'error');
             }
         }
 
-        // ===== تحميل الأرقام الداخلية =====
-        async function loadPhones() {
+        // ===== تحميل بيانات الأرقام الداخلية =====
+        async function loadPhonesData() {
             try {
-                const response = await fetch(`${CONFIG.API_URLS.PHONES}?action=get`);
-                if (!response.ok) throw new Error('فشل في تحميل الأرقام الداخلية');
+                const response = await fetch(`${CONFIG.API_URL}?action=get&sheet=${CONFIG.SHEET_NAMES.PHONES}`);
+                const data = await response.json();
                 
-                const phones = await response.json();
-                
-                // تحديث جدول الأرقام للمستخدمين العاديين
-                updatePhonesTable(phones, 'phonesTable');
-                
-                // تحديث جدول الأرقام للمسؤول
-                if (isLoggedIn) {
-                    updatePhonesTable(phones, 'adminPhonesTable');
+                if (data.status === 'success' && data.data) {
+                    populatePhonesTable(data.data);
+                } else {
+                    console.error('Error loading phones:', data.message);
                 }
-                
-                // تحديث العداد
-                document.getElementById('phonesCount').textContent = phones.length;
-                
             } catch (error) {
                 console.error('Error loading phones:', error);
-                showNotification('فشل في تحميل الأرقام الداخلية', 'error');
             }
         }
 
-        // ===== تحديث جدول الأرقام الداخلية =====
-        function updatePhonesTable(phones, tableId) {
-            const tbody = document.querySelector(`#${tableId} tbody`);
+        // ===== تحميل بيانات الأرقام الداخلية للمسؤول =====
+        async function loadAdminPhonesData() {
+            await loadPhonesData();
+        }
+
+        // ===== تعبئة جدول الأرقام الداخلية =====
+        function populatePhonesTable(phones) {
+            const tbody = document.querySelector('#phonesTable tbody');
             tbody.innerHTML = '';
-            
-            if (phones.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3" style="text-align: center; padding: 30px;">
-                            <div class="no-results">
-                                <div class="no-results-icon">
-                                    <i class="fas fa-phone-slash"></i>
-                                </div>
-                                <p>لا توجد أرقام مضافة بعد</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
             
             phones.forEach(phone => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${phone.department}</td>
-                    <td>${phone.number}</td>
+                    <td>${phone.department || ''}</td>
+                    <td>${phone.number || ''}</td>
                     <td>
-                        <button class="action-btn" onclick="copyPhone('${phone.number}')" title="نسخ">
+                        <button class="action-btn" onclick="copyPhone('${phone.number || ''}')" title="نسخ">
                             <i class="fas fa-copy"></i>
                         </button>
-                        ${isLoggedIn ? `
-                            <button class="action-btn" onclick="editPhone('${phone.id}')" title="تعديل">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deletePhone('${phone.id}')" title="حذف">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // تحديث العداد
+            document.getElementById('phonesCount').textContent = phones.length;
+        }
+
+        // ===== تعبئة جدول الأرقام الداخلية للمسؤول =====
+        function populateAdminPhonesTable(phones) {
+            const tbody = document.querySelector('#adminPhonesTable tbody');
+            tbody.innerHTML = '';
+            
+            phones.forEach(phone => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${phone.department || ''}</td>
+                    <td>${phone.number || ''}</td>
+                    <td>
+                        <button class="action-btn" onclick="copyPhone('${phone.number || ''}')" title="نسخ">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn" onclick="editPhone(${phone.id || 0})" title="تعديل">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deletePhone(${phone.id || 0})" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -2438,45 +2217,29 @@
         }
 
         // ===== تعديل رقم داخلي =====
-        async function editPhone(id) {
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.PHONES}?action=get&id=${id}`);
-                if (!response.ok) throw new Error('فشل في تحميل بيانات الرقم');
-                
-                const phone = await response.json();
-                
-                editingPhoneId = id;
-                document.getElementById('phoneModalTitle').textContent = 'تعديل رقم داخلي';
-                document.getElementById('phoneId').value = phone.id;
-                document.getElementById('phoneDepartment').value = phone.department;
-                document.getElementById('phoneNumber').value = phone.number;
-                openModal('phoneModal');
-                
-            } catch (error) {
-                console.error('Error loading phone for edit:', error);
-                showNotification('فشل في تحميل بيانات الرقم', 'error');
-            }
+        function editPhone(id) {
+            // سيتم تنفيذها لاحقاً
+            showNotification('سيتم تنفيذ هذه الميزة قريباً', 'warning');
         }
 
         // ===== حذف رقم داخلي =====
         async function deletePhone(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا الرقم؟')) return;
-            
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.PHONES}?action=delete&id=${id}`, {
-                    method: 'POST'
-                });
-                
-                if (!response.ok) throw new Error('فشل في حذف الرقم');
-                
-                // إعادة تحميل الأرقام
-                await loadPhones();
-                
-                showNotification('تم حذف الرقم بنجاح', 'success');
-                
-            } catch (error) {
-                console.error('Error deleting phone:', error);
-                showNotification('فشل في حذف الرقم', 'error');
+            if (confirm('هل أنت متأكد من حذف هذا الرقم؟')) {
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=delete&sheet=${CONFIG.SHEET_NAMES.PHONES}&id=${id}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم حذف الرقم بنجاح', 'success');
+                        loadPhonesData();
+                        loadAdminPhonesData();
+                    } else {
+                        showNotification(data.message || 'فشل في حذف الرقم', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error deleting phone:', error);
+                    showNotification('فشل في حذف الرقم', 'error');
+                }
             }
         }
 
@@ -2485,101 +2248,93 @@
             e.preventDefault();
             
             const phoneData = {
-                id: editingPhoneId || null,
+                sheet: CONFIG.SHEET_NAMES.PHONES,
                 department: document.getElementById('phoneDepartment').value,
                 number: document.getElementById('phoneNumber').value
             };
             
             try {
-                const response = await fetch(CONFIG.API_URLS.PHONES, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        action: editingPhoneId ? 'update' : 'add',
-                        data: phoneData
-                    })
-                });
+                const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(phoneData)}`);
+                const data = await response.json();
                 
-                if (!response.ok) throw new Error('فشل في حفظ الرقم');
-                
-                // إعادة تحميل الأرقام
-                await loadPhones();
-                
-                showNotification(editingPhoneId ? 'تم تعديل الرقم بنجاح' : 'تم إضافة الرقم بنجاح', 'success');
-                
-                closeModal('phoneModal');
-                
+                if (data.status === 'success') {
+                    showNotification('تم إضافة الرقم بنجاح', 'success');
+                    loadPhonesData();
+                    loadAdminPhonesData();
+                    closeModal('phoneModal');
+                } else {
+                    showNotification(data.message || 'فشل في إضافة الرقم', 'error');
+                }
             } catch (error) {
-                console.error('Error saving phone:', error);
-                showNotification('فشل في حفظ الرقم', 'error');
+                console.error('Error adding phone:', error);
+                showNotification('فشل في إضافة الرقم', 'error');
             }
         }
 
-        // ===== تحميل الروابط =====
-        async function loadLinks() {
+        // ===== تحميل بيانات الروابط =====
+        async function loadLinksData() {
             try {
-                const response = await fetch(`${CONFIG.API_URLS.LINKS}?action=get`);
-                if (!response.ok) throw new Error('فشل في تحميل الروابط');
+                const response = await fetch(`${CONFIG.API_URL}?action=get&sheet=${CONFIG.SHEET_NAMES.LINKS}`);
+                const data = await response.json();
                 
-                const links = await response.json();
-                
-                // تحديث جدول الروابط للمستخدمين العاديين
-                updateLinksTable(links, 'linksTable');
-                
-                // تحديث جدول الروابط للمسؤول
-                if (isLoggedIn) {
-                    updateLinksTable(links, 'adminLinksTable');
+                if (data.status === 'success' && data.data) {
+                    populateLinksTable(data.data);
+                } else {
+                    console.error('Error loading links:', data.message);
                 }
-                
-                // تحديث العداد
-                document.getElementById('linksCount').textContent = links.length;
-                
             } catch (error) {
                 console.error('Error loading links:', error);
-                showNotification('فشل في تحميل الروابط', 'error');
             }
         }
 
-        // ===== تحديث جدول الروابط =====
-        function updateLinksTable(links, tableId) {
-            const tbody = document.querySelector(`#${tableId} tbody`);
+        // ===== تحميل بيانات الروابط للمسؤول =====
+        async function loadAdminLinksData() {
+            await loadLinksData();
+        }
+
+        // ===== تعبئة جدول الروابط =====
+        function populateLinksTable(links) {
+            const tbody = document.querySelector('#linksTable tbody');
             tbody.innerHTML = '';
-            
-            if (links.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3" style="text-align: center; padding: 30px;">
-                            <div class="no-results">
-                                <div class="no-results-icon">
-                                    <i class="fas fa-unlink"></i>
-                                </div>
-                                <p>لا توجد روابط مضافة بعد</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
             
             links.forEach(link => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><i class="${link.icon}"></i> ${link.name}</td>
-                    <td>${link.description}</td>
+                    <td><i class="${link.icon || 'fa-link'}"></i> ${link.name || ''}</td>
+                    <td>${link.description || ''}</td>
                     <td>
-                        <button class="action-btn" onclick="viewLink('${link.id}')" title="عرض">
+                        <button class="action-btn" onclick="viewLink('${link.url || ''}')" title="عرض">
                             <i class="fas fa-eye"></i>
                         </button>
-                        ${isLoggedIn ? `
-                            <button class="action-btn" onclick="editLink('${link.id}')" title="تعديل">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteLink('${link.id}')" title="حذف">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // تحديث العداد
+            document.getElementById('linksCount').textContent = links.length;
+        }
+
+        // ===== تعبئة جدول الروابط للمسؤول =====
+        function populateAdminLinksTable(links) {
+            const tbody = document.querySelector('#adminLinksTable tbody');
+            tbody.innerHTML = '';
+            
+            links.forEach(link => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><i class="${link.icon || 'fa-link'}"></i> ${link.name || ''}</td>
+                    <td>${link.description || ''}</td>
+                    <td>
+                        <button class="action-btn" onclick="viewLink('${link.url || ''}')" title="عرض">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" onclick="editLink(${link.id || 0})" title="تعديل">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteLink(${link.id || 0})" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -2587,67 +2342,37 @@
         }
 
         // ===== عرض رابط =====
-        function viewLink(id) {
-            // البحث عن الرابط في البيانات المحملة
-            const links = document.querySelectorAll('#linksTable tbody tr, #adminLinksTable tbody tr');
-            
-            for (let row of links) {
-                const viewBtn = row.querySelector('button[onclick*="viewLink"]');
-                if (viewBtn && viewBtn.getAttribute('onclick').includes(id)) {
-                    const name = row.cells[0].textContent.trim();
-                    const url = row.getAttribute('data-url');
-                    
-                    if (url) {
-                        window.open(url, '_blank');
-                        showNotification(`جاري فتح ${name}`, 'success');
-                    }
-                    break;
-                }
+        function viewLink(url) {
+            if (url) {
+                window.open(url, '_blank');
+                showNotification('جاري فتح الرابط', 'success');
             }
         }
 
         // ===== تعديل رابط =====
-        async function editLink(id) {
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.LINKS}?action=get&id=${id}`);
-                if (!response.ok) throw new Error('فشل في تحميل بيانات الرابط');
-                
-                const link = await response.json();
-                
-                editingLinkId = id;
-                document.getElementById('linkModalTitle').textContent = 'تعديل رابط';
-                document.getElementById('linkId').value = link.id;
-                document.getElementById('linkName').value = link.name;
-                document.getElementById('linkDescription').value = link.description;
-                document.getElementById('linkIcon').value = link.icon;
-                document.getElementById('linkUrl').value = link.url;
-                openModal('linkModal');
-                
-            } catch (error) {
-                console.error('Error loading link for edit:', error);
-                showNotification('فشل في تحميل بيانات الرابط', 'error');
-            }
+        function editLink(id) {
+            // سيتم تنفيذها لاحقاً
+            showNotification('سيتم تنفيذ هذه الميزة قريباً', 'warning');
         }
 
         // ===== حذف رابط =====
         async function deleteLink(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا الرابط؟')) return;
-            
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.LINKS}?action=delete&id=${id}`, {
-                    method: 'POST'
-                });
-                
-                if (!response.ok) throw new Error('فشل في حذف الرابط');
-                
-                // إعادة تحميل الروابط
-                await loadLinks();
-                
-                showNotification('تم حذف الرابط بنجاح', 'success');
-                
-            } catch (error) {
-                console.error('Error deleting link:', error);
-                showNotification('فشل في حذف الرابط', 'error');
+            if (confirm('هل أنت متأكد من حذف هذا الرابط؟')) {
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=delete&sheet=${CONFIG.SHEET_NAMES.LINKS}&id=${id}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم حذف الرابط بنجاح', 'success');
+                        loadLinksData();
+                        loadAdminLinksData();
+                    } else {
+                        showNotification(data.message || 'فشل في حذف الرابط', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error deleting link:', error);
+                    showNotification('فشل في حذف الرابط', 'error');
+                }
             }
         }
 
@@ -2656,7 +2381,7 @@
             e.preventDefault();
             
             const linkData = {
-                id: editingLinkId || null,
+                sheet: CONFIG.SHEET_NAMES.LINKS,
                 name: document.getElementById('linkName').value,
                 description: document.getElementById('linkDescription').value,
                 icon: document.getElementById('linkIcon').value,
@@ -2664,29 +2389,20 @@
             };
             
             try {
-                const response = await fetch(CONFIG.API_URLS.LINKS, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        action: editingLinkId ? 'update' : 'add',
-                        data: linkData
-                    })
-                });
+                const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(linkData)}`);
+                const data = await response.json();
                 
-                if (!response.ok) throw new Error('فشل في حفظ الرابط');
-                
-                // إعادة تحميل الروابط
-                await loadLinks();
-                
-                showNotification(editingLinkId ? 'تم تعديل الرابط بنجاح' : 'تم إضافة الرابط بنجاح', 'success');
-                
-                closeModal('linkModal');
-                
+                if (data.status === 'success') {
+                    showNotification('تم إضافة الرابط بنجاح', 'success');
+                    loadLinksData();
+                    loadAdminLinksData();
+                    closeModal('linkModal');
+                } else {
+                    showNotification(data.message || 'فشل في إضافة الرابط', 'error');
+                }
             } catch (error) {
-                console.error('Error saving link:', error);
-                showNotification('فشل في حفظ الرابط', 'error');
+                console.error('Error adding link:', error);
+                showNotification('فشل في إضافة الرابط', 'error');
             }
         }
 
@@ -2696,51 +2412,52 @@
             select.innerHTML = '<option value="">اختر الشهر</option>';
             
             try {
-                const response = await fetch(CONFIG.API_URLS.SALARY_MONTHS);
-                if (!response.ok) throw new Error('فشل في تحميل الأشهر');
+                const response = await fetch(`${CONFIG.API_URL}?action=salaryMonths`);
+                const data = await response.json();
                 
-                const months = await response.json();
-                
-                // إضافة الأشهر إلى القائمة المنسدلة
-                months.forEach(month => {
-                    const option = document.createElement('option');
-                    option.value = month;
-                    option.textContent = month;
-                    select.appendChild(option);
-                });
-                
+                if (data.status === 'success' && data.data) {
+                    data.data.forEach(month => {
+                        const option = document.createElement('option');
+                        option.value = month;
+                        option.textContent = month;
+                        select.appendChild(option);
+                    });
+                } else {
+                    console.error('Error loading salary months:', data.message);
+                    
+                    // استخدام بيانات افتراضية في حالة الفشل
+                    const defaultMonths = [
+                        'يناير 2023',
+                        'فبراير 2023',
+                        'مارس 2023',
+                        'أبريل 2023',
+                        'مايو 2023',
+                        'يونيو 2023',
+                        'يوليو 2023',
+                        'أغسطس 2023',
+                        'سبتمبر 2023',
+                        'أكتوبر 2023',
+                        'نوفمبر 2023',
+                        'ديسمبر 2023'
+                    ];
+                    
+                    defaultMonths.forEach(month => {
+                        const option = document.createElement('option');
+                        option.value = month;
+                        option.textContent = month;
+                        select.appendChild(option);
+                    });
+                    
+                    showNotification('تم تحميل الأشهر الافتراضية', 'warning');
+                }
             } catch (error) {
                 console.error('Error loading salary months:', error);
-                
-                // استخدام بيانات افتراضية في حالة الفشل
-                const defaultMonths = [
-                    'يناير 2023',
-                    'فبراير 2023',
-                    'مارس 2023',
-                    'أبريل 2023',
-                    'مايو 2023',
-                    'يونيو 2023',
-                    'يوليو 2023',
-                    'أغسطس 2023',
-                    'سبتمبر 2023',
-                    'أكتوبر 2023',
-                    'نوفمبر 2023',
-                    'ديسمبر 2023'
-                ];
-                
-                defaultMonths.forEach(month => {
-                    const option = document.createElement('option');
-                    option.value = month;
-                    option.textContent = month;
-                    select.appendChild(option);
-                });
-                
-                showNotification('تم تحميل الأشهر الافتراضية', 'warning');
+                showNotification('فشل في تحميل الأشهر', 'error');
             }
         }
 
         // ===== معالجة الاستعلام عن الراتب =====
-        function handleSalaryQuery(e) {
+        async function handleSalaryQuery(e) {
             e.preventDefault();
             
             const month = document.getElementById('salaryMonth').value;
@@ -2762,12 +2479,6 @@
                 return;
             }
             
-            // الاستعلام عن الراتب
-            querySalaryFromAPI(month, number, pass);
-        }
-
-        // ===== الاستعلام عن الراتب من API =====
-        async function querySalaryFromAPI(month, number, pass) {
             // عرض رسالة التحميل
             const resultDiv = document.getElementById('salaryResult');
             resultDiv.innerHTML = `
@@ -2779,21 +2490,15 @@
             resultDiv.style.display = 'block';
             
             try {
-                const response = await fetch(`${CONFIG.API_URLS.SALARY_QUERY}?month=${encodeURIComponent(month)}&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
-                
-                if (!response.ok) throw new Error('فشل في الاستعلام عن الراتب');
-                
+                const response = await fetch(`${CONFIG.API_URL}?action=salaryQuery&month=${encodeURIComponent(month)}&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
                 const data = await response.json();
                 
-                if (data.error) {
-                    showNotification(data.error, 'error');
+                if (data.status === 'success' && data.data) {
+                    displaySalaryResult(data.data, month);
+                } else {
+                    showNotification(data.message || 'فشل في الاستعلام عن الراتب', 'error');
                     resultDiv.style.display = 'none';
-                    return;
                 }
-                
-                // عرض النتائج
-                displaySalaryResult(data, month);
-                
             } catch (error) {
                 console.error('Error querying salary:', error);
                 
@@ -2824,52 +2529,52 @@
                 <div class="salary-card">
                     <div class="salary-header">
                         <h3>بيانات الراتب لشهر ${month}</h3>
-                        <span class="salary-amount">${data.net} د.ل</span>
+                        <span class="salary-amount">${data.net || 0} د.ل</span>
                     </div>
                     <div class="salary-details">
                         <div class="salary-detail">
                             <span class="salary-detail-label">الاسم</span>
-                            <span class="salary-detail-value">${data.name}</span>
+                            <span class="salary-detail-value">${data.name || ''}</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">الراتب الأساسي</span>
-                            <span class="salary-detail-value">${data.basic} د.ل</span>
+                            <span class="salary-detail-value">${data.basic || 0} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">العمل الإضافي</span>
-                            <span class="salary-detail-value">${data.bonus} د.ل</span>
+                            <span class="salary-detail-value">${data.bonus || 0} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">بدل هاتف</span>
-                            <span class="salary-detail-value">${data.badal} د.ل</span>
+                            <span class="salary-detail-value">${data.badal || 0} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">المكافأة</span>
-                            <span class="salary-detail-value">${data.phoneAllowance} د.ل</span>
+                            <span class="salary-detail-value">${data.phoneAllowance || 0} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">العلاوة</span>
-                            <span class="salary-detail-value">${data.extra} د.ل</span>
+                            <span class="salary-detail-value">${data.extra || 0} د.ل</span>
                         </div>
                         <div class="salary-detail salary-total">
                             <span class="salary-detail-label">الإجمالي قبل الخصومات</span>
-                            <span class="salary-detail-value">${data.basic + data.bonus + data.badal + data.phoneAllowance + data.extra} د.ل</span>
+                            <span class="salary-detail-value">${(data.basic || 0) + (data.bonus || 0) + (data.badal || 0) + (data.phoneAllowance || 0) + (data.extra || 0)} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">خصم الغياب</span>
-                            <span class="salary-detail-value">-${data.absenceDeduct} د.ل</span>
+                            <span class="salary-detail-value">-${data.absenceDeduct || 0} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">خصم العقوبة</span>
-                            <span class="salary-detail-value">-${data.penaltyDeduct} د.ل</span>
+                            <span class="salary-detail-value">-${data.penaltyDeduct || 0} د.ل</span>
                         </div>
                         <div class="salary-detail">
                             <span class="salary-detail-label">خصم السلفة</span>
-                            <span class="salary-detail-value">-${data.loanDeduct} د.ل</span>
+                            <span class="salary-detail-value">-${data.loanDeduct || 0} د.ل</span>
                         </div>
                         <div class="salary-detail salary-total">
                             <span class="salary-detail-label">الراتب الصافي</span>
-                            <span class="salary-detail-value">${data.net} د.ل</span>
+                            <span class="salary-detail-value">${data.net || 0} د.ل</span>
                         </div>
                     </div>
                 </div>
@@ -2882,30 +2587,115 @@
             showNotification('تم استعلام الراتب بنجاح', 'success');
         }
 
+        // ===== معالجة إرسال الإشعار =====
+        async function handleNotificationSubmit(e) {
+            e.preventDefault();
+            
+            const notificationData = {
+                sheet: CONFIG.SHEET_NAMES.NOTIFICATIONS,
+                title: document.getElementById('notificationTitle').value,
+                message: document.getElementById('notificationMessage').value,
+                type: document.querySelector('input[name="notificationType"]:checked').value
+            };
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}?action=addNotification&${new URLSearchParams(notificationData)}`);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showNotification('تم إرسال الإشعار بنجاح', 'success');
+                    loadSentNotificationsData();
+                    closeModal('adminNotificationsModal');
+                } else {
+                    showNotification(data.message || 'فشل في إرسال الإشعار', 'error');
+                }
+            } catch (error) {
+                console.error('Error sending notification:', error);
+                showNotification('فشل في إرسال الإشعار', 'error');
+            }
+        }
+
+        // ===== تحميل بيانات الإشعارات المرسلة =====
+        async function loadSentNotificationsData() {
+            try {
+                const response = await fetch(`${CONFIG.API_URL}?action=notifications`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data) {
+                    populateSentNotificationsTable(data.data);
+                } else {
+                    console.error('Error loading notifications:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+            }
+        }
+
+        // ===== تعبئة جدول الإشعارات المرسلة =====
+        function populateSentNotificationsTable(notifications) {
+            const tbody = document.querySelector('#sentNotificationsTable tbody');
+            tbody.innerHTML = '';
+            
+            notifications.forEach(notification => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${notification.title || ''}</td>
+                    <td>${notification.message || ''}</td>
+                    <td>${notification.date || ''}</td>
+                    <td>
+                        <button class="action-btn delete" onclick="deleteNotification(${notification.id || 0})" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // ===== حذف إشعار مرسل =====
+        async function deleteNotification(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الإشعار؟')) {
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=delete&sheet=${CONFIG.SHEET_NAMES.NOTIFICATIONS}&id=${id}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم حذف الإشعار بنجاح', 'success');
+                        loadSentNotificationsData();
+                    } else {
+                        showNotification(data.message || 'فشل في حذف الإشعار', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error deleting notification:', error);
+                    showNotification('فشل في حذف الإشعار', 'error');
+                }
+            }
+        }
+
         // ===== تحميل الإشعارات =====
         async function loadNotifications() {
             try {
-                const response = await fetch(`${CONFIG.API_URLS.NOTIFICATIONS}?action=get`);
-                if (!response.ok) throw new Error('فشل في تحميل الإشعارات');
+                const response = await fetch(`${CONFIG.API_URL}?action=notifications`);
+                const data = await response.json();
                 
-                const notifications = await response.json();
-                
-                // تحديث لوحة الإشعارات
-                updateNotificationsPanel(notifications);
-                
-                // تحديث جدول الإشعارات المرسلة للمسؤول
-                if (isLoggedIn) {
-                    updateSentNotificationsTable(notifications);
+                if (data.status === 'success' && data.data) {
+                    notifications = data.data;
+                    
+                    // تحديث لوحة الإشعارات
+                    updateNotificationsPanel();
+                    
+                    // تحديث شارة الإشعارات
+                    updateNotificationBadge();
+                } else {
+                    console.error('Error loading notifications:', data.message);
                 }
-                
             } catch (error) {
                 console.error('Error loading notifications:', error);
-                showNotification('فشل في تحميل الإشعارات', 'error');
             }
         }
 
         // ===== تحديث لوحة الإشعارات =====
-        function updateNotificationsPanel(notifications) {
+        function updateNotificationsPanel() {
             const notificationsBody = document.getElementById('notificationsBody');
             
             if (notifications.length === 0) {
@@ -2926,145 +2716,30 @@
                 const notificationItem = document.createElement('div');
                 notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
                 notificationItem.innerHTML = `
-                    <div class="notification-item-title">${notification.title}</div>
-                    <div class="notification-item-text">${notification.message}</div>
-                    <div class="notification-item-time">${notification.date}</div>
+                    <div class="notification-item-title">${notification.title || ''}</div>
+                    <div class="notification-item-text">${notification.message || ''}</div>
+                    <div class="notification-item-time">${notification.date || ''}</div>
                 `;
                 
                 // عند النقر على الإشعار
                 notificationItem.addEventListener('click', function() {
                     // تعيين الإشعار كمقروء
-                    markNotificationAsRead(notification.id);
+                    notification.read = true;
+                    this.classList.remove('unread');
+                    
+                    // تحديث التخزين المحلي
+                    localStorage.setItem('appNotifications', JSON.stringify(notifications));
+                    
+                    // تحديث الشارة
+                    updateNotificationBadge();
                 });
                 
                 notificationsBody.appendChild(notificationItem);
             });
-            
-            // تحديث شارة الإشعارات
-            updateNotificationBadge(notifications);
-        }
-
-        // ===== تحديث جدول الإشعارات المرسلة =====
-        function updateSentNotificationsTable(notifications) {
-            const tbody = document.querySelector('#sentNotificationsTable tbody');
-            tbody.innerHTML = '';
-            
-            if (notifications.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4" style="text-align: center; padding: 30px;">
-                            <div class="no-results">
-                                <div class="no-results-icon">
-                                    <i class="fas fa-bell-slash"></i>
-                                </div>
-                                <p>لا توجد إشعارات مرسلة بعد</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            notifications.forEach(notification => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${notification.title}</td>
-                    <td>${notification.message}</td>
-                    <td>${notification.date}</td>
-                    <td>
-                        <button class="action-btn delete" onclick="deleteNotification('${notification.id}')" title="حذف">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // ===== تعيين الإشعار كمقروء =====
-        async function markNotificationAsRead(id) {
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.NOTIFICATIONS}?action=markRead&id=${id}`, {
-                    method: 'POST'
-                });
-                
-                if (!response.ok) throw new Error('فشل في تحديث حالة الإشعار');
-                
-                // إعادة تحميل الإشعارات
-                await loadNotifications();
-                
-            } catch (error) {
-                console.error('Error marking notification as read:', error);
-            }
-        }
-
-        // ===== معالجة إرسال إشعار =====
-        async function handleNotificationSubmit(e) {
-            e.preventDefault();
-            
-            const title = document.getElementById('notificationTitle').value;
-            const message = document.getElementById('notificationMessage').value;
-            const type = document.querySelector('input[name="notificationType"]:checked').value;
-            
-            try {
-                const response = await fetch(CONFIG.API_URLS.NOTIFICATIONS, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        action: 'send',
-                        data: {
-                            title,
-                            message,
-                            type
-                        }
-                    })
-                });
-                
-                if (!response.ok) throw new Error('فشل في إرسال الإشعار');
-                
-                // إعادة تحميل الإشعارات
-                await loadNotifications();
-                
-                // إعادة تعيين النموذج
-                document.getElementById('notificationForm').reset();
-                
-                // إغلاق النافذة
-                closeModal('adminNotificationsModal');
-                
-                showNotification('تم إرسال الإشعار بنجاح', 'success');
-                
-            } catch (error) {
-                console.error('Error sending notification:', error);
-                showNotification('فشل في إرسال الإشعار', 'error');
-            }
-        }
-
-        // ===== حذف إشعار مرسل =====
-        async function deleteNotification(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا الإشعار؟')) return;
-            
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.NOTIFICATIONS}?action=delete&id=${id}`, {
-                    method: 'POST'
-                });
-                
-                if (!response.ok) throw new Error('فشل في حذف الإشعار');
-                
-                // إعادة تحميل الإشعارات
-                await loadNotifications();
-                
-                showNotification('تم حذف الإشعار بنجاح', 'success');
-                
-            } catch (error) {
-                console.error('Error deleting notification:', error);
-                showNotification('فشل في حذف الإشعار', 'error');
-            }
         }
 
         // ===== تحديث شارة الإشعارات =====
-        function updateNotificationBadge(notifications) {
+        function updateNotificationBadge() {
             const badge = document.getElementById('notificationBadge');
             const unreadCount = notifications.filter(n => !n.read).length;
             
@@ -3083,24 +2758,13 @@
         }
 
         // ===== مسح جميع الإشعارات =====
-        async function clearAllNotifications() {
-            if (!confirm('هل أنت متأكد من مسح جميع الإشعارات؟')) return;
-            
-            try {
-                const response = await fetch(`${CONFIG.API_URLS.NOTIFICATIONS}?action=clearAll`, {
-                    method: 'POST'
-                });
-                
-                if (!response.ok) throw new Error('فشل في مسح الإشعارات');
-                
-                // إعادة تحميل الإشعارات
-                await loadNotifications();
-                
+        function clearAllNotifications() {
+            if (confirm('هل أنت متأكد من مسح جميع الإشعارات؟')) {
+                notifications = [];
+                localStorage.setItem('appNotifications', JSON.stringify(notifications));
+                updateNotificationsPanel();
+                updateNotificationBadge();
                 showNotification('تم مسح جميع الإشعارات', 'success');
-                
-            } catch (error) {
-                console.error('Error clearing notifications:', error);
-                showNotification('فشل في مسح الإشعارات', 'error');
             }
         }
 
