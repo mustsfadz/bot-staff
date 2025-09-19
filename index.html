@@ -2020,7 +2020,18 @@
 
         // ===== تحميل بيانات النماذج للمسؤول =====
         async function loadAdminFormsData() {
-            await loadFormsData();
+            try {
+                const response = await fetch(`${CONFIG.API_URL}?action=get&sheet=${CONFIG.SHEET_NAMES.FORMS}`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data) {
+                    populateAdminFormsTable(data.data);
+                } else {
+                    console.error('Error loading forms:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading forms:', error);
+            }
         }
 
         // ===== تعبئة جدول النماذج =====
@@ -2082,8 +2093,39 @@
 
         // ===== تعديل نموذج =====
         function editForm(id) {
-            // سيتم تنفيذها لاحقاً
-            showNotification('سيتم تنفيذ هذه الميزة قريباً', 'warning');
+            // البحث عن النموذج في الجدول
+            const rows = document.querySelectorAll('#adminFormsTable tbody tr');
+            let formToEdit = null;
+            
+            rows.forEach(row => {
+                const editBtn = row.querySelector('button[onclick*="editForm"]');
+                if (editBtn && editBtn.getAttribute('onclick').includes(`editForm(${id})`)) {
+                    formToEdit = {
+                        id: id,
+                        name: row.cells[0].textContent.trim(),
+                        description: row.cells[1].textContent.trim(),
+                        icon: row.cells[0].querySelector('i').className.replace('fas ', ''),
+                        link: row.querySelector('button[onclick*="viewForm"]').getAttribute('onclick').match(/'([^']+)'/)[1]
+                    };
+                }
+            });
+            
+            if (formToEdit) {
+                // تعبئة النموذج بالبيانات
+                document.getElementById('formId').value = formToEdit.id;
+                document.getElementById('formName').value = formToEdit.name;
+                document.getElementById('formDescription').value = formToEdit.description;
+                document.getElementById('formIcon').value = formToEdit.icon;
+                document.getElementById('formLink').value = formToEdit.link;
+                
+                // تغيير عنوان النافذة
+                document.getElementById('formModalTitle').textContent = 'تعديل نموذج';
+                
+                // فتح النافذة
+                openModal('formModal');
+            } else {
+                showNotification('لم يتم العثور على النموذج المطلوب تعديله', 'error');
+            }
         }
 
         // ===== حذف نموذج =====
@@ -2095,8 +2137,22 @@
                     
                     if (data.status === 'success') {
                         showNotification('تم حذف النموذج بنجاح', 'success');
+                        
+                        // حذف الصف من الجدول مباشرة
+                        const rows = document.querySelectorAll('#adminFormsTable tbody tr');
+                        rows.forEach(row => {
+                            const deleteBtn = row.querySelector('button[onclick*="deleteForm"]');
+                            if (deleteBtn && deleteBtn.getAttribute('onclick').includes(`deleteForm(${id})`)) {
+                                row.remove();
+                            }
+                        });
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(document.getElementById('formsCount').textContent);
+                        document.getElementById('formsCount').textContent = currentCount - 1;
+                        
+                        // تحديث الجدول العادي
                         loadFormsData();
-                        loadAdminFormsData();
                     } else {
                         showNotification(data.message || 'فشل في حذف النموذج', 'error');
                     }
@@ -2119,21 +2175,96 @@
                 link: document.getElementById('formLink').value
             };
             
+            const formId = document.getElementById('formId').value;
+            
+            if (formId) {
+                // تحديث نموذج موجود
+                formData.id = formId;
+                await updateForm(formData);
+            } else {
+                // إضافة نموذج جديد
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(formData)}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم إضافة النموذج بنجاح', 'success');
+                        
+                        // إنشاء كائن النموذج الجديد
+                        const newForm = {
+                            id: data.id || Date.now(),
+                            name: formData.name,
+                            description: formData.description,
+                            icon: formData.icon,
+                            link: formData.link
+                        };
+                        
+                        // تحديث الجدول العادي مباشرة
+                        const tbody = document.querySelector('#formsTable tbody');
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><i class="fas ${newForm.icon}"></i> ${newForm.name}</td>
+                            <td>${newForm.description}</td>
+                            <td>
+                                <button class="action-btn" onclick="viewForm('${newForm.link}')" title="عرض">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                        
+                        // تحديث جدول المسؤول مباشرة
+                        const adminTbody = document.querySelector('#adminFormsTable tbody');
+                        const adminRow = document.createElement('tr');
+                        adminRow.innerHTML = `
+                            <td><i class="fas ${newForm.icon}"></i> ${newForm.name}</td>
+                            <td>${newForm.description}</td>
+                            <td>
+                                <button class="action-btn" onclick="viewForm('${newForm.link}')" title="عرض">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" onclick="editForm(${newForm.id})" title="تعديل">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteForm(${newForm.id})" title="حذف">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        adminTbody.appendChild(adminRow);
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(document.getElementById('formsCount').textContent);
+                        document.getElementById('formsCount').textContent = currentCount + 1;
+                        
+                        closeModal('formModal');
+                    } else {
+                        showNotification(data.message || 'فشل في إضافة النموذج', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error adding form:', error);
+                    showNotification('فشل في إضافة النموذج', 'error');
+                }
+            }
+        }
+
+        // ===== تحديث نموذج =====
+        async function updateForm(formData) {
             try {
-                const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(formData)}`);
+                const response = await fetch(`${CONFIG.API_URL}?action=update&${new URLSearchParams(formData)}`);
                 const data = await response.json();
                 
                 if (data.status === 'success') {
-                    showNotification('تم إضافة النموذج بنجاح', 'success');
+                    showNotification('تم تحديث النموذج بنجاح', 'success');
                     loadFormsData();
                     loadAdminFormsData();
                     closeModal('formModal');
                 } else {
-                    showNotification(data.message || 'فشل في إضافة النموذج', 'error');
+                    showNotification(data.message || 'فشل في تحديث النموذج', 'error');
                 }
             } catch (error) {
-                console.error('Error adding form:', error);
-                showNotification('فشل في إضافة النموذج', 'error');
+                console.error('Error updating form:', error);
+                showNotification('فشل في تحديث النموذج', 'error');
             }
         }
 
@@ -2155,7 +2286,18 @@
 
         // ===== تحميل بيانات الأرقام الداخلية للمسؤول =====
         async function loadAdminPhonesData() {
-            await loadPhonesData();
+            try {
+                const response = await fetch(`${CONFIG.API_URL}?action=get&sheet=${CONFIG.SHEET_NAMES.PHONES}`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data) {
+                    populateAdminPhonesTable(data.data);
+                } else {
+                    console.error('Error loading phones:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading phones:', error);
+            }
         }
 
         // ===== تعبئة جدول الأرقام الداخلية =====
@@ -2218,8 +2360,35 @@
 
         // ===== تعديل رقم داخلي =====
         function editPhone(id) {
-            // سيتم تنفيذها لاحقاً
-            showNotification('سيتم تنفيذ هذه الميزة قريباً', 'warning');
+            // البحث عن الرقم في الجدول
+            const rows = document.querySelectorAll('#adminPhonesTable tbody tr');
+            let phoneToEdit = null;
+            
+            rows.forEach(row => {
+                const editBtn = row.querySelector('button[onclick*="editPhone"]');
+                if (editBtn && editBtn.getAttribute('onclick').includes(`editPhone(${id})`)) {
+                    phoneToEdit = {
+                        id: id,
+                        department: row.cells[0].textContent.trim(),
+                        number: row.cells[1].textContent.trim()
+                    };
+                }
+            });
+            
+            if (phoneToEdit) {
+                // تعبئة النموذج بالبيانات
+                document.getElementById('phoneId').value = phoneToEdit.id;
+                document.getElementById('phoneDepartment').value = phoneToEdit.department;
+                document.getElementById('phoneNumber').value = phoneToEdit.number;
+                
+                // تغيير عنوان النافذة
+                document.getElementById('phoneModalTitle').textContent = 'تعديل رقم داخلي';
+                
+                // فتح النافذة
+                openModal('phoneModal');
+            } else {
+                showNotification('لم يتم العثور على الرقم المطلوب تعديله', 'error');
+            }
         }
 
         // ===== حذف رقم داخلي =====
@@ -2231,8 +2400,22 @@
                     
                     if (data.status === 'success') {
                         showNotification('تم حذف الرقم بنجاح', 'success');
+                        
+                        // حذف الصف من الجدول مباشرة
+                        const rows = document.querySelectorAll('#adminPhonesTable tbody tr');
+                        rows.forEach(row => {
+                            const deleteBtn = row.querySelector('button[onclick*="deletePhone"]');
+                            if (deleteBtn && deleteBtn.getAttribute('onclick').includes(`deletePhone(${id})`)) {
+                                row.remove();
+                            }
+                        });
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(document.getElementById('phonesCount').textContent);
+                        document.getElementById('phonesCount').textContent = currentCount - 1;
+                        
+                        // تحديث الجدول العادي
                         loadPhonesData();
-                        loadAdminPhonesData();
                     } else {
                         showNotification(data.message || 'فشل في حذف الرقم', 'error');
                     }
@@ -2253,21 +2436,94 @@
                 number: document.getElementById('phoneNumber').value
             };
             
+            const phoneId = document.getElementById('phoneId').value;
+            
+            if (phoneId) {
+                // تحديث رقم موجود
+                phoneData.id = phoneId;
+                await updatePhone(phoneData);
+            } else {
+                // إضافة رقم جديد
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(phoneData)}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم إضافة الرقم بنجاح', 'success');
+                        
+                        // إنشاء كائن الرقم الجديد
+                        const newPhone = {
+                            id: data.id || Date.now(),
+                            department: phoneData.department,
+                            number: phoneData.number
+                        };
+                        
+                        // تحديث الجدول العادي مباشرة
+                        const tbody = document.querySelector('#phonesTable tbody');
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${newPhone.department}</td>
+                            <td>${newPhone.number}</td>
+                            <td>
+                                <button class="action-btn" onclick="copyPhone('${newPhone.number}')" title="نسخ">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                        
+                        // تحديث جدول المسؤول مباشرة
+                        const adminTbody = document.querySelector('#adminPhonesTable tbody');
+                        const adminRow = document.createElement('tr');
+                        adminRow.innerHTML = `
+                            <td>${newPhone.department}</td>
+                            <td>${newPhone.number}</td>
+                            <td>
+                                <button class="action-btn" onclick="copyPhone('${newPhone.number}')" title="نسخ">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="action-btn" onclick="editPhone(${newPhone.id})" title="تعديل">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deletePhone(${newPhone.id})" title="حذف">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        adminTbody.appendChild(adminRow);
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(document.getElementById('phonesCount').textContent);
+                        document.getElementById('phonesCount').textContent = currentCount + 1;
+                        
+                        closeModal('phoneModal');
+                    } else {
+                        showNotification(data.message || 'فشل في إضافة الرقم', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error adding phone:', error);
+                    showNotification('فشل في إضافة الرقم', 'error');
+                }
+            }
+        }
+
+        // ===== تحديث رقم داخلي =====
+        async function updatePhone(phoneData) {
             try {
-                const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(phoneData)}`);
+                const response = await fetch(`${CONFIG.API_URL}?action=update&${new URLSearchParams(phoneData)}`);
                 const data = await response.json();
                 
                 if (data.status === 'success') {
-                    showNotification('تم إضافة الرقم بنجاح', 'success');
+                    showNotification('تم تحديث الرقم بنجاح', 'success');
                     loadPhonesData();
                     loadAdminPhonesData();
                     closeModal('phoneModal');
                 } else {
-                    showNotification(data.message || 'فشل في إضافة الرقم', 'error');
+                    showNotification(data.message || 'فشل في تحديث الرقم', 'error');
                 }
             } catch (error) {
-                console.error('Error adding phone:', error);
-                showNotification('فشل في إضافة الرقم', 'error');
+                console.error('Error updating phone:', error);
+                showNotification('فشل في تحديث الرقم', 'error');
             }
         }
 
@@ -2289,7 +2545,18 @@
 
         // ===== تحميل بيانات الروابط للمسؤول =====
         async function loadAdminLinksData() {
-            await loadLinksData();
+            try {
+                const response = await fetch(`${CONFIG.API_URL}?action=get&sheet=${CONFIG.SHEET_NAMES.LINKS}`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data) {
+                    populateAdminLinksTable(data.data);
+                } else {
+                    console.error('Error loading links:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading links:', error);
+            }
         }
 
         // ===== تعبئة جدول الروابط =====
@@ -2351,8 +2618,39 @@
 
         // ===== تعديل رابط =====
         function editLink(id) {
-            // سيتم تنفيذها لاحقاً
-            showNotification('سيتم تنفيذ هذه الميزة قريباً', 'warning');
+            // البحث عن الرابط في الجدول
+            const rows = document.querySelectorAll('#adminLinksTable tbody tr');
+            let linkToEdit = null;
+            
+            rows.forEach(row => {
+                const editBtn = row.querySelector('button[onclick*="editLink"]');
+                if (editBtn && editBtn.getAttribute('onclick').includes(`editLink(${id})`)) {
+                    linkToEdit = {
+                        id: id,
+                        name: row.cells[0].textContent.trim(),
+                        description: row.cells[1].textContent.trim(),
+                        icon: row.cells[0].querySelector('i').className,
+                        url: row.querySelector('button[onclick*="viewLink"]').getAttribute('onclick').match(/'([^']+)'/)[1]
+                    };
+                }
+            });
+            
+            if (linkToEdit) {
+                // تعبئة النموذج بالبيانات
+                document.getElementById('linkId').value = linkToEdit.id;
+                document.getElementById('linkName').value = linkToEdit.name;
+                document.getElementById('linkDescription').value = linkToEdit.description;
+                document.getElementById('linkIcon').value = linkToEdit.icon;
+                document.getElementById('linkUrl').value = linkToEdit.url;
+                
+                // تغيير عنوان النافذة
+                document.getElementById('linkModalTitle').textContent = 'تعديل رابط';
+                
+                // فتح النافذة
+                openModal('linkModal');
+            } else {
+                showNotification('لم يتم العثور على الرابط المطلوب تعديله', 'error');
+            }
         }
 
         // ===== حذف رابط =====
@@ -2364,8 +2662,22 @@
                     
                     if (data.status === 'success') {
                         showNotification('تم حذف الرابط بنجاح', 'success');
+                        
+                        // حذف الصف من الجدول مباشرة
+                        const rows = document.querySelectorAll('#adminLinksTable tbody tr');
+                        rows.forEach(row => {
+                            const deleteBtn = row.querySelector('button[onclick*="deleteLink"]');
+                            if (deleteBtn && deleteBtn.getAttribute('onclick').includes(`deleteLink(${id})`)) {
+                                row.remove();
+                            }
+                        });
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(document.getElementById('linksCount').textContent);
+                        document.getElementById('linksCount').textContent = currentCount - 1;
+                        
+                        // تحديث الجدول العادي
                         loadLinksData();
-                        loadAdminLinksData();
                     } else {
                         showNotification(data.message || 'فشل في حذف الرابط', 'error');
                     }
@@ -2388,21 +2700,96 @@
                 url: document.getElementById('linkUrl').value
             };
             
+            const linkId = document.getElementById('linkId').value;
+            
+            if (linkId) {
+                // تحديث رابط موجود
+                linkData.id = linkId;
+                await updateLink(linkData);
+            } else {
+                // إضافة رابط جديد
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(linkData)}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showNotification('تم إضافة الرابط بنجاح', 'success');
+                        
+                        // إنشاء كائن الرابط الجديد
+                        const newLink = {
+                            id: data.id || Date.now(),
+                            name: linkData.name,
+                            description: linkData.description,
+                            icon: linkData.icon,
+                            url: linkData.url
+                        };
+                        
+                        // تحديث الجدول العادي مباشرة
+                        const tbody = document.querySelector('#linksTable tbody');
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><i class="${newLink.icon}"></i> ${newLink.name}</td>
+                            <td>${newLink.description}</td>
+                            <td>
+                                <button class="action-btn" onclick="viewLink('${newLink.url}')" title="عرض">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                        
+                        // تحديث جدول المسؤول مباشرة
+                        const adminTbody = document.querySelector('#adminLinksTable tbody');
+                        const adminRow = document.createElement('tr');
+                        adminRow.innerHTML = `
+                            <td><i class="${newLink.icon}"></i> ${newLink.name}</td>
+                            <td>${newLink.description}</td>
+                            <td>
+                                <button class="action-btn" onclick="viewLink('${newLink.url}')" title="عرض">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" onclick="editLink(${newLink.id})" title="تعديل">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteLink(${newLink.id})" title="حذف">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        adminTbody.appendChild(adminRow);
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(document.getElementById('linksCount').textContent);
+                        document.getElementById('linksCount').textContent = currentCount + 1;
+                        
+                        closeModal('linkModal');
+                    } else {
+                        showNotification(data.message || 'فشل في إضافة الرابط', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error adding link:', error);
+                    showNotification('فشل في إضافة الرابط', 'error');
+                }
+            }
+        }
+
+        // ===== تحديث رابط =====
+        async function updateLink(linkData) {
             try {
-                const response = await fetch(`${CONFIG.API_URL}?action=add&${new URLSearchParams(linkData)}`);
+                const response = await fetch(`${CONFIG.API_URL}?action=update&${new URLSearchParams(linkData)}`);
                 const data = await response.json();
                 
                 if (data.status === 'success') {
-                    showNotification('تم إضافة الرابط بنجاح', 'success');
+                    showNotification('تم تحديث الرابط بنجاح', 'success');
                     loadLinksData();
                     loadAdminLinksData();
                     closeModal('linkModal');
                 } else {
-                    showNotification(data.message || 'فشل في إضافة الرابط', 'error');
+                    showNotification(data.message || 'فشل في تحديث الرابط', 'error');
                 }
             } catch (error) {
-                console.error('Error adding link:', error);
-                showNotification('فشل في إضافة الرابط', 'error');
+                console.error('Error updating link:', error);
+                showNotification('فشل في تحديث الرابط', 'error');
             }
         }
 
