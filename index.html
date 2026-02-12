@@ -11,7 +11,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   
   <style>
@@ -29,6 +29,7 @@
       --card-foreground: #0f172a;
       --primary: #0ea5e9;
       --primary-dark: #0284c7;
+      --primary-darker: #0369a1;
       --primary-light: #e0f2fe;
       --primary-foreground: #ffffff;
       --secondary: #f1f5f9;
@@ -57,6 +58,7 @@
       --card-foreground: #f1f5f9;
       --primary: #38bdf8;
       --primary-dark: #0ea5e9;
+      --primary-darker: #0284c7;
       --primary-light: #0c2d48;
       --primary-foreground: #0f172a;
       --secondary: #1e3048;
@@ -90,14 +92,10 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Background Pattern */
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: 
         radial-gradient(circle at 20% 20%, rgba(14,165,233,0.04) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(6,182,212,0.04) 0%, transparent 50%);
@@ -105,17 +103,430 @@
       z-index: 0;
     }
 
-    .dark body::before {
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(56,189,248,0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(6,182,212,0.03) 0%, transparent 50%);
-    }
-
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--muted-foreground); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* ==================== LOGIN PAGE ==================== */
+    .login-page {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: var(--background);
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .login-page.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .login-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    .login-bg-circle:nth-child(1) {
+      width: 25rem;
+      height: 25rem;
+      top: -8rem;
+      right: -8rem;
+      background: radial-gradient(circle, rgba(14,165,233,0.15), transparent 70%);
+      animation: floatSlow 12s ease-in-out infinite;
+    }
+
+    .login-bg-circle:nth-child(2) {
+      width: 20rem;
+      height: 20rem;
+      bottom: -6rem;
+      left: -6rem;
+      background: radial-gradient(circle, rgba(6,182,212,0.12), transparent 70%);
+      animation: floatSlow 15s ease-in-out infinite reverse;
+    }
+
+    .login-bg-circle:nth-child(3) {
+      width: 15rem;
+      height: 15rem;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(14,165,233,0.08), transparent 70%);
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(20px, -30px) scale(1.05); }
+      66% { transform: translate(-15px, 15px) scale(0.95); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.3; }
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 26rem;
+    }
+
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .login-header {
+      background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 40%, #06b6d4 70%, #14b8a6 100%);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-header::before {
+      content: '';
+      position: absolute;
+      top: -2rem; right: -2rem;
+      width: 8rem; height: 8rem;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+
+    .login-header::after {
+      content: '';
+      position: absolute;
+      bottom: -1.5rem; left: -1rem;
+      width: 6rem; height: 6rem;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+
+    .login-logo {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 1.25rem;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      position: relative;
+    }
+
+    .login-logo svg {
+      width: 2rem;
+      height: 2rem;
+      color: white;
+    }
+
+    .login-logo::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 1.35rem;
+      background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent, rgba(255,255,255,0.2));
+      z-index: -1;
+    }
+
+    .login-company-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+      position: relative;
+    }
+
+    .login-company-sub {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .login-system-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .login-system-badge svg {
+      width: 0.85rem;
+      height: 0.85rem;
+    }
+
+    .login-body {
+      padding: 1.75rem 1.5rem 1.5rem;
+    }
+
+    .login-welcome {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-welcome h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.25rem;
+    }
+
+    .login-welcome p {
+      font-size: 0.825rem;
+      color: var(--muted-foreground);
+    }
+
+    .login-form-group {
+      margin-bottom: 1.125rem;
+    }
+
+    .login-label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .login-label svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      color: var(--primary);
+    }
+
+    .login-input-wrapper {
+      position: relative;
+    }
+
+    .login-input-wrapper svg {
+      position: absolute;
+      right: 0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.15rem;
+      height: 1.15rem;
+      color: var(--muted-foreground);
+      transition: color var(--transition);
+      pointer-events: none;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 0.8rem 2.75rem 0.8rem 0.875rem;
+      border: 1.5px solid var(--border);
+      border-radius: 0.875rem;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all var(--transition);
+      -webkit-appearance: none;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    .login-input:focus ~ svg,
+    .login-input-wrapper:focus-within svg {
+      color: var(--primary);
+    }
+
+    .login-input::placeholder {
+      color: var(--muted-foreground);
+      opacity: 0.7;
+    }
+
+    .password-toggle {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+      color: var(--muted-foreground);
+      transition: color var(--transition);
+      z-index: 2;
+    }
+
+    .password-toggle:hover { color: var(--primary); }
+    .password-toggle svg { width: 1.1rem; height: 1.1rem; pointer-events: none; }
+
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .remember-checkbox {
+      width: 1.15rem;
+      height: 1.15rem;
+      border: 2px solid var(--border);
+      border-radius: 0.3rem;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .remember-label {
+      font-size: 0.8rem;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: 0.875rem;
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--primary-foreground);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(14,165,233,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s;
+    }
+
+    .login-btn:hover::before { left: 100%; }
+
+    .login-btn:hover {
+      box-shadow: 0 8px 24px rgba(14,165,233,0.4);
+      transform: translateY(-2px);
+    }
+
+    .login-btn:active { transform: translateY(0) scale(0.98); }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none;
+    }
+
+    .login-btn svg { width: 1.1rem; height: 1.1rem; }
+
+    .login-error {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      color: var(--destructive);
+      font-size: 0.825rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      animation: shake 0.4s ease-in-out;
+    }
+
+    .login-error.show { display: flex; }
+
+    .login-error svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      50% { transform: translateX(6px); }
+      75% { transform: translateX(-4px); }
+    }
+
+    .login-footer {
+      padding: 1rem 1.5rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .login-footer-text {
+      font-size: 0.7rem;
+      color: var(--muted-foreground);
+    }
+
+    .login-theme-toggle {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.625rem;
+      border: 1px solid var(--border);
+      background: var(--background);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+
+    .login-theme-toggle:hover {
+      border-color: var(--primary);
+    }
+
+    .login-theme-toggle svg { width: 1rem; height: 1rem; }
+    .dark .login-theme-toggle .sun-icon { display: block; color: #fbbf24; }
+    .dark .login-theme-toggle .moon-icon { display: none; }
+    .login-theme-toggle .sun-icon { display: none; }
+    .login-theme-toggle .moon-icon { display: block; color: #475569; }
+
+    /* ==================== APP (HIDDEN INITIALLY) ==================== */
+    .app-wrapper {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .app-wrapper.visible {
+      display: block;
+      opacity: 1;
+    }
 
     /* ==================== HEADER ==================== */
     .header {
@@ -135,9 +546,7 @@
       border-bottom-color: rgba(30, 58, 95, 0.6);
     }
 
-    .header.scrolled {
-      box-shadow: var(--shadow-md);
-    }
+    .header.scrolled { box-shadow: var(--shadow-md); }
 
     .header-container {
       max-width: 56rem;
@@ -171,10 +580,8 @@
     .logo-icon::after {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
       background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
       animation: logoShine 3s ease-in-out infinite;
     }
@@ -191,7 +598,6 @@
       font-size: 1.1rem;
       line-height: 1.2;
       color: var(--foreground);
-      letter-spacing: -0.01em;
     }
 
     .logo-text p {
@@ -206,6 +612,113 @@
       gap: 0.5rem;
     }
 
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.75rem;
+      background: var(--primary-light);
+      border: 1px solid rgba(14,165,233,0.15);
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .user-menu:hover { border-color: var(--primary); }
+
+    .user-avatar {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .user-info {
+      display: none;
+    }
+
+    @media (min-width: 640px) {
+      .user-info { display: block; }
+    }
+
+    .user-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+
+    .user-job {
+      font-size: 0.65rem;
+      color: var(--muted-foreground);
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      min-width: 12rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.875rem;
+      box-shadow: var(--shadow-xl);
+      padding: 0.5rem;
+      display: none;
+      z-index: 100;
+      animation: fadeInSlide 0.2s ease-out;
+    }
+
+    .user-dropdown.show { display: block; }
+
+    .dropdown-user-info {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+
+    .dropdown-user-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--foreground);
+    }
+
+    .dropdown-user-details {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-top: 0.125rem;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.5rem;
+      border: none;
+      background: none;
+      width: 100%;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.825rem;
+      font-weight: 500;
+      color: var(--foreground);
+      transition: all var(--transition);
+    }
+
+    .dropdown-item:hover { background: var(--muted); }
+
+    .dropdown-item.logout { color: var(--destructive); }
+    .dropdown-item.logout:hover { background: rgba(239,68,68,0.08); }
+
+    .dropdown-item svg { width: 1rem; height: 1rem; }
+
     .theme-toggle {
       width: 2.5rem;
       height: 2.5rem;
@@ -217,8 +730,6 @@
       align-items: center;
       justify-content: center;
       transition: all var(--transition);
-      position: relative;
-      overflow: hidden;
     }
 
     .theme-toggle:hover {
@@ -228,7 +739,6 @@
     }
 
     .theme-toggle:active { transform: scale(0.95); }
-
     .theme-toggle svg { width: 1.15rem; height: 1.15rem; transition: all 0.4s; }
 
     .dark .theme-toggle .sun-icon { display: block; color: #fbbf24; }
@@ -267,10 +777,8 @@
     .welcome-banner::before {
       content: '';
       position: absolute;
-      top: -2rem;
-      right: -2rem;
-      width: 12rem;
-      height: 12rem;
+      top: -2rem; right: -2rem;
+      width: 12rem; height: 12rem;
       background: rgba(255,255,255,0.08);
       border-radius: 50%;
       animation: float 6s ease-in-out infinite;
@@ -279,10 +787,8 @@
     .welcome-banner::after {
       content: '';
       position: absolute;
-      bottom: -3rem;
-      left: -1rem;
-      width: 10rem;
-      height: 10rem;
+      bottom: -3rem; left: -1rem;
+      width: 10rem; height: 10rem;
       background: rgba(255,255,255,0.06);
       border-radius: 50%;
       animation: float 8s ease-in-out infinite reverse;
@@ -312,18 +818,18 @@
     .welcome-badge svg { width: 1rem; height: 1rem; }
 
     .welcome-title {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 800;
       margin-bottom: 0.5rem;
       line-height: 1.3;
     }
 
     @media (min-width: 640px) {
-      .welcome-title { font-size: 1.85rem; }
+      .welcome-title { font-size: 1.75rem; }
     }
 
     .welcome-desc {
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       opacity: 0.9;
       max-width: 30rem;
       line-height: 1.7;
@@ -337,21 +843,9 @@
       border-top: 1px solid rgba(255,255,255,0.15);
     }
 
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 1.25rem;
-      font-weight: 800;
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 0.7rem;
-      opacity: 0.85;
-      font-weight: 500;
-    }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 1.25rem; font-weight: 800; display: block; }
+    .stat-label { font-size: 0.7rem; opacity: 0.85; font-weight: 500; }
 
     /* ==================== SERVICES GRID ==================== */
     .services-grid {
@@ -391,18 +885,14 @@
     .service-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 3px;
       opacity: 0;
       transition: opacity var(--transition);
     }
 
     .service-card:hover::before,
-    .service-card.active::before {
-      opacity: 1;
-    }
+    .service-card.active::before { opacity: 1; }
 
     .service-card:nth-child(1)::before { background: linear-gradient(90deg, #0ea5e9, #06b6d4); }
     .service-card:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #14b8a6); }
@@ -415,9 +905,7 @@
       transform: translateY(-3px);
     }
 
-    .service-card:active {
-      transform: translateY(0) scale(0.98);
-    }
+    .service-card:active { transform: translateY(0) scale(0.98); }
 
     .service-card.active {
       border-color: var(--primary);
@@ -444,12 +932,7 @@
     .service-icon.violet { background: linear-gradient(135deg, #8b5cf6, #a855f7); box-shadow: 0 6px 20px rgba(139,92,246,0.3); }
     .service-icon.orange { background: linear-gradient(135deg, #f97316, #f59e0b); box-shadow: 0 6px 20px rgba(249,115,22,0.3); }
 
-    .service-title {
-      font-weight: 700;
-      font-size: 0.8rem;
-      color: var(--foreground);
-      line-height: 1.4;
-    }
+    .service-title { font-weight: 700; font-size: 0.8rem; color: var(--foreground); line-height: 1.4; }
 
     @media (min-width: 640px) {
       .service-title { font-size: 0.875rem; }
@@ -458,12 +941,7 @@
     .service-desc { display: none; }
 
     @media (min-width: 640px) {
-      .service-desc {
-        display: block;
-        font-size: 0.7rem;
-        color: var(--muted-foreground);
-        line-height: 1.4;
-      }
+      .service-desc { display: block; font-size: 0.7rem; color: var(--muted-foreground); line-height: 1.4; }
     }
 
     /* ==================== SECTIONS ==================== */
@@ -556,26 +1034,17 @@
       transition: all var(--transition);
     }
 
-    .form-item:hover .form-icon {
-      background: var(--primary);
-    }
+    .form-item:hover .form-icon { background: var(--primary); }
 
     .form-icon svg { width: 1.15rem; height: 1.15rem; color: var(--primary); transition: color var(--transition); }
     .form-item:hover .form-icon svg { color: white; }
 
-    .form-name {
-      font-size: 0.825rem;
-      font-weight: 600;
-      color: var(--foreground);
-    }
+    .form-name { font-size: 0.825rem; font-weight: 600; color: var(--foreground); }
 
     /* ==================== PHONES ==================== */
-    .search-input {
-      position: relative;
-      margin-bottom: 1rem;
-    }
+    .search-input { position: relative; margin-bottom: 1rem; }
 
-    .search-input svg {
+    .search-input svg.search-icon {
       position: absolute;
       right: 0.875rem;
       top: 50%;
@@ -584,6 +1053,7 @@
       height: 1.1rem;
       color: var(--muted-foreground);
       transition: color var(--transition);
+      pointer-events: none;
     }
 
     .search-input input {
@@ -604,18 +1074,12 @@
       box-shadow: 0 0 0 4px var(--primary-light);
     }
 
-    .search-input input:focus + svg,
-    .search-input:focus-within svg {
-      color: var(--primary);
-    }
-
     .phones-list {
       max-height: 22rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      padding-left: 0.25rem;
     }
 
     .phone-item {
@@ -629,22 +1093,11 @@
       transition: all var(--transition);
     }
 
-    .phone-item:hover {
-      background: var(--primary-light);
-      border-color: var(--primary);
-    }
+    .phone-item:hover { background: var(--primary-light); border-color: var(--primary); }
 
-    .phone-name {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--foreground);
-    }
+    .phone-name { font-size: 0.85rem; font-weight: 500; color: var(--foreground); }
 
-    .phone-number-section {
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-    }
+    .phone-number-section { display: flex; align-items: center; gap: 0.625rem; }
 
     .phone-number {
       font-size: 0.95rem;
@@ -666,19 +1119,10 @@
 
     .phone-icon-circle svg { width: 1.05rem; height: 1.05rem; color: #10b981; }
 
-    .no-results {
-      text-align: center;
-      color: var(--muted-foreground);
-      padding: 2rem 1rem;
-      font-size: 0.875rem;
-    }
+    .no-results { text-align: center; color: var(--muted-foreground); padding: 2rem 1rem; font-size: 0.875rem; }
 
     /* ==================== SOCIAL LINKS ==================== */
-    .social-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    .social-links { display: flex; flex-direction: column; gap: 0.75rem; }
 
     .social-link {
       display: flex;
@@ -696,32 +1140,20 @@
     .social-link::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
       opacity: 0;
       transition: opacity var(--transition);
     }
 
     .social-link:hover::before { opacity: 1; }
-
-    .social-link:hover {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transform: translateY(-2px);
-    }
-
+    .social-link:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transform: translateY(-2px); }
     .social-link:active { transform: scale(0.98); }
 
     .social-link.facebook { background: linear-gradient(135deg, #1877f2, #3b82f6); }
     .social-link.whatsapp { background: linear-gradient(135deg, #128c7e, #25d366); }
 
-    .social-link-content {
-      display: flex;
-      align-items: center;
-      gap: 0.875rem;
-    }
+    .social-link-content { display: flex; align-items: center; gap: 0.875rem; }
 
     .social-link svg { width: 1.35rem; height: 1.35rem; }
     .social-link span { font-weight: 600; font-size: 0.9rem; }
@@ -746,32 +1178,14 @@
     }
 
     @media (min-width: 640px) {
-      .footer-container {
-        flex-direction: row;
-        justify-content: space-between;
-        text-align: start;
-      }
+      .footer-container { flex-direction: row; justify-content: space-between; text-align: start; }
     }
 
-    .footer-copyright {
-      font-size: 0.8rem;
-      color: var(--muted-foreground);
-    }
+    .footer-copyright { font-size: 0.8rem; color: var(--muted-foreground); }
 
-    .footer-credit {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-    }
-
+    .footer-credit { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
     .footer-credit span { color: var(--muted-foreground); }
-
-    .footer-name {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 0.8rem;
-    }
+    .footer-name { color: var(--primary); font-weight: 700; font-size: 0.8rem; }
 
     /* ==================== MODAL ==================== */
     .modal-overlay {
@@ -788,10 +1202,7 @@
     }
 
     @media (min-width: 640px) {
-      .modal-overlay {
-        align-items: center;
-        padding: 1rem;
-      }
+      .modal-overlay { align-items: center; padding: 1rem; }
     }
 
     .modal-overlay.active { display: flex; }
@@ -809,11 +1220,7 @@
     }
 
     @media (min-width: 640px) {
-      .modal {
-        max-width: 28rem;
-        border-radius: 1.25rem;
-        animation: zoomIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+      .modal { max-width: 28rem; border-radius: 1.25rem; animation: zoomIn 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
     }
 
     @keyframes slideUp {
@@ -826,18 +1233,8 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    .modal-handle {
-      display: flex;
-      justify-content: center;
-      padding: 0.625rem 0 0.25rem;
-    }
-
-    .modal-handle span {
-      width: 2.5rem;
-      height: 0.25rem;
-      border-radius: 9999px;
-      background: var(--border);
-    }
+    .modal-handle { display: flex; justify-content: center; padding: 0.625rem 0 0.25rem; }
+    .modal-handle span { width: 2.5rem; height: 0.25rem; border-radius: 9999px; background: var(--border); }
 
     @media (min-width: 640px) {
       .modal-handle { display: none; }
@@ -855,11 +1252,7 @@
       z-index: 2;
     }
 
-    .modal-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--foreground);
-    }
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--foreground); }
 
     .modal-close {
       width: 2.25rem;
@@ -874,18 +1267,10 @@
       transition: all var(--transition);
     }
 
-    .modal-close:hover {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: var(--destructive);
-      color: var(--destructive);
-    }
-
+    .modal-close:hover { background: rgba(239, 68, 68, 0.1); border-color: var(--destructive); }
     .modal-close svg { width: 1.15rem; height: 1.15rem; color: var(--foreground); }
 
-    .modal-body {
-      padding: 1.25rem;
-      padding-bottom: calc(1.25rem + var(--safe-bottom));
-    }
+    .modal-body { padding: 1.25rem; padding-bottom: calc(1.25rem + var(--safe-bottom)); }
 
     .form-group { margin-bottom: 1rem; }
 
@@ -919,6 +1304,9 @@
     }
 
     .error-message {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.875rem;
       border-radius: 0.75rem;
       background: rgba(239, 68, 68, 0.08);
@@ -927,16 +1315,13 @@
       font-size: 0.85rem;
       text-align: center;
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 0.5rem;
     }
 
-    .btn-group {
-      display: flex;
-      gap: 0.75rem;
-    }
+    .error-message.show { display: flex; }
+    .error-message svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+
+    .btn-group { display: flex; gap: 0.75rem; }
 
     .btn {
       flex: 1;
@@ -964,17 +1349,9 @@
       box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
     }
 
-    .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
-      transform: translateY(-1px);
-    }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4); transform: translateY(-1px); }
 
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .btn-secondary {
       background: var(--secondary);
@@ -990,10 +1367,7 @@
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
     /* ==================== SALARY RESULT ==================== */
-    .salary-result {
-      margin-top: 1.25rem;
-      animation: fadeInSlide 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .salary-result { margin-top: 1.25rem; animation: fadeInSlide 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 
     .salary-header {
       background: linear-gradient(135deg, #0369a1, #0ea5e9, #06b6d4);
@@ -1008,10 +1382,8 @@
     .salary-header::before {
       content: '';
       position: absolute;
-      top: -1rem;
-      right: -1rem;
-      width: 6rem;
-      height: 6rem;
+      top: -1rem; right: -1rem;
+      width: 6rem; height: 6rem;
       background: rgba(255,255,255,0.08);
       border-radius: 50%;
     }
@@ -1030,11 +1402,7 @@
     .salary-net { font-size: 1.75rem; font-weight: 800; position: relative; }
     .salary-name { font-size: 0.85rem; opacity: 0.9; margin-top: 0.25rem; font-weight: 500; }
 
-    .salary-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .salary-details { display: flex; flex-direction: column; gap: 0.5rem; }
 
     .detail-row {
       display: flex;
@@ -1046,9 +1414,7 @@
       transition: background var(--transition);
     }
 
-    .detail-row.highlight {
-      background: var(--primary-light);
-    }
+    .detail-row.highlight { background: var(--primary-light); }
 
     .detail-label {
       display: flex;
@@ -1062,16 +1428,9 @@
 
     .detail-value { font-size: 0.875rem; font-weight: 600; color: var(--foreground); }
 
-    .detail-row.highlight .detail-value {
-      color: var(--primary);
-      font-weight: 700;
-    }
+    .detail-row.highlight .detail-value { color: var(--primary); font-weight: 700; }
 
-    .divider {
-      border-top: 2px dashed var(--border);
-      margin: 0.75rem 0;
-      padding-top: 0.75rem;
-    }
+    .divider { border-top: 2px dashed var(--border); margin: 0.75rem 0; padding-top: 0.75rem; }
 
     .deductions-section {
       background: rgba(239, 68, 68, 0.04);
@@ -1093,18 +1452,9 @@
 
     .deductions-title svg { width: 1rem; height: 1rem; }
 
-    .deductions-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-    }
+    .deductions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
 
-    .deduction-item {
-      text-align: center;
-      padding: 0.625rem;
-      background: var(--background);
-      border-radius: 0.625rem;
-    }
+    .deduction-item { text-align: center; padding: 0.625rem; background: var(--background); border-radius: 0.625rem; }
 
     .deduction-label { font-size: 0.7rem; color: var(--muted-foreground); font-weight: 500; }
     .deduction-value { font-size: 0.85rem; font-weight: 700; color: var(--destructive); margin-top: 0.125rem; }
@@ -1180,644 +1530,81 @@
       transform: translateY(1rem);
     }
 
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
+    .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
     .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(14,165,233,0.4); }
     .back-to-top:active { transform: scale(0.95); }
     .back-to-top svg { width: 1.25rem; height: 1.25rem; }
 
     /* ==================== PRINT ==================== */
     @media print {
-      .header, .footer, .modal-close, .modal-handle, .btn-group, .services-grid, .sections-container, .back-to-top, .welcome-banner {
+      .header, .footer, .modal-close, .modal-handle, .btn-group, .services-grid, .sections-container, .back-to-top, .welcome-banner, .login-page {
         display: none !important;
       }
       body::before { display: none; }
-      .modal-overlay {
-        position: static;
-        background: none;
-        backdrop-filter: none;
-      }
-      .modal {
-        box-shadow: none;
-        border: none;
-        max-height: none;
-        border-radius: 0;
-      }
-      .salary-result { margin-top: 0; }
-    }
-
-    /* ==================== LOADING SKELETON ==================== */
-    .skeleton {
-      background: linear-gradient(90deg, var(--muted) 25%, var(--border) 50%, var(--muted) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s ease-in-out infinite;
-      border-radius: 0.5rem;
-    }
-
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      .modal-overlay { position: static; background: none; backdrop-filter: none; }
+      .modal { box-shadow: none; border: none; max-height: none; border-radius: 0; }
     }
   </style>
 </head>
 <body>
-  <!-- ==================== HEADER ==================== -->
-  <header class="header" id="main-header">
-    <div class="header-container">
-      <div class="logo-section">
-        <div class="logo-icon">
-          <i data-lucide="building-2"></i>
-        </div>
-        <div class="logo-text">
-          <h1>شركة الدعم</h1>
-          <p>للمقاولات</p>
-        </div>
-      </div>
-      <div class="header-actions">
-        <button class="theme-toggle" onclick="toggleDarkMode()" aria-label="تبديل الوضع الليلي">
-          <i data-lucide="sun" class="sun-icon"></i>
-          <i data-lucide="moon" class="moon-icon"></i>
-        </button>
-      </div>
+  <!-- ==================== LOGIN PAGE ==================== -->
+  <div class="login-page" id="login-page">
+    <div class="login-bg">
+      <div class="login-bg-circle"></div>
+      <div class="login-bg-circle"></div>
+      <div class="login-bg-circle"></div>
     </div>
-  </header>
-
-  <!-- ==================== MAIN ==================== -->
-  <main class="main">
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-      <div class="welcome-content">
-        <div class="welcome-badge">
-          <i data-lucide="sparkles"></i>
-          <span>نظام خدمات الموظفين</span>
-        </div>
-        <h2 class="welcome-title">مرحباً بك في نظام شركة الدعم</h2>
-        <p class="welcome-desc">نظام متكامل لإدارة طلباتك والاستعلام عن معلوماتك بكل سهولة ويسر</p>
-        <div class="welcome-stats">
-          <div class="stat-item">
-            <span class="stat-number">12</span>
-            <span class="stat-label">نموذج متاح</span>
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="login-logo">
+            <i data-lucide="building-2"></i>
           </div>
-          <div class="stat-item">
-            <span class="stat-number">19</span>
-            <span class="stat-label">رقم داخلي</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">4</span>
-            <span class="stat-label">خدمات رئيسية</span>
+          <h1 class="login-company-name">شركة الدعم</h1>
+          <p class="login-company-sub">للمقاولات</p>
+          <div class="login-system-badge">
+            <i data-lucide="shield-check"></i>
+            <span>نظام خدمات الموظفين</span>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Services Grid -->
-    <div class="services-grid">
-      <button class="service-card" onclick="toggleSection('forms')" id="forms-card" aria-expanded="false">
-        <div class="service-icon sky">
-          <i data-lucide="file-text"></i>
-        </div>
-        <h3 class="service-title">النماذج</h3>
-        <p class="service-desc">جميع نماذج الطلبات</p>
-      </button>
-
-      <button class="service-card" onclick="toggleSection('phones')" id="phones-card" aria-expanded="false">
-        <div class="service-icon emerald">
-          <i data-lucide="phone"></i>
-        </div>
-        <h3 class="service-title">أرقام الهواتف</h3>
-        <p class="service-desc">دليل الأرقام الداخلية</p>
-      </button>
-
-      <button class="service-card" onclick="toggleSection('links')" id="links-card" aria-expanded="false">
-        <div class="service-icon violet">
-          <i data-lucide="globe"></i>
-        </div>
-        <h3 class="service-title">الصفحات الرسمية</h3>
-        <p class="service-desc">روابط التواصل</p>
-      </button>
-
-      <button class="service-card" onclick="openSalaryModal()" id="salary-card">
-        <div class="service-icon orange">
-          <i data-lucide="wallet"></i>
-        </div>
-        <h3 class="service-title">الاستعلام عن الراتب</h3>
-        <p class="service-desc">تفاصيل الراتب الشهري</p>
-      </button>
-    </div>
-
-    <!-- Sections Content -->
-    <div class="sections-container">
-      <!-- Forms Section -->
-      <div class="section" id="forms-section">
-        <div class="section-card">
-          <h3 class="section-header">
-            <span class="section-indicator sky"></span>
-            نماذج الطلبات
-          </h3>
-          <div class="forms-grid" id="forms-grid"></div>
-        </div>
-      </div>
-
-      <!-- Phones Section -->
-      <div class="section" id="phones-section">
-        <div class="section-card">
-          <h3 class="section-header">
-            <span class="section-indicator emerald"></span>
-            دليل الأرقام الداخلية
-          </h3>
-          <div class="search-input">
-            <input type="text" placeholder="ابحث عن قسم أو رقم..." id="phone-search" oninput="filterPhones()" autocomplete="off">
-            <i data-lucide="search"></i>
-          </div>
-          <div class="phones-list" id="phones-list"></div>
-        </div>
-      </div>
-
-      <!-- Links Section -->
-      <div class="section" id="links-section">
-        <div class="section-card">
-          <h3 class="section-header">
-            <span class="section-indicator violet"></span>
-            الصفحات والمجموعات الرسمية
-          </h3>
-          <div class="social-links">
-            <a href="https://www.facebook.com/share/15ws7sBHJe/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
-              <div class="social-link-content">
-                <i data-lucide="facebook"></i>
-                <span>الصفحة الرسمية على فيسبوك</span>
-              </div>
-              <i data-lucide="external-link"></i>
-            </a>
-            <a href="https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
-              <div class="social-link-content">
-                <i data-lucide="message-circle"></i>
-                <span>مجموعة الواتساب</span>
-              </div>
-              <i data-lucide="external-link"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ==================== FOOTER ==================== -->
-  <footer class="footer">
-    <div class="footer-container">
-      <p class="footer-copyright">© 2025 شركة الدعم للمقاولات. جميع الحقوق محفوظة.</p>
-      <div class="footer-credit">
-        <span>تصميم وتطوير</span>
-        <span class="footer-name">Mustafa Jamal Darrez</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ==================== SALARY MODAL ==================== -->
-  <div class="modal-overlay" id="salary-modal" onclick="closeModalOnOverlay(event)">
-    <div class="modal">
-      <div class="modal-handle"><span></span></div>
-      <div class="modal-header">
-        <h2 class="modal-title">الاستعلام عن الراتب</h2>
-        <button class="modal-close" onclick="closeSalaryModal()" aria-label="إغلاق">
-          <i data-lucide="x"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label" for="month-select">اختر الشهر</label>
-          <select class="form-select" id="month-select">
-            <option value="">جاري التحميل...</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="emp-number">الرقم الوظيفي</label>
-          <input type="text" class="form-input" id="emp-number" placeholder="أدخل الرقم الوظيفي" inputmode="numeric">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="emp-pass">الرمز السري</label>
-          <input type="password" class="form-input" id="emp-pass" placeholder="أدخل الرمز السري">
-        </div>
-
-        <div class="error-message" id="salary-error" style="display: none;">
-          <i data-lucide="alert-circle" style="width:1rem;height:1rem;flex-shrink:0"></i>
-          <span id="error-text"></span>
-        </div>
-
-        <div class="btn-group">
-          <button class="btn btn-primary" onclick="querySalary()" id="query-btn">
-            <i data-lucide="search"></i>
-            استعلام
-          </button>
-          <button class="btn btn-secondary" onclick="closeSalaryModal()">
-            إغلاق
-          </button>
-        </div>
-
-        <div class="salary-result" id="salary-result" style="display: none;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== TOAST ==================== -->
-  <div class="toast" id="toast">
-    <i data-lucide="check-circle" id="toast-icon"></i>
-    <span id="toast-message"></span>
-  </div>
-
-  <!-- ==================== BACK TO TOP ==================== -->
-  <button class="back-to-top" id="back-to-top" onclick="scrollToTop()" aria-label="العودة للأعلى">
-    <i data-lucide="chevron-up"></i>
-  </button>
-
-  <!-- ==================== JAVASCRIPT ==================== -->
-  <script>
-    // ==================== DATA ====================
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbw3N4PjaHBLk7BWls0kY3dj1_Cc6nWYQ0EXiIU06dvFR8s3Vz8U3B0nihbALJ4RaNnZ/exec";
-
-    const forms = [
-      { id: "طلب-إجازة", name: "طلب إجازة", icon: "calendar-off", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
-      { id: "طلب-سلفة", name: "طلب سلفة مالية", icon: "banknote", url: "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link" },
-      { id: "صيانة-سيارة", name: "طلب صيانة سيارة", icon: "car", url: "https://drive.google.com/file/d/1PzSLS-yCN0b_mBS3OpYFnBD2drYGNVGs/view?usp=drive_link" },
-      { id: "مبلغ-الخزينة", name: "طلب مبلغ من الخزينة", icon: "wallet", url: "https://drive.google.com/file/d/1sDewUsh6_G6SVk498S6oKiE5LqdElN_r/view?usp=drive_link" },
-      { id: "عمل-إضافي", name: "طلب عمل إضافي", icon: "clock", url: "https://drive.google.com/file/d/11XjQvu0vp2XxpCnfDNgRhFCebR1eglRu/view?usp=drive_link" },
-      { id: "تحويل-عهدة", name: "تحويل عهدة شخصية", icon: "package", url: "https://drive.google.com/file/d/1usb7bbwovo6K248dzoE3sI71YupbdKJe/view?usp=drive_link" },
-      { id: "علاوة-سفر", name: "علاوة سفر", icon: "plane", url: "https://drive.google.com/file/d/1UHs1VJf-9u9FZDn16oFS9Mtj1VYvG7b8/view?usp=drive_link" },
-      { id: "أمر-عمل", name: "أمر عمل ورشة", icon: "wrench", url: "https://drive.google.com/file/d/1T3GFaTnXm6CrXfOETFkN_t42a7UbWibY/view?usp=drive_link" },
-      { id: "طلب-إذن", name: "طلب إذن", icon: "calendar-check", url: "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link" },
-      { id: "ترجيع-مواد", name: "ترجيع مواد للمخزن", icon: "undo-2", url: "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link" },
-      { id: "طلب-بذل-وأحذية", name: "طلب بذل وأحذية", icon: "footprints", url: "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link" },
-      { id: "كشف-متابعة", name: "كشف متابعة الحضور", icon: "user-check", url: "https://drive.google.com/file/d/1kkTmG9cqfmxLfgEELmJl-cwKe-VKGHlC/view?usp=drive_link" }
-    ];
-
-    const phones = [
-      { name: "المدير العام", number: "116" },
-      { name: "مراقبة الجودة", number: "101" },
-      { name: "إدارة الشؤون المالية", number: "102" },
-      { name: "الشؤون الإدارية", number: "103" },
-      { name: "الخزينة", number: "104" },
-      { name: "المشتريات", number: "106" },
-      { name: "مكتب المراجعة", number: "107" },
-      { name: "مكتب الأصول", number: "108" },
-      { name: "مكتب التصاميم", number: "109" },
-      { name: "إدارة المشروعات", number: "110" },
-      { name: "الشؤون الفنية", number: "112" },
-      { name: "مكتب الحسابات", number: "113" },
-      { name: "مكتب مصطفى درز", number: "115" },
-      { name: "مكتب التوثيق والمتابعة", number: "117" },
-      { name: "مكتب الإعلام", number: "118" },
-      { name: "مكتب عبدالسلام أبو حجر", number: "123" },
-      { name: "قسم الكهرباء", number: "120" },
-      { name: "مقهى (غاندي)", number: "223" },
-      { name: "مقهى (حسن)", number: "105" }
-    ];
-
-    // ==================== STATE ====================
-    let activeSection = null;
-    let months = [];
-
-    // ==================== INITIALIZATION ====================
-    document.addEventListener('DOMContentLoaded', function() {
-      lucide.createIcons();
-      initDarkMode();
-      renderForms();
-      renderPhones();
-      initScrollEffects();
-    });
-
-    // ==================== SCROLL EFFECTS ====================
-    function initScrollEffects() {
-      const header = document.getElementById('main-header');
-      const backToTop = document.getElementById('back-to-top');
-      
-      let ticking = false;
-      window.addEventListener('scroll', function() {
-        if (!ticking) {
-          requestAnimationFrame(function() {
-            const scrollY = window.scrollY;
-            
-            if (scrollY > 10) {
-              header.classList.add('scrolled');
-            } else {
-              header.classList.remove('scrolled');
-            }
-
-            if (scrollY > 300) {
-              backToTop.classList.add('visible');
-            } else {
-              backToTop.classList.remove('visible');
-            }
-            
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-    }
-
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==================== DARK MODE ====================
-    function initDarkMode() {
-      const saved = localStorage.getItem('darkMode');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
-      if (saved === 'enabled' || (saved === null && prefersDark)) {
-        document.body.classList.add('dark');
-      }
-    }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-      localStorage.setItem('darkMode', document.body.classList.contains('dark') ? 'enabled' : 'disabled');
-    }
-
-    // ==================== SECTIONS ====================
-    function toggleSection(section) {
-      const sections = ['forms', 'phones', 'links'];
-      
-      if (activeSection === section) {
-        document.getElementById(section + '-section').classList.remove('active');
-        document.getElementById(section + '-card').classList.remove('active');
-        document.getElementById(section + '-card').setAttribute('aria-expanded', 'false');
-        activeSection = null;
-      } else {
-        sections.forEach(s => {
-          document.getElementById(s + '-section').classList.remove('active');
-          document.getElementById(s + '-card').classList.remove('active');
-          document.getElementById(s + '-card').setAttribute('aria-expanded', 'false');
-        });
-        document.getElementById(section + '-section').classList.add('active');
-        document.getElementById(section + '-card').classList.add('active');
-        document.getElementById(section + '-card').setAttribute('aria-expanded', 'true');
-        activeSection = section;
-
-        // Smooth scroll to section on mobile
-        setTimeout(() => {
-          const el = document.getElementById(section + '-section');
-          const rect = el.getBoundingClientRect();
-          const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 64;
-          if (rect.top < offset || rect.bottom > window.innerHeight) {
-            window.scrollTo({
-              top: window.scrollY + rect.top - offset - 12,
-              behavior: 'smooth'
-            });
-          }
-        }, 50);
-      }
-    }
-
-    // ==================== FORMS ====================
-    function renderForms() {
-      const grid = document.getElementById('forms-grid');
-      grid.innerHTML = forms.map(form => `
-        <a href="${form.url}" target="_blank" rel="noopener noreferrer" class="form-item">
-          <div class="form-icon">
-            <i data-lucide="${form.icon}"></i>
-          </div>
-          <span class="form-name">${form.name}</span>
-        </a>
-      `).join('');
-      lucide.createIcons();
-    }
-
-    // ==================== PHONES ====================
-    function renderPhones(filter = '') {
-      const list = document.getElementById('phones-list');
-      const filtered = phones.filter(p => 
-        p.name.includes(filter) || p.number.includes(filter)
-      );
-
-      if (filtered.length === 0) {
-        list.innerHTML = '<p class="no-results"><i data-lucide="search-x" style="width:2rem;height:2rem;margin:0 auto 0.5rem;display:block;opacity:0.5"></i>لا توجد نتائج للبحث</p>';
-        lucide.createIcons();
-        return;
-      }
-
-      list.innerHTML = filtered.map(phone => `
-        <div class="phone-item">
-          <span class="phone-name">${phone.name}</span>
-          <div class="phone-number-section">
-            <span class="phone-number">${phone.number}</span>
-            <div class="phone-icon-circle">
-              <i data-lucide="phone"></i>
-            </div>
-          </div>
-        </div>
-      `).join('');
-      lucide.createIcons();
-    }
-
-    function filterPhones() {
-      const search = document.getElementById('phone-search').value;
-      renderPhones(search);
-    }
-
-    // ==================== SALARY MODAL ====================
-    function openSalaryModal() {
-      const modal = document.getElementById('salary-modal');
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      document.getElementById('salary-result').style.display = 'none';
-      document.getElementById('salary-error').style.display = 'none';
-      document.getElementById('emp-number').value = '';
-      document.getElementById('emp-pass').value = '';
-      loadMonths();
-    }
-
-    function closeSalaryModal() {
-      document.getElementById('salary-modal').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    function closeModalOnOverlay(event) {
-      if (event.target === event.currentTarget) {
-        closeSalaryModal();
-      }
-    }
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeSalaryModal();
-    });
-
-    async function loadMonths() {
-      const select = document.getElementById('month-select');
-      select.innerHTML = '<option value="">جاري التحميل...</option>';
-      
-      try {
-        const res = await fetch(webAppUrl + '?action=months');
-        months = await res.json();
-        select.innerHTML = '<option value="">اختر الشهر</option>' + 
-          months.map(m => `<option value="${m}">${m}</option>`).join('');
-      } catch (error) {
-        showToast('حدث خطأ في تحميل قائمة الأشهر', 'error');
-        select.innerHTML = '<option value="">حدث خطأ - اضغط للإعادة</option>';
-      }
-    }
-
-    function safeValue(value) {
-      return value === undefined || value === null || value === '' ? '0' : value;
-    }
-
-    function showError(text) {
-      const errorEl = document.getElementById('salary-error');
-      document.getElementById('error-text').textContent = text;
-      errorEl.style.display = 'flex';
-      lucide.createIcons();
-    }
-
-    async function querySalary() {
-      const month = document.getElementById('month-select').value;
-      const number = document.getElementById('emp-number').value.trim();
-      const pass = document.getElementById('emp-pass').value.trim();
-      const errorEl = document.getElementById('salary-error');
-      const resultEl = document.getElementById('salary-result');
-      const btn = document.getElementById('query-btn');
-
-      errorEl.style.display = 'none';
-      resultEl.style.display = 'none';
-
-      if (!month) { showError('يرجى اختيار الشهر'); return; }
-      if (!number) { showError('يرجى إدخال الرقم الوظيفي'); return; }
-      if (!pass) { showError('يرجى إدخال الرمز السري'); return; }
-
-      btn.disabled = true;
-      btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الاستعلام...';
-      lucide.createIcons();
-
-      try {
-        const response = await fetch(
-          `${webAppUrl}?action=query&month=${encodeURIComponent(month)}&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`
-        );
-        
-        if (!response.ok) throw new Error('خطأ في الاتصال');
-        const data = await response.json();
-
-        if (data.error) {
-          showError(data.error);
-          return;
-        }
-
-        const totalBefore = (
-          parseFloat(safeValue(data.basic)) +
-          parseFloat(safeValue(data.bonus)) +
-          parseFloat(safeValue(data.badal)) +
-          parseFloat(safeValue(data.extra)) +
-          parseFloat(safeValue(data.phoneAllowance))
-        ).toFixed(2);
-
-        resultEl.innerHTML = `
-          <div class="salary-header">
-            <div class="salary-header-top">
-              <span>بيانات الراتب لشهر ${month}</span>
-              <i data-lucide="wallet"></i>
-            </div>
-            <p class="salary-net">${safeValue(data.net)} د.ل</p>
-            <p class="salary-name">${data.name || 'غير متوفر'}</p>
+        <div class="login-body">
+          <div class="login-welcome">
+            <h3>تسجيل الدخول</h3>
+            <p>أدخل بياناتك الوظيفية للوصول إلى النظام</p>
           </div>
 
-          <div class="salary-details">
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span>
-              <span class="detail-value">${safeValue(data.basic)} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span>
-              <span class="detail-value">${safeValue(data.bonus)} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span>
-              <span class="detail-value">${safeValue(data.badal)} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="gift"></i> المكافأة</span>
-              <span class="detail-value">${safeValue(data.phoneAllowance)} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span>
-              <span class="detail-value">${safeValue(data.extra)} د.ل</span>
-            </div>
+          <div class="login-error" id="login-error">
+            <i data-lucide="alert-circle"></i>
+            <span id="login-error-text"></span>
+          </div>
 
-            <div class="divider">
-              <div class="detail-row highlight">
-                <span class="detail-label"><i data-lucide="calculator"></i> الإجمالي قبل الخصومات</span>
-                <span class="detail-value">${totalBefore} د.ل</span>
-              </div>
-            </div>
-
-            <div class="deductions-section">
-              <h4 class="deductions-title">
-                <i data-lucide="minus-circle"></i>
-                تفاصيل الخصومات
-              </h4>
-              <div class="deductions-grid">
-                <div class="deduction-item">
-                  <p class="deduction-label">الغياب</p>
-                  <p class="deduction-value">-${safeValue(data.absenceDeduct)}</p>
-                </div>
-                <div class="deduction-item">
-                  <p class="deduction-label">العقوبة</p>
-                  <p class="deduction-value">-${safeValue(data.penaltyDeduct)}</p>
-                </div>
-                <div class="deduction-item">
-                  <p class="deduction-label">السلفة</p>
-                  <p class="deduction-value">-${safeValue(data.loanDeduct)}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="net-salary-box">
-              <span class="net-salary-label">الراتب الصافي</span>
-              <span class="net-salary-value">${safeValue(data.net)} د.ل</span>
+          <div class="login-form-group">
+            <label class="login-label" for="login-number">
+              <i data-lucide="hash"></i>
+              الرقم الوظيفي
+            </label>
+            <div class="login-input-wrapper">
+              <input type="text" class="login-input" id="login-number" placeholder="أدخل الرقم الوظيفي" inputmode="numeric" autocomplete="username">
+              <i data-lucide="user"></i>
             </div>
           </div>
 
-          <button class="btn btn-secondary print-btn" onclick="window.print()">
-            <i data-lucide="printer"></i>
-            طباعة البيان
-          </button>
-        `;
-        resultEl.style.display = 'block';
-        lucide.createIcons();
-        showToast('تم جلب بيانات الراتب بنجاح', 'success');
+          <div class="login-form-group">
+            <label class="login-label" for="login-pass">
+              <i data-lucide="lock"></i>
+              الرمز السري
+            </label>
+            <div class="login-input-wrapper">
+              <input type="password" class="login-input" id="login-pass" placeholder="أدخل الرمز السري" autocomplete="current-password" style="padding-left: 2.75rem;">
+              <i data-lucide="key-round"></i>
+              <button type="button" class="password-toggle" onclick="togglePassword()" id="pass-toggle" aria-label="إظهار/إخفاء الرمز السري">
+                <i data-lucide="eye" id="eye-icon"></i>
+              </button>
+            </div>
+          </div>
 
-        // Scroll to result
-        setTimeout(() => {
-          resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
-
-      } catch (error) {
-        showError('حدث خطأ أثناء جلب البيانات. يرجى المحاولة مرة أخرى لاحقًا.');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i data-lucide="search"></i> استعلام';
-        lucide.createIcons();
-      }
-    }
-
-    // ==================== TOAST ====================
-    function showToast(message, type) {
-      const toast = document.getElementById('toast');
-      const icon = document.getElementById('toast-icon');
-      const msg = document.getElementById('toast-message');
-
-      toast.className = 'toast active ' + type;
-      icon.setAttribute('data-lucide', type === 'success' ? 'check-circle' : 'x-circle');
-      msg.textContent = message;
-      lucide.createIcons();
-
-      setTimeout(() => {
-        toast.classList.remove('active');
-      }, 3500);
-    }
-  </script>
-</body>
-</html>
+          <div class="remember-row">
+            <input type="checkbox" class="remember-checkbox" id="remember-me">
+            <label class="remember-label" for="remember-me">تذكرني على هذا الجهاز</label>
+          </div>
