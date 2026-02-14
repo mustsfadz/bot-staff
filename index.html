@@ -1917,4 +1917,46 @@
                 </div>
                 <div class="deduction-item">
                   <p class="deduction-label">العقوبة</p>
-     
+                  <p class="deduction-value">-${safeValue(data.penaltyDeduct)}</p>
+                </div>
+                <div class="deduction-item">
+                  <p class="deduction-label">السلفة</p>
+                  <p class="deduction-value">-${safeValue(data.loanDeduct)}</p>
+                </div>
+              </div>
+            </div>
+            <div class="net-salary-box">
+              <span class="net-salary-label">الراتب الصافي</span>
+              <span class="net-salary-value">${safeValue(data.net)} د.ل</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary print-btn" onclick="window.print()">
+            <i data-lucide="printer"></i> طباعة البيان
+          </button>
+        `;
+        resultEl.style.display = 'block';
+        lucide.createIcons();
+        showToast('تم جلب بيانات الراتب بنجاح', 'success');
+      } catch (error) {
+        errorEl.textContent = 'حدث خطأ أثناء جلب البيانات. يرجى المحاولة مرة أخرى لاحقًا.';
+        errorEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'استعلام';
+      }
+    }
+
+    // ==================== TOAST ====================
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      const msg = document.getElementById('toast-message');
+      toast.className = 'toast active ' + type;
+      icon.setAttribute('data-lucide', type === 'success' ? 'check-circle' : 'x-circle');
+      msg.textContent = message;
+      lucide.createIcons();
+      setTimeout(() => toast.classList.remove('active'), 3000);
+    }
+  </script>
+</body>
+</html>
