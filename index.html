@@ -1,1397 +1,411 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0ea5e9">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0ea5e9" />
   <title>شركة الدعم للمقاولات - نظام خدمات الموظفين</title>
-  <meta name="description" content="نظام متكامل لخدمات الموظفين والاستعلامات في شركة الدعم للمقاولات">
-  
-  <!-- Google Fonts - Cairo -->
+  <meta name="description" content="نظام متكامل لخدمات الموظفين والاستعلامات في شركة الدعم للمقاولات" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
+
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  
+
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --background: #f8fafc;
-      --foreground: #0f172a;
-      --card: #ffffff;
-      --card-foreground: #0f172a;
-      --primary: #0ea5e9;
-      --primary-foreground: #ffffff;
-      --secondary: #f1f5f9;
-      --secondary-foreground: #334155;
-      --muted: #f1f5f9;
-      --muted-foreground: #64748b;
-      --border: #e2e8f0;
-      --input: #e2e8f0;
-      --destructive: #ef4444;
-      --radius: 0.75rem;
-      --success: #10b981;
-    }
-
-    .dark {
-      --background: #0f172a;
-      --foreground: #f1f5f9;
-      --card: #1e293b;
-      --card-foreground: #f1f5f9;
-      --primary: #38bdf8;
-      --primary-foreground: #0f172a;
-      --secondary: #334155;
-      --secondary-foreground: #f1f5f9;
-      --muted: #334155;
-      --muted-foreground: #94a3b8;
-      --border: #334155;
-      --input: #334155;
-      --destructive: #f87171;
-      --success: #34d399;
-    }
-
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--background);
-      color: var(--foreground);
-      line-height: 1.6;
-      min-height: 100vh;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--muted-foreground); border-radius: 10px; }
-
-    /* ==================== LOGIN PAGE ==================== */
-    .login-page {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .login-page::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
-      animation: pulse 15s ease-in-out infinite;
-    }
-
-    .login-page::after {
-      content: '';
-      position: absolute;
-      bottom: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
-      animation: pulse 20s ease-in-out infinite reverse;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-    }
-
-    .login-container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .login-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      animation: slideUp 0.5s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .login-logo {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .login-logo-icon {
-      width: 5rem;
-      height: 5rem;
-      margin: 0 auto 1rem;
-      border-radius: 1.5rem;
-      background: linear-gradient(135deg, var(--primary), #0284c7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 40px rgba(14, 165, 233, 0.4);
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .login-logo-icon svg {
-      width: 2.5rem;
-      height: 2.5rem;
-      color: white;
-    }
-
-    .login-logo h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--foreground);
-      margin-bottom: 0.25rem;
-    }
-
-    .login-logo p {
-      color: var(--muted-foreground);
-      font-size: 0.875rem;
-    }
-
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .input-group {
-      position: relative;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--foreground);
-      margin-bottom: 0.5rem;
-    }
-
-    .input-wrapper {
-      position: relative;
-    }
-
-    .input-wrapper svg {
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--muted-foreground);
-      transition: color 0.2s;
-    }
-
-    .input-wrapper input {
-      width: 100%;
-      padding: 0.875rem 3rem 0.875rem 1rem;
-      border: 2px solid var(--border);
-      border-radius: 0.75rem;
-      background: var(--background);
-      color: var(--foreground);
-      font-family: inherit;
-      font-size: 1rem;
-      transition: all 0.2s;
-    }
-
-    .input-wrapper input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
-    }
-
-    .input-wrapper input:focus + svg,
-    .input-wrapper:focus-within svg {
-      color: var(--primary);
-    }
-
-    .input-wrapper input::placeholder {
-      color: var(--muted-foreground);
-    }
-
-    .password-toggle {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      color: var(--muted-foreground);
-      transition: color 0.2s;
-    }
-
-    .password-toggle:hover {
-      color: var(--primary);
-    }
-
-    .password-toggle svg {
-      position: static;
-      transform: none;
-    }
-
-    .remember-me {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .remember-me input[type="checkbox"] {
-      width: 1.25rem;
-      height: 1.25rem;
-      accent-color: var(--primary);
-      cursor: pointer;
-    }
-
-    .remember-me label {
-      font-size: 0.875rem;
-      color: var(--muted-foreground);
-      cursor: pointer;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 1rem;
-      border: none;
-      border-radius: 0.75rem;
-      background: linear-gradient(135deg, var(--primary), #0284c7);
-      color: white;
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
-    }
-
-    .login-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
-    }
-
-    .login-btn:active { transform: translateY(0); }
-
-    .login-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .login-btn svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    .login-error {
-      padding: 1rem;
-      border-radius: 0.75rem;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      color: var(--destructive);
-      font-size: 0.875rem;
-      text-align: center;
-      display: none;
-      animation: shake 0.5s ease-in-out;
-    }
-
-    .login-error.show { display: block; }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
-    }
-
-    .login-footer {
-      margin-top: 1.5rem;
-      text-align: center;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .login-footer p {
-      font-size: 0.75rem;
-      color: var(--muted-foreground);
-    }
-
-    .theme-toggle-login {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      z-index: 20;
-    }
-
-    .theme-toggle-login:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .theme-toggle-login svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: white;
-    }
-
-    .dark .theme-toggle-login .sun-icon { display: block; }
-    .dark .theme-toggle-login .moon-icon { display: none; }
-    .theme-toggle-login .sun-icon { display: none; }
-    .theme-toggle-login .moon-icon { display: block; }
-
-    /* ==================== APP CONTAINER ==================== */
-    .app-container { display: none; }
-    .app-container.active { display: block; }
-    .login-page.hidden { display: none; }
-
-    /* ==================== HEADER ==================== */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      width: 100%;
-      border-bottom: 1px solid var(--border);
-      background-color: var(--background);
-      backdrop-filter: blur(10px);
-    }
-
-    .header-container {
-      max-width: 56rem;
-      margin: 0 auto;
-      padding: 0 1rem;
-      height: 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo-section {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .logo-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 0.75rem;
-      background: linear-gradient(135deg, var(--primary), #0284c7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
-    }
-
-    .logo-icon svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: white;
-    }
-
-    .logo-text { display: none; }
-
-    @media (min-width: 640px) {
-      .logo-text { display: block; }
-    }
-
-    .logo-text h1 {
-      font-weight: 700;
-      font-size: 1.125rem;
-      line-height: 1.2;
-      color: var(--foreground);
-    }
-
-    .logo-text p {
-      font-size: 0.75rem;
-      color: var(--muted-foreground);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .user-info {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      background: var(--muted);
-      border-radius: 2rem;
-    }
-
-    @media (min-width: 640px) {
-      .user-info { display: flex; }
-    }
-
-    .user-avatar {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), #0284c7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .user-avatar svg {
-      width: 1rem;
-      height: 1rem;
-      color: white;
-    }
-
-    .user-name {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--foreground);
-    }
-
-    .logout-btn {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      border: none;
-      background: rgba(239, 68, 68, 0.1);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .logout-btn:hover {
-      background: rgba(239, 68, 68, 0.2);
-    }
-
-    .logout-btn svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--destructive);
-    }
-
-    .theme-toggle {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      border: none;
-      background: var(--muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .theme-toggle:hover { background: var(--border); }
-
-    .theme-toggle svg { width: 1.25rem; height: 1.25rem; }
-
-    .dark .theme-toggle .sun-icon { display: block; color: #fbbf24; }
-    .dark .theme-toggle .moon-icon { display: none; }
-    .theme-toggle .sun-icon { display: none; }
-    .theme-toggle .moon-icon { display: block; color: #475569; }
-
-    /* ==================== MAIN ==================== */
-    .main {
-      max-width: 56rem;
-      margin: 0 auto;
-      padding: 1.5rem 1rem;
-    }
-
-    /* ==================== WELCOME BANNER ==================== */
-    .welcome-banner {
-      position: relative;
-      overflow: hidden;
-      border-radius: 1rem;
-      background: linear-gradient(135deg, var(--primary), #0ea5e9, #06b6d4);
-      padding: 1.5rem;
-      color: white;
-      box-shadow: 0 10px 40px rgba(14, 165, 233, 0.2);
-    }
-
-    @media (min-width: 640px) {
-      .welcome-banner { padding: 2rem; }
-    }
-
-    .welcome-banner::before {
-      content: '';
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      width: 5rem;
-      height: 5rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      filter: blur(2rem);
-    }
-
-    .welcome-banner::after {
-      content: '';
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      width: 8rem;
-      height: 8rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      filter: blur(3rem);
-    }
-
-    .welcome-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .welcome-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      opacity: 0.9;
-    }
-
-    .welcome-badge svg { width: 1.25rem; height: 1.25rem; }
-
-    .welcome-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    @media (min-width: 640px) {
-      .welcome-title { font-size: 1.875rem; }
-    }
-
-    .welcome-desc {
-      font-size: 0.875rem;
-      opacity: 0.9;
-      max-width: 28rem;
-    }
-
-    @media (min-width: 640px) {
-      .welcome-desc { font-size: 1rem; }
-    }
-
-    /* ==================== SERVICES GRID ==================== */
-    .services-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    @media (min-width: 640px) {
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    /* ==================== SERVICE WRAPPER ==================== */
-    .service-wrapper {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .service-card {
-      position: relative;
-      width: 100%;
-      padding: 1.25rem;
-      border-radius: 0.75rem;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--card-foreground);
-      cursor: pointer;
-      transition: all 0.3s;
-      text-align: right;
-    }
-
-    .service-card:hover {
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      border-color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .service-card.active {
-      box-shadow: 0 0 0 2px var(--primary);
-      border-color: var(--primary);
-      border-radius: 0.75rem 0.75rem 0 0;
-    }
-
-    .service-card-content {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .service-icon {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s;
-    }
-
-    .service-card:hover .service-icon { transform: scale(1.1); }
-
-    .service-icon svg { width: 1.5rem; height: 1.5rem; color: white; }
-
-    .service-icon.sky { background: linear-gradient(135deg, #0ea5e9, #06b6d4); }
-    .service-icon.emerald { background: linear-gradient(135deg, #10b981, #14b8a6); }
-    .service-icon.violet { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
-    .service-icon.orange { background: linear-gradient(135deg, #f97316, #f59e0b); }
-    .service-icon.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
-    .service-icon.indigo { background: linear-gradient(135deg, #6366f1, #818cf8); }
-
-    .service-info { flex: 1; }
-
-    .service-title {
-      font-weight: 600;
-      color: var(--foreground);
-      margin-bottom: 0.25rem;
-    }
-
-    .service-desc {
-      font-size: 0.875rem;
-      color: var(--muted-foreground);
-    }
-
-    .service-chevron {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--muted-foreground);
-      transition: transform 0.3s;
-    }
-
-    .service-card.active .service-chevron {
-      transform: rotate(180deg);
-      color: var(--primary);
-    }
-
-    /* ==================== SECTIONS ==================== */
-    .section {
-      display: none;
-      animation: fadeInSlide 0.3s ease-out;
-      margin-top: 0;
-    }
-
-    .section.active { display: block; }
-
-    @keyframes fadeInSlide {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 0.75rem 0.75rem;
-      padding: 1rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .section-header {
-      font-weight: 600;
-      color: var(--foreground);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-indicator {
-      width: 0.375rem;
-      height: 1.5rem;
-      border-radius: 9999px;
-    }
-
-    .section-indicator.sky { background: var(--primary); }
-    .section-indicator.emerald { background: #10b981; }
-    .section-indicator.violet { background: #8b5cf6; }
-
-    /* ==================== FORMS GRID ==================== */
-    .forms-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
-
-    @media (min-width: 640px) {
-      .forms-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .form-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid var(--border);
-      background: var(--background);
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .form-item:hover {
-      background: var(--muted);
-      border-color: var(--primary);
-    }
-
-    .form-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 0.5rem;
-      background: rgba(14, 165, 233, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .form-icon svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--primary);
-    }
-
-    .form-name {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--foreground);
-    }
-
-    /* ==================== PHONES ==================== */
-    .search-input {
-      position: relative;
-      margin-bottom: 1rem;
-    }
-
-    .search-input svg {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1rem;
-      height: 1rem;
-      color: var(--muted-foreground);
-    }
-
-    .search-input input {
-      width: 100%;
-      padding: 0.625rem 2.5rem 0.625rem 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 0.5rem;
-      background: var(--background);
-      color: var(--foreground);
-      font-family: inherit;
-      font-size: 0.875rem;
-    }
-
-    .search-input input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-    }
-
-    .phones-list {
-      max-height: 20rem;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .phone-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      background: var(--background);
-      border: 1px solid var(--border);
-      transition: background 0.2s;
-    }
-
-    .phone-item:hover { background: var(--muted); }
-
-    .phone-name {
-      font-size: 0.875rem;
-      color: var(--foreground);
-    }
-
-    .phone-number-section {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .phone-number {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .phone-icon-circle {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      background: rgba(16, 185, 129, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .phone-icon-circle svg {
-      width: 1rem;
-      height: 1rem;
-      color: #10b981;
-    }
-
-    .no-results {
-      text-align: center;
-      color: var(--muted-foreground);
-      padding: 1rem;
-    }
-
-    /* ==================== SOCIAL LINKS ==================== */
-    .social-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .social-link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      border-radius: 0.75rem;
-      color: white;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .social-link:hover {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .social-link.facebook { background: #3b82f6; }
-    .social-link.facebook:hover { background: #2563eb; }
-    .social-link.whatsapp { background: #22c55e; }
-    .social-link.whatsapp:hover { background: #16a34a; }
-
-    .social-link-content {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .social-link svg { width: 1.5rem; height: 1.5rem; }
-    .social-link span { font-weight: 500; }
-
-    /* ==================== FOOTER ==================== */
-    .footer {
-      border-top: 1px solid var(--border);
-      background: var(--card);
-      margin-top: 2rem;
-    }
-
-    .footer-container {
-      max-width: 56rem;
-      margin: 0 auto;
-      padding: 1.5rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    @media (min-width: 640px) {
-      .footer-container {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-    }
-
-    .footer-copyright {
-      font-size: 0.875rem;
-      color: var(--muted-foreground);
-    }
-
-    .footer-credit {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-    }
-
-    .footer-credit span { color: var(--muted-foreground); }
-
-    .footer-name {
-      color: var(--muted-foreground);
-      font-weight: bold;
-      font-size: 0.75rem;
-    }
-
-    /* ==================== MODAL ==================== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .modal-overlay.active { display: flex; }
-
-    .modal {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      width: 100%;
-      max-width: 28rem;
-      max-height: 90vh;
-      overflow-y: auto;
-      animation: zoomIn 0.2s ease-out;
-    }
-
-    @keyframes zoomIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .modal-header {
-      position: sticky;
-      top: 0;
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-title {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--foreground);
-    }
-
-    .modal-close {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      border: none;
-      background: var(--muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-
-    .modal-close:hover { background: var(--border); }
-
-    .modal-close svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--foreground);
-    }
-
-    .modal-body { padding: 1rem; }
-
-    .form-group { margin-bottom: 1rem; }
-
-    .form-label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--foreground);
-      margin-bottom: 0.5rem;
-    }
-
-    .form-select,
-    .form-input {
-      width: 100%;
-      padding: 0.625rem 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 0.5rem;
-      background: var(--background);
-      color: var(--foreground);
-      font-family: inherit;
-      font-size: 0.875rem;
-    }
-
-    .form-select:focus,
-    .form-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-    }
-
-    .error-message {
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--destructive);
-      font-size: 0.875rem;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 0.625rem 1rem;
-      border-radius: 0.5rem;
-      border: none;
-      font-family: inherit;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: var(--primary-foreground);
-    }
-
-    .btn-primary:hover { background: #0284c7; }
-    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .btn-secondary {
-      background: var(--secondary);
-      color: var(--secondary-foreground);
-    }
-
-    .btn-secondary:hover { background: var(--border); }
-
-    .btn svg { width: 1rem; height: 1rem; }
-
-    .spinner { animation: spin 1s linear infinite; }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* ==================== SALARY RESULT ==================== */
-    .salary-result {
-      margin-top: 1rem;
-      animation: fadeInSlide 0.3s ease-out;
-    }
-
-    .salary-header {
-      background: linear-gradient(135deg, var(--primary), #0284c7);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      color: white;
-      margin-bottom: 1rem;
-    }
-
-    .salary-header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-    }
-
-    .salary-header-top span { font-size: 0.875rem; opacity: 0.9; }
-    .salary-header-top svg { width: 1.25rem; height: 1.25rem; opacity: 0.75; }
-
-    .salary-net { font-size: 1.5rem; font-weight: 700; }
-
-    .salary-name {
-      font-size: 0.875rem;
-      opacity: 0.9;
-      margin-top: 0.25rem;
-    }
-
-    .salary-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .detail-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      background: var(--background);
-    }
-
-    .detail-row.highlight { background: rgba(14, 165, 233, 0.1); }
-
-    .detail-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-      color: var(--muted-foreground);
-    }
-
-    .detail-label svg { width: 1rem; height: 1rem; }
-
-    .detail-value {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--foreground);
-    }
-
-    .detail-row.highlight .detail-value {
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .divider {
-      border-top: 1px dashed var(--border);
-      margin: 0.75rem 0;
-      padding-top: 0.75rem;
-    }
-
-    .deductions-section {
-      background: rgba(239, 68, 68, 0.05);
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .deductions-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--destructive);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .deductions-title svg { width: 1rem; height: 1rem; }
-
-    .deductions-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-    }
-
-    .deduction-item {
-      text-align: center;
-      padding: 0.5rem;
-      background: var(--background);
-      border-radius: 0.5rem;
-    }
-
-    .deduction-label {
-      font-size: 0.75rem;
-      color: var(--muted-foreground);
-    }
-
-    .deduction-value {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--destructive);
-    }
-
-    .net-salary-box {
-      background: rgba(14, 165, 233, 0.1);
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .net-salary-label { font-weight: 600; color: var(--foreground); }
-
-    .net-salary-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .print-btn { width: 100%; margin-top: 1rem; }
-
-    /* ==================== COMING SOON MODAL ==================== */
-    .coming-soon-content {
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-
-    .coming-soon-icon {
-      width: 5rem;
-      height: 5rem;
-      margin: 0 auto 1.5rem;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #f59e0b, #fbbf24);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: pulse-icon 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-icon {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    .coming-soon-icon svg {
-      width: 2.5rem;
-      height: 2.5rem;
-      color: white;
-    }
-
-    .coming-soon-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--foreground);
-      margin-bottom: 0.5rem;
-    }
-
-    .coming-soon-desc {
-      font-size: 1rem;
-      color: var(--muted-foreground);
-      margin-bottom: 1.5rem;
-    }
-
-    .coming-soon-features {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .coming-soon-feature {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      background: var(--muted);
-      border-radius: 0.5rem;
-      text-align: right;
-    }
-
-    .coming-soon-feature svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--primary);
-      flex-shrink: 0;
-    }
-
-    .coming-soon-feature span {
-      font-size: 0.875rem;
-      color: var(--foreground);
-    }
-
-    /* ==================== TOAST ==================== */
-    .toast {
-      position: fixed;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-      display: none;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-      z-index: 60;
-      animation: slideInUp 0.3s ease-out;
-    }
-
-    @media (min-width: 640px) {
-      .toast { left: auto; width: auto; }
-    }
-
-    .toast.active { display: flex; }
-    .toast.success { background: #22c55e; color: white; }
-    .toast.error { background: #ef4444; color: white; }
-    .toast.info { background: #f59e0b; color: white; }
-
-    .toast svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
-    .toast span { font-size: 0.875rem; font-weight: 500; }
-
-    @keyframes slideInUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media print {
-      .header, .footer, .modal-close, .btn-group, .services-grid, .sections-container {
-        display: none !important;
-      }
-      .modal-overlay {
-        position: static;
-        background: none;
-        backdrop-filter: none;
-      }
-      .modal {
-        box-shadow: none;
-        border: none;
-        max-height: none;
-      }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root{
+      --background:#f8fafc; --foreground:#0f172a; --card:#ffffff; --card-foreground:#0f172a;
+      --primary:#0ea5e9; --primary-foreground:#ffffff; --secondary:#f1f5f9; --secondary-foreground:#334155;
+      --muted:#f1f5f9; --muted-foreground:#64748b; --border:#e2e8f0; --input:#e2e8f0;
+      --destructive:#ef4444; --radius:0.75rem; --success:#10b981;
+    }
+    .dark{
+      --background:#0f172a; --foreground:#f1f5f9; --card:#1e293b; --card-foreground:#f1f5f9;
+      --primary:#38bdf8; --primary-foreground:#0f172a; --secondary:#334155; --secondary-foreground:#f1f5f9;
+      --muted:#334155; --muted-foreground:#94a3b8; --border:#334155; --input:#334155;
+      --destructive:#f87171; --success:#34d399;
+    }
+
+    body{
+      font-family:'Cairo',sans-serif; background-color:var(--background); color:var(--foreground);
+      line-height:1.6; min-height:100vh; transition:background-color .3s,color .3s;
+    }
+    ::-webkit-scrollbar{ width:6px; height:6px; }
+    ::-webkit-scrollbar-track{ background:transparent; }
+    ::-webkit-scrollbar-thumb{ background:var(--muted-foreground); border-radius:10px; }
+
+    /* LOGIN */
+    .login-page{
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1rem;
+      background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);
+      position:relative; overflow:hidden;
+    }
+    .login-page::before{
+      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+      background:radial-gradient(circle,rgba(14,165,233,.1) 0%,transparent 50%);
+      animation:pulse 15s ease-in-out infinite;
+    }
+    .login-page::after{
+      content:''; position:absolute; bottom:-50%; right:-50%; width:200%; height:200%;
+      background:radial-gradient(circle,rgba(6,182,212,.1) 0%,transparent 50%);
+      animation:pulse 20s ease-in-out infinite reverse;
+    }
+    @keyframes pulse{ 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.1);opacity:.8} }
+
+    .login-container{ position:relative; z-index:10; width:100%; max-width:420px; }
+    .login-card{
+      background:var(--card); border:1px solid var(--border); border-radius:1.5rem; padding:2rem;
+      box-shadow:0 25px 50px -12px rgba(0,0,0,.5); animation:slideUp .5s ease-out;
+    }
+    @keyframes slideUp{ from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+    .login-logo{text-align:center;margin-bottom:2rem;}
+    .login-logo-icon{
+      width:5rem;height:5rem;margin:0 auto 1rem;border-radius:1.5rem;
+      background:linear-gradient(135deg,var(--primary),#0284c7);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 10px 40px rgba(14,165,233,.4); animation:float 3s ease-in-out infinite;
+    }
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .login-logo-icon svg{width:2.5rem;height:2.5rem;color:white;}
+    .login-logo h1{font-size:1.5rem;font-weight:700;color:var(--foreground);margin-bottom:.25rem;}
+    .login-logo p{color:var(--muted-foreground);font-size:.875rem;}
+
+    .login-form{display:flex;flex-direction:column;gap:1.25rem;}
+    .input-group label{display:block;font-size:.875rem;font-weight:500;color:var(--foreground);margin-bottom:.5rem;}
+    .input-wrapper{position:relative;}
+    .input-wrapper svg{
+      position:absolute; right:1rem; top:50%; transform:translateY(-50%); width:1.25rem; height:1.25rem;
+      color:var(--muted-foreground); transition:color .2s;
+    }
+    .input-wrapper input{
+      width:100%; padding:.875rem 3rem .875rem 1rem; border:2px solid var(--border); border-radius:.75rem;
+      background:var(--background); color:var(--foreground); font-family:inherit; font-size:1rem; transition:all .2s;
+    }
+    .input-wrapper input:focus{
+      outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(14,165,233,.15);
+    }
+    .input-wrapper:focus-within svg{color:var(--primary);}
+    .password-toggle{
+      position:absolute; left:1rem; top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer; padding:0; color:var(--muted-foreground);
+    }
+    .password-toggle:hover{color:var(--primary);}
+    .password-toggle svg{position:static;transform:none;}
+
+    .remember-me{display:flex;align-items:center;gap:.75rem;}
+    .remember-me input{width:1.25rem;height:1.25rem;accent-color:var(--primary);cursor:pointer;}
+    .remember-me label{font-size:.875rem;color:var(--muted-foreground);cursor:pointer;}
+
+    .login-btn{
+      width:100%; padding:1rem; border:none; border-radius:.75rem;
+      background:linear-gradient(135deg,var(--primary),#0284c7);
+      color:white; font-family:inherit; font-size:1rem; font-weight:600; cursor:pointer;
+      display:flex; align-items:center; justify-content:center; gap:.75rem;
+      transition:all .3s; box-shadow:0 4px 15px rgba(14,165,233,.3);
+    }
+    .login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(14,165,233,.4);}
+    .login-btn:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+    .login-error{
+      padding:1rem;border-radius:.75rem;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);
+      color:var(--destructive);font-size:.875rem;text-align:center;display:none;animation:shake .5s ease-in-out;
+    }
+    .login-error.show{display:block;}
+    @keyframes shake{
+      0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}
+    }
+    .login-footer{margin-top:1.5rem;text-align:center;padding-top:1.5rem;border-top:1px solid var(--border);}
+    .login-footer p{font-size:.75rem;color:var(--muted-foreground);}
+
+    .theme-toggle-login{
+      position:absolute; top:1rem; left:1rem; width:2.5rem; height:2.5rem; border-radius:50%;
+      border:none; background:rgba(255,255,255,.1); backdrop-filter:blur(10px);
+      cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:20;
+    }
+    .theme-toggle-login svg{width:1.25rem;height:1.25rem;color:white;}
+    .dark .theme-toggle-login .sun-icon{display:block;}
+    .dark .theme-toggle-login .moon-icon{display:none;}
+    .theme-toggle-login .sun-icon{display:none;}
+    .theme-toggle-login .moon-icon{display:block;}
+
+    /* APP */
+    .app-container{display:none;}
+    .app-container.active{display:block;}
+    .login-page.hidden{display:none;}
+
+    /* HEADER */
+    .header{position:sticky;top:0;z-index:50;width:100%;border-bottom:1px solid var(--border);background:var(--background);backdrop-filter:blur(10px);}
+    .header-container{max-width:56rem;margin:0 auto;padding:0 1rem;height:4rem;display:flex;align-items:center;justify-content:space-between;}
+    .logo-section{display:flex;align-items:center;gap:.75rem;}
+    .logo-icon{width:2.5rem;height:2.5rem;border-radius:.75rem;background:linear-gradient(135deg,var(--primary),#0284c7);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(14,165,233,.25);}
+    .logo-icon svg{width:1.25rem;height:1.25rem;color:white;}
+    .logo-text{display:none;}
+    @media(min-width:640px){.logo-text{display:block;}}
+    .logo-text h1{font-weight:700;font-size:1.125rem;line-height:1.2;color:var(--foreground);}
+    .logo-text p{font-size:.75rem;color:var(--muted-foreground);}
+
+    .header-actions{display:flex;align-items:center;gap:.5rem;}
+    .user-info{display:none;align-items:center;gap:.5rem;padding:.5rem .75rem;background:var(--muted);border-radius:2rem;}
+    @media(min-width:640px){.user-info{display:flex;}}
+    .user-avatar{width:2rem;height:2rem;border-radius:50%;background:linear-gradient(135deg,var(--primary),#0284c7);display:flex;align-items:center;justify-content:center;}
+    .user-avatar svg{width:1rem;height:1rem;color:white;}
+    .user-name{font-size:.875rem;font-weight:500;color:var(--foreground);}
+
+    .logout-btn{width:2.5rem;height:2.5rem;border-radius:50%;border:none;background:rgba(239,68,68,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .logout-btn:hover{background:rgba(239,68,68,.2);}
+    .logout-btn svg{width:1.25rem;height:1.25rem;color:var(--destructive);}
+
+    .theme-toggle{width:2.5rem;height:2.5rem;border-radius:50%;border:none;background:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .theme-toggle:hover{background:var(--border);}
+    .theme-toggle svg{width:1.25rem;height:1.25rem;}
+    .dark .theme-toggle .sun-icon{display:block;color:#fbbf24;}
+    .dark .theme-toggle .moon-icon{display:none;}
+    .theme-toggle .sun-icon{display:none;}
+    .theme-toggle .moon-icon{display:block;color:#475569;}
+
+    /* MAIN */
+    .main{max-width:56rem;margin:0 auto;padding:1.5rem 1rem;}
+    .welcome-banner{
+      position:relative;overflow:hidden;border-radius:1rem;
+      background:linear-gradient(135deg,var(--primary),#0ea5e9,#06b6d4);
+      padding:1.5rem;color:white;box-shadow:0 10px 40px rgba(14,165,233,.2);
+    }
+    @media(min-width:640px){.welcome-banner{padding:2rem;}}
+    .welcome-content{position:relative;z-index:1;}
+    .welcome-badge{display:inline-flex;align-items:center;gap:.5rem;margin-bottom:.75rem;font-size:.875rem;font-weight:500;opacity:.9;}
+    .welcome-badge svg{width:1.25rem;height:1.25rem;}
+    .welcome-title{font-size:1.5rem;font-weight:700;margin-bottom:.5rem;}
+    @media(min-width:640px){.welcome-title{font-size:1.875rem;}}
+    .welcome-desc{font-size:.875rem;opacity:.9;max-width:28rem;}
+    @media(min-width:640px){.welcome-desc{font-size:1rem;}}
+
+    /* SERVICES */
+    .services-grid{
+      display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem;
+    }
+    @media(min-width:640px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+    .service-wrapper{display:flex;flex-direction:column;}
+    .service-card{
+      width:100%; padding:1.25rem; border-radius:.75rem; border:1px solid var(--border);
+      background:var(--card); color:var(--card-foreground); cursor:pointer; transition:all .3s; text-align:right;
+    }
+    .service-card:hover{box-shadow:0 10px 40px rgba(0,0,0,.1); border-color:var(--primary); transform:translateY(-2px);}
+    .service-card.active{
+      box-shadow:0 0 0 2px var(--primary); border-color:var(--primary);
+      border-radius:.75rem .75rem 0 0;
+    }
+    .service-card-content{display:flex;align-items:flex-start;gap:1rem;}
+    .service-icon{
+      width:3rem;height:3rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      box-shadow:0 4px 14px rgba(0,0,0,.15);transition:transform .3s;
+    }
+    .service-card:hover .service-icon{transform:scale(1.1);}
+    .service-icon svg{width:1.5rem;height:1.5rem;color:white;}
+    .service-icon.sky{background:linear-gradient(135deg,#0ea5e9,#06b6d4);}
+    .service-icon.emerald{background:linear-gradient(135deg,#10b981,#14b8a6);}
+    .service-icon.violet{background:linear-gradient(135deg,#8b5cf6,#a855f7);}
+    .service-icon.orange{background:linear-gradient(135deg,#f97316,#f59e0b);}
+    .service-icon.pink{background:linear-gradient(135deg,#ec4899,#f472b6);}
+    .service-icon.indigo{background:linear-gradient(135deg,#6366f1,#818cf8);}
+    .service-icon.cyan{background:linear-gradient(135deg,#06b6d4,#0ea5e9);}
+    .service-icon.red{background:linear-gradient(135deg,#ef4444,#f97316);}
+
+    .service-info{flex:1;}
+    .service-title{font-weight:600;color:var(--foreground);margin-bottom:.25rem;}
+    .service-desc{font-size:.875rem;color:var(--muted-foreground);}
+    .service-chevron{width:1.25rem;height:1.25rem;color:var(--muted-foreground);transition:transform .3s;}
+    .service-card.active .service-chevron{transform:rotate(180deg);color:var(--primary);}
+
+    /* SECTIONS under button */
+    .section{display:none; animation:fadeInSlide .3s ease-out; margin-top:0;}
+    .section.active{display:block;}
+    @keyframes fadeInSlide{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    .section-card{
+      background:var(--card); border:1px solid var(--border); border-top:none;
+      border-radius:0 0 .75rem .75rem; padding:1rem; box-shadow:0 1px 3px rgba(0,0,0,.05);
+    }
+    .section-header{font-weight:600;color:var(--foreground);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+    .section-indicator{width:.375rem;height:1.5rem;border-radius:9999px;}
+    .section-indicator.sky{background:var(--primary);}
+    .section-indicator.emerald{background:#10b981;}
+    .section-indicator.violet{background:#8b5cf6;}
+    .section-indicator.cyan{background:#06b6d4;}
+
+    /* forms */
+    .forms-grid{display:grid;grid-template-columns:1fr;gap:.75rem;}
+    @media(min-width:640px){.forms-grid{grid-template-columns:repeat(2,1fr);}}
+    .form-item{
+      display:flex; align-items:center; gap:.75rem; padding:.75rem; border-radius:.5rem;
+      border:1px solid var(--border); background:var(--background); cursor:pointer;
+      transition:all .2s; text-decoration:none; color:inherit;
+    }
+    .form-item:hover{background:var(--muted); border-color:var(--primary);}
+    .form-icon{width:2.5rem;height:2.5rem;border-radius:.5rem;background:rgba(14,165,233,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .form-icon svg{width:1.25rem;height:1.25rem;color:var(--primary);}
+    .form-name{font-size:.875rem;font-weight:500;color:var(--foreground);}
+
+    /* phones */
+    .search-input{position:relative;margin-bottom:1rem;}
+    .search-input svg{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);width:1rem;height:1rem;color:var(--muted-foreground);}
+    .search-input input{
+      width:100%; padding:.625rem 2.5rem .625rem .75rem; border:1px solid var(--border); border-radius:.5rem;
+      background:var(--background); color:var(--foreground); font-family:inherit; font-size:.875rem;
+    }
+    .search-input input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(14,165,233,.1);}
+
+    .phones-list{max-height:20rem;overflow-y:auto;display:flex;flex-direction:column;gap:.5rem;}
+    .phone-item{display:flex;align-items:center;justify-content:space-between;padding:.75rem;border-radius:.5rem;background:var(--background);border:1px solid var(--border);}
+    .phone-item:hover{background:var(--muted);}
+    .phone-name{font-size:.875rem;color:var(--foreground);}
+    .phone-number-section{display:flex;align-items:center;gap:.5rem;}
+    .phone-number{font-size:.875rem;font-weight:700;color:var(--primary);}
+    .phone-icon-circle{width:2rem;height:2rem;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;}
+    .phone-icon-circle svg{width:1rem;height:1rem;color:#10b981;}
+    .no-results{text-align:center;color:var(--muted-foreground);padding:1rem;}
+
+    /* social */
+    .social-links{display:flex;flex-direction:column;gap:.75rem;}
+    .social-link{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-radius:.75rem;color:white;text-decoration:none;transition:all .2s;}
+    .social-link:hover{box-shadow:0 10px 30px rgba(0,0,0,.2);transform:translateY(-2px);}
+    .social-link.facebook{background:#3b82f6;}
+    .social-link.facebook:hover{background:#2563eb;}
+    .social-link.whatsapp{background:#22c55e;}
+    .social-link.whatsapp:hover{background:#16a34a;}
+    .social-link-content{display:flex;align-items:center;gap:.75rem;}
+    .social-link svg{width:1.5rem;height:1.5rem;}
+    .social-link span{font-weight:500;}
+
+    /* footer */
+    .footer{border-top:1px solid var(--border);background:var(--card);margin-top:2rem;}
+    .footer-container{max-width:56rem;margin:0 auto;padding:1.5rem 1rem;display:flex;flex-direction:column;align-items:center;gap:1rem;}
+    @media(min-width:640px){.footer-container{flex-direction:row;justify-content:space-between;}}
+    .footer-copyright{font-size:.875rem;color:var(--muted-foreground);}
+    .footer-credit{display:flex;align-items:center;gap:.5rem;font-size:.875rem;}
+    .footer-credit span{color:var(--muted-foreground);}
+    .footer-name{color:var(--muted-foreground);font-weight:bold;font-size:.75rem;}
+
+    /* modal */
+    .modal-overlay{
+      position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.6); backdrop-filter:blur(4px);
+      display:none; align-items:center; justify-content:center; padding:1rem;
+    }
+    .modal-overlay.active{display:flex;}
+    .modal{
+      background:var(--card); border:1px solid var(--border); border-radius:1rem; width:100%;
+      max-width:28rem; max-height:90vh; overflow-y:auto; animation:zoomIn .2s ease-out;
+    }
+    @keyframes zoomIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+    .modal-header{
+      position:sticky; top:0; background:var(--card); border-bottom:1px solid var(--border);
+      padding:1rem; display:flex; align-items:center; justify-content:space-between;
+    }
+    .modal-title{font-size:1.125rem;font-weight:700;color:var(--foreground);}
+    .modal-close{
+      width:2rem;height:2rem;border-radius:50%;border:none;background:var(--muted);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .modal-close:hover{background:var(--border);}
+    .modal-close svg{width:1.25rem;height:1.25rem;color:var(--foreground);}
+    .modal-body{padding:1rem;}
+
+    .form-group{margin-bottom:1rem;}
+    .form-label{display:block;font-size:.875rem;font-weight:500;color:var(--foreground);margin-bottom:.5rem;}
+    .form-select,.form-input{
+      width:100%; padding:.625rem .75rem; border:1px solid var(--border); border-radius:.5rem;
+      background:var(--background); color:var(--foreground); font-family:inherit; font-size:.875rem;
+    }
+    .form-select:focus,.form-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(14,165,233,.1);}
+
+    .error-message{
+      padding:.75rem;border-radius:.5rem;background:rgba(239,68,68,.1);color:var(--destructive);
+      font-size:.875rem;text-align:center;margin-bottom:1rem;
+    }
+
+    .btn-group{display:flex;gap:.75rem;}
+    .btn{
+      flex:1; padding:.625rem 1rem; border-radius:.5rem; border:none; font-family:inherit;
+      font-size:.875rem; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:.5rem;
+    }
+    .btn-primary{background:var(--primary);color:var(--primary-foreground);}
+    .btn-primary:hover{background:#0284c7;}
+    .btn-primary:disabled{opacity:.6;cursor:not-allowed;}
+    .btn-secondary{background:var(--secondary);color:var(--secondary-foreground);}
+    .btn-secondary:hover{background:var(--border);}
+    .btn svg{width:1rem;height:1rem;}
+    .spinner{animation:spin 1s linear infinite;}
+    @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+    /* salary result */
+    .salary-result{margin-top:1rem;animation:fadeInSlide .3s ease-out;}
+    .salary-header{background:linear-gradient(135deg,var(--primary),#0284c7);border-radius:.75rem;padding:1rem;color:white;margin-bottom:1rem;}
+    .salary-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+    .salary-header-top span{font-size:.875rem;opacity:.9;}
+    .salary-header-top svg{width:1.25rem;height:1.25rem;opacity:.75;}
+    .salary-net{font-size:1.5rem;font-weight:700;}
+    .salary-name{font-size:.875rem;opacity:.9;margin-top:.25rem;}
+    .salary-details{display:flex;flex-direction:column;gap:.5rem;}
+    .detail-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem;border-radius:.5rem;background:var(--background);}
+    .detail-row.highlight{background:rgba(14,165,233,.1);}
+    .detail-label{display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:var(--muted-foreground);}
+    .detail-label svg{width:1rem;height:1rem;}
+    .detail-value{font-size:.875rem;font-weight:500;color:var(--foreground);}
+    .detail-row.highlight .detail-value{color:var(--primary);font-weight:700;}
+    .divider{border-top:1px dashed var(--border);margin:.75rem 0;padding-top:.75rem;}
+    .deductions-section{background:rgba(239,68,68,.05);border-radius:.5rem;padding:.75rem;margin-bottom:.5rem;}
+    .deductions-title{font-size:.875rem;font-weight:600;color:var(--destructive);display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;}
+    .deductions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+    .deduction-item{text-align:center;padding:.5rem;background:var(--background);border-radius:.5rem;}
+    .deduction-label{font-size:.75rem;color:var(--muted-foreground);}
+    .deduction-value{font-size:.875rem;font-weight:600;color:var(--destructive);}
+    .net-salary-box{background:rgba(14,165,233,.1);border-radius:.5rem;padding:.75rem;display:flex;align-items:center;justify-content:space-between;}
+    .net-salary-label{font-weight:600;color:var(--foreground);}
+    .net-salary-value{font-size:1.25rem;font-weight:700;color:var(--primary);}
+    .print-btn{width:100%;margin-top:1rem;}
+
+    /* coming soon modal */
+    .coming-soon-content{text-align:center;padding:2rem 1rem;}
+    .coming-soon-icon{
+      width:5rem;height:5rem;margin:0 auto 1.5rem;border-radius:50%;
+      background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;
+      animation:pulse-icon 2s ease-in-out infinite;
+    }
+    @keyframes pulse-icon{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+    .coming-soon-icon svg{width:2.5rem;height:2.5rem;color:white;}
+    .coming-soon-title{font-size:1.5rem;font-weight:700;color:var(--foreground);margin-bottom:.5rem;}
+    .coming-soon-desc{font-size:1rem;color:var(--muted-foreground);margin-bottom:1.5rem;}
+    .coming-soon-features{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem;}
+    .coming-soon-feature{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--muted);border-radius:.5rem;text-align:right;}
+    .coming-soon-feature svg{width:1.25rem;height:1.25rem;color:var(--primary);flex-shrink:0;}
+    .coming-soon-feature span{font-size:.875rem;color:var(--foreground);}
+
+    /* toast */
+    .toast{
+      position:fixed; bottom:1rem; left:1rem; right:1rem;
+      display:none; align-items:center; gap:.75rem; padding:.75rem 1rem; border-radius:.75rem;
+      box-shadow:0 10px 40px rgba(0,0,0,.2); z-index:60; animation:slideInUp .3s ease-out;
+    }
+    @media(min-width:640px){.toast{left:auto;width:auto;}}
+    .toast.active{display:flex;}
+    .toast.success{background:#22c55e;color:white;}
+    .toast.error{background:#ef4444;color:white;}
+    .toast.info{background:#f59e0b;color:white;}
+    .toast svg{width:1.25rem;height:1.25rem;flex-shrink:0;}
+    .toast span{font-size:.875rem;font-weight:500;}
+    @keyframes slideInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    @media print{
+      .header,.footer,.modal-close,.btn-group,.services-grid{display:none !important;}
+      .modal-overlay{position:static;background:none;backdrop-filter:none;}
+      .modal{box-shadow:none;border:none;max-height:none;}
     }
   </style>
 </head>
+
 <body>
-  <!-- ==================== LOGIN PAGE ==================== -->
+  <!-- LOGIN PAGE -->
   <div class="login-page" id="login-page">
     <button class="theme-toggle-login" onclick="toggleDarkMode()">
       <i data-lucide="sun" class="sun-icon"></i>
@@ -1401,9 +415,7 @@
     <div class="login-container">
       <div class="login-card">
         <div class="login-logo">
-          <div class="login-logo-icon">
-            <i data-lucide="building-2"></i>
-          </div>
+          <div class="login-logo-icon"><i data-lucide="building-2"></i></div>
           <h1>شركة الدعم للمقاولات</h1>
           <p>نظام خدمات الموظفين</p>
         </div>
@@ -1448,30 +460,26 @@
     </div>
   </div>
 
-  <!-- ==================== MAIN APP ==================== -->
+  <!-- MAIN APP -->
   <div class="app-container" id="app-container">
     <header class="header">
       <div class="header-container">
         <div class="logo-section">
-          <div class="logo-icon">
-            <i data-lucide="building-2"></i>
-          </div>
-          <div class="logo-text">
-            <h1>شركة الدعم</h1>
-            <p>للمقاولات</p>
-          </div>
+          <div class="logo-icon"><i data-lucide="building-2"></i></div>
+          <div class="logo-text"><h1>شركة الدعم</h1><p>للمقاولات</p></div>
         </div>
+
         <div class="header-actions">
           <div class="user-info">
-            <div class="user-avatar">
-              <i data-lucide="user"></i>
-            </div>
+            <div class="user-avatar"><i data-lucide="user"></i></div>
             <span class="user-name" id="header-user-name">مرحباً</span>
           </div>
+
           <button class="theme-toggle" onclick="toggleDarkMode()">
             <i data-lucide="sun" class="sun-icon"></i>
             <i data-lucide="moon" class="moon-icon"></i>
           </button>
+
           <button class="logout-btn" onclick="handleLogout()" title="تسجيل الخروج">
             <i data-lucide="log-out"></i>
           </button>
@@ -1482,61 +490,43 @@
     <main class="main">
       <div class="welcome-banner">
         <div class="welcome-content">
-          <div class="welcome-badge">
-            <i data-lucide="sparkles"></i>
-            <span>نظام خدمات الموظفين</span>
-          </div>
+          <div class="welcome-badge"><i data-lucide="sparkles"></i><span>نظام خدمات الموظفين</span></div>
           <h2 class="welcome-title">مرحباً بك <span id="welcome-user-name"></span></h2>
           <p class="welcome-desc">نظام متكامل لإدارة طلباتك والاستعلام عن معلوماتك بكل سهولة ويسر</p>
         </div>
       </div>
 
       <div class="services-grid">
+
         <!-- النماذج -->
         <div class="service-wrapper">
           <button class="service-card" onclick="toggleSection('forms')" id="forms-card">
             <div class="service-card-content">
-              <div class="service-icon sky">
-                <i data-lucide="file-text"></i>
-              </div>
-              <div class="service-info">
-                <h3 class="service-title">النماذج</h3>
-                <p class="service-desc">جميع نماذج الطلبات والإجراءات</p>
-              </div>
+              <div class="service-icon sky"><i data-lucide="file-text"></i></div>
+              <div class="service-info"><h3 class="service-title">النماذج</h3><p class="service-desc">جميع نماذج الطلبات والإجراءات</p></div>
               <i data-lucide="chevron-down" class="service-chevron"></i>
             </div>
           </button>
           <div class="section" id="forms-section">
             <div class="section-card">
-              <h3 class="section-header">
-                <span class="section-indicator sky"></span>
-                نماذج الطلبات
-              </h3>
+              <h3 class="section-header"><span class="section-indicator sky"></span>نماذج الطلبات</h3>
               <div class="forms-grid" id="forms-grid"></div>
             </div>
           </div>
         </div>
 
-        <!-- أرقام الهواتف -->
+        <!-- أرقام الهواتف (الداخلية) -->
         <div class="service-wrapper">
           <button class="service-card" onclick="toggleSection('phones')" id="phones-card">
             <div class="service-card-content">
-              <div class="service-icon emerald">
-                <i data-lucide="phone"></i>
-              </div>
-              <div class="service-info">
-                <h3 class="service-title">أرقام الهواتف</h3>
-                <p class="service-desc">دليل الأرقام الداخلية</p>
-              </div>
+              <div class="service-icon emerald"><i data-lucide="phone"></i></div>
+              <div class="service-info"><h3 class="service-title">أرقام الهواتف</h3><p class="service-desc">دليل الأرقام الداخلية</p></div>
               <i data-lucide="chevron-down" class="service-chevron"></i>
             </div>
           </button>
           <div class="section" id="phones-section">
             <div class="section-card">
-              <h3 class="section-header">
-                <span class="section-indicator emerald"></span>
-                دليل الأرقام الداخلية
-              </h3>
+              <h3 class="section-header"><span class="section-indicator emerald"></span>دليل الأرقام الداخلية</h3>
               <div class="search-input">
                 <i data-lucide="search"></i>
                 <input type="text" placeholder="ابحث عن قسم أو رقم..." id="phone-search" oninput="filterPhones()">
@@ -1546,38 +536,55 @@
           </div>
         </div>
 
+        <!-- الأرقام الشخصية -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="toggleSection('personal-phones')" id="personal-phones-card">
+            <div class="service-card-content">
+              <div class="service-icon cyan"><i data-lucide="smartphone"></i></div>
+              <div class="service-info">
+                <h3 class="service-title">الأرقام الشخصية</h3>
+                <p class="service-desc">أرقام التواصل لموظفي الشركة</p>
+              </div>
+              <i data-lucide="chevron-down" class="service-chevron"></i>
+            </div>
+          </button>
+          <div class="section" id="personal-phones-section">
+            <div class="section-card">
+              <h3 class="section-header"><span class="section-indicator cyan"></span>دليل الأرقام الشخصية</h3>
+              <div class="search-input">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="ابحث بالاسم أو الرقم..." id="personal-phone-search" oninput="filterPersonalPhones()">
+              </div>
+              <div class="phones-list" id="personal-phones-list"></div>
+              <div style="margin-top: .75rem; color: var(--muted-foreground); font-size: .8rem;">
+                ملاحظة: يتم تحميل البيانات من ملف الشيت عبر نفس السكربت.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- الصفحات الرسمية -->
         <div class="service-wrapper">
           <button class="service-card" onclick="toggleSection('links')" id="links-card">
             <div class="service-card-content">
-              <div class="service-icon violet">
-                <i data-lucide="globe"></i>
-              </div>
-              <div class="service-info">
-                <h3 class="service-title">الصفحات الرسمية</h3>
-                <p class="service-desc">روابط التواصل الاجتماعي</p>
-              </div>
+              <div class="service-icon violet"><i data-lucide="globe"></i></div>
+              <div class="service-info"><h3 class="service-title">الصفحات الرسمية</h3><p class="service-desc">روابط التواصل الاجتماعي</p></div>
               <i data-lucide="chevron-down" class="service-chevron"></i>
             </div>
           </button>
           <div class="section" id="links-section">
             <div class="section-card">
-              <h3 class="section-header">
-                <span class="section-indicator violet"></span>
-                الصفحات والمجموعات الرسمية
-              </h3>
+              <h3 class="section-header"><span class="section-indicator violet"></span>الصفحات والمجموعات الرسمية</h3>
               <div class="social-links">
                 <a href="https://www.facebook.com/share/15ws7sBHJe/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
                   <div class="social-link-content">
-                    <i data-lucide="facebook"></i>
-                    <span>الصفحة الرسمية على فيسبوك</span>
+                    <i data-lucide="facebook"></i><span>الصفحة الرسمية على فيسبوك</span>
                   </div>
                   <i data-lucide="external-link"></i>
                 </a>
                 <a href="https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
                   <div class="social-link-content">
-                    <i data-lucide="message-circle"></i>
-                    <span>مجموعة الواتساب</span>
+                    <i data-lucide="message-circle"></i><span>مجموعة الواتساب</span>
                   </div>
                   <i data-lucide="external-link"></i>
                 </a>
@@ -1590,71 +597,63 @@
         <div class="service-wrapper">
           <button class="service-card" onclick="openSalaryModal()" id="salary-card">
             <div class="service-card-content">
-              <div class="service-icon orange">
-                <i data-lucide="wallet"></i>
-              </div>
-              <div class="service-info">
-                <h3 class="service-title">الاستعلام عن الراتب</h3>
-                <p class="service-desc">معرفة تفاصيل الراتب الشهري</p>
-              </div>
+              <div class="service-icon orange"><i data-lucide="wallet"></i></div>
+              <div class="service-info"><h3 class="service-title">الاستعلام عن الراتب</h3><p class="service-desc">معرفة تفاصيل الراتب الشهري</p></div>
               <i data-lucide="chevron-left" class="service-chevron"></i>
             </div>
           </button>
         </div>
 
-        <!-- الأمانات -->
+        <!-- السلف المالية (قريباً) -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="openComingSoonModal('loans')" id="loans-card">
+            <div class="service-card-content">
+              <div class="service-icon red"><i data-lucide="hand-coins"></i></div>
+              <div class="service-info"><h3 class="service-title">السلف المالية</h3><p class="service-desc">معرفة المتبقي والمسدد وحالة السلفة</p></div>
+              <i data-lucide="chevron-left" class="service-chevron"></i>
+            </div>
+          </button>
+        </div>
+
+        <!-- الأمانات (قريباً) -->
         <div class="service-wrapper">
           <button class="service-card" onclick="openComingSoonModal('amanat')" id="amanat-card">
             <div class="service-card-content">
-              <div class="service-icon pink">
-                <i data-lucide="archive"></i>
-              </div>
-              <div class="service-info">
-                <h3 class="service-title">الأمانات</h3>
-                <p class="service-desc">إدارة الأمانات والودائع</p>
-              </div>
+              <div class="service-icon pink"><i data-lucide="archive"></i></div>
+              <div class="service-info"><h3 class="service-title">الأمانات</h3><p class="service-desc">إدارة الأمانات والودائع</p></div>
               <i data-lucide="chevron-left" class="service-chevron"></i>
             </div>
           </button>
         </div>
 
-        <!-- العهدة الشخصية -->
+        <!-- العهدة الشخصية (قريباً) -->
         <div class="service-wrapper">
           <button class="service-card" onclick="openComingSoonModal('ohda')" id="ohda-card">
             <div class="service-card-content">
-              <div class="service-icon indigo">
-                <i data-lucide="clipboard-list"></i>
-              </div>
-              <div class="service-info">
-                <h3 class="service-title">العهدة الشخصية</h3>
-                <p class="service-desc">الاستعلام عن العهدة الشخصية</p>
-              </div>
+              <div class="service-icon indigo"><i data-lucide="clipboard-list"></i></div>
+              <div class="service-info"><h3 class="service-title">العهدة الشخصية</h3><p class="service-desc">الاستعلام عن العهدة الشخصية</p></div>
               <i data-lucide="chevron-left" class="service-chevron"></i>
             </div>
           </button>
         </div>
+
       </div>
     </main>
 
     <footer class="footer">
       <div class="footer-container">
         <p class="footer-copyright">© 2025 شركة الدعم للمقاولات. جميع الحقوق محفوظة.</p>
-        <div class="footer-credit">
-          <span>تصميم وتطوير</span>
-          <span class="footer-name">Mustafa_Jamal_Darrez</span>
-        </div>
+        <div class="footer-credit"><span>تصميم وتطوير</span><span class="footer-name">Mustafa_Jamal_Darrez</span></div>
       </div>
     </footer>
   </div>
 
-  <!-- ==================== SALARY MODAL ==================== -->
+  <!-- SALARY MODAL -->
   <div class="modal-overlay" id="salary-modal" onclick="closeModalOnOverlay(event)">
     <div class="modal">
       <div class="modal-header">
         <h2 class="modal-title">الاستعلام عن الراتب</h2>
-        <button class="modal-close" onclick="closeSalaryModal()">
-          <i data-lucide="x"></i>
-        </button>
+        <button class="modal-close" onclick="closeSalaryModal()"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
         <div class="form-group">
@@ -1664,57 +663,50 @@
           </select>
         </div>
 
-        <div class="error-message" id="salary-error" style="display: none;"></div>
+        <div class="error-message" id="salary-error" style="display:none;"></div>
 
         <div class="btn-group">
           <button class="btn btn-primary" onclick="querySalary()" id="query-btn">استعلام</button>
           <button class="btn btn-secondary" onclick="closeSalaryModal()">إغلاق</button>
         </div>
 
-        <div class="salary-result" id="salary-result" style="display: none;"></div>
+        <div class="salary-result" id="salary-result" style="display:none;"></div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== COMING SOON MODAL ==================== -->
+  <!-- COMING SOON MODAL -->
   <div class="modal-overlay" id="coming-soon-modal" onclick="closeComingSoonModalOnOverlay(event)">
     <div class="modal">
       <div class="modal-header">
         <h2 class="modal-title" id="coming-soon-modal-title">قريباً</h2>
-        <button class="modal-close" onclick="closeComingSoonModal()">
-          <i data-lucide="x"></i>
-        </button>
+        <button class="modal-close" onclick="closeComingSoonModal()"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
         <div class="coming-soon-content">
-          <div class="coming-soon-icon">
-            <i data-lucide="clock"></i>
-          </div>
+          <div class="coming-soon-icon"><i data-lucide="clock"></i></div>
           <h3 class="coming-soon-title">ستتوفر الخدمة قريباً</h3>
           <p class="coming-soon-desc" id="coming-soon-desc">نعمل على تطوير هذه الخدمة لتقديم أفضل تجربة للمستخدمين</p>
-          <div class="coming-soon-features" id="coming-soon-features">
-            <!-- سيتم ملؤها ديناميكياً -->
-          </div>
-          <button class="btn btn-primary" onclick="closeComingSoonModal()" style="width: 100%;">
-            <i data-lucide="check"></i>
-            حسناً، فهمت
+          <div class="coming-soon-features" id="coming-soon-features"></div>
+          <button class="btn btn-primary" onclick="closeComingSoonModal()" style="width:100%;">
+            <i data-lucide="check"></i> حسناً
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== TOAST ==================== -->
+  <!-- TOAST -->
   <div class="toast" id="toast">
     <i data-lucide="check-circle" id="toast-icon"></i>
     <span id="toast-message"></span>
   </div>
 
   <script>
-    // ==================== رابط Google Apps Script ====================
+    // ==================== Google Apps Script URL ====================
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzmXgod3ZP8ATTgf5wd8HQgll2YCvkqcqt_9sFTQ23kpN7ty3W5NjS7-2OfULYUS73V/exec";
 
-    // ==================== DATA ====================
+    // ==================== DATA (Local - forms + internal phones) ====================
     const forms = [
       { id: "طلب-إجازة", name: "طلب إجازة", icon: "file-signature", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
       { id: "طلب-سلفة", name: "طلب سلفة مالية", icon: "banknote", url: "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link" },
@@ -1752,25 +744,21 @@
       { name: "مقهى (حسن)", number: "105" }
     ];
 
-    // بيانات الخدمات القادمة
     const comingSoonData = {
       amanat: {
         title: "الأمانات",
         desc: "نعمل على تطوير نظام إدارة الأمانات والودائع ليكون متاحاً قريباً",
-        features: [
-          "الاستعلام عن الأمانات المسجلة",
-          "متابعة حالة الأمانات",
-          "طلب استرداد الأمانات"
-        ]
+        features: ["الاستعلام عن الأمانات", "متابعة الحالة", "طلبات الاسترداد"]
       },
       ohda: {
         title: "العهدة الشخصية",
-        desc: "نعمل على تطوير نظام الاستعلام عن العهدة الشخصية ليكون متاحاً قريباً",
-        features: [
-          "عرض قائمة العهدة الشخصية",
-          "تفاصيل كل عنصر في العهدة",
-          "طلب تحويل أو إرجاع العهدة"
-        ]
+        desc: "نعمل على تطوير نظام العهدة الشخصية ليكون متاحاً قريباً",
+        features: ["عرض العهدة", "تفاصيل العناصر", "طلب تحويل/إرجاع"]
+      },
+      loans: {
+        title: "السلف المالية",
+        desc: "قريباً: ستتمكن من معرفة إجمالي السلفة، المسدد، والمتبقي مع تفاصيل الحسم.",
+        features: ["إجمالي السلفة", "المبلغ المسدد", "المبلغ المتبقي", "تاريخ آخر سداد"]
       }
     };
 
@@ -1779,8 +767,12 @@
     let months = [];
     let currentUser = null;
 
-    // ==================== INITIALIZATION ====================
-    document.addEventListener('DOMContentLoaded', function() {
+    // personal phones state
+    let personalPhones = [];
+    let personalPhonesLoaded = false;
+
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', function () {
       lucide.createIcons();
       initDarkMode();
       checkStoredLogin();
@@ -1788,7 +780,7 @@
       renderPhones();
     });
 
-    // ==================== AUTHENTICATION ====================
+    // ==================== AUTH ====================
     function checkStoredLogin() {
       const storedUser = localStorage.getItem('currentUser');
       const rememberMe = localStorage.getItem('rememberMe');
@@ -1819,33 +811,23 @@
       lucide.createIcons();
 
       try {
-        const response = await fetch(
-          `${webAppUrl}?action=login&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`
-        );
-
+        const response = await fetch(`${webAppUrl}?action=login&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
         if (!response.ok) throw new Error('خطأ في الاتصال');
-
         const data = await response.json();
 
         if (data.success) {
-          currentUser = {
-            number: data.user.number,
-            name: data.user.name,
-            pass: pass
-          };
-
+          currentUser = { number: data.user.number, name: data.user.name, pass: pass };
           if (rememberMe) {
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             localStorage.setItem('rememberMe', 'true');
           }
-
           showToast(`مرحباً ${currentUser.name}`, 'success');
           showApp();
         } else {
           errorEl.textContent = data.error || 'بيانات الدخول غير صحيحة';
           errorEl.classList.add('show');
         }
-      } catch (error) {
+      } catch (e) {
         errorEl.textContent = 'حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.';
         errorEl.classList.add('show');
       } finally {
@@ -1897,11 +879,8 @@
     // ==================== DARK MODE ====================
     function initDarkMode() {
       const saved = localStorage.getItem('darkMode');
-      if (saved === 'enabled') {
-        document.body.classList.add('dark');
-      }
+      if (saved === 'enabled') document.body.classList.add('dark');
     }
-
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
       localStorage.setItem('darkMode', document.body.classList.contains('dark') ? 'enabled' : 'disabled');
@@ -1909,23 +888,29 @@
 
     // ==================== SECTIONS ====================
     function toggleSection(section) {
-      const sections = ['forms', 'phones', 'links'];
-      
+      const sections = ['forms', 'phones', 'personal-phones', 'links'];
+
       if (activeSection === section) {
-        // إغلاق القسم الحالي
         document.getElementById(section + '-section').classList.remove('active');
         document.getElementById(section + '-card').classList.remove('active');
         activeSection = null;
-      } else {
-        // إغلاق جميع الأقسام أولاً
-        sections.forEach(s => {
-          document.getElementById(s + '-section').classList.remove('active');
-          document.getElementById(s + '-card').classList.remove('active');
-        });
-        // فتح القسم المحدد
-        document.getElementById(section + '-section').classList.add('active');
-        document.getElementById(section + '-card').classList.add('active');
-        activeSection = section;
+        return;
+      }
+
+      sections.forEach(s => {
+        const secEl = document.getElementById(s + '-section');
+        const cardEl = document.getElementById(s + '-card');
+        if (secEl) secEl.classList.remove('active');
+        if (cardEl) cardEl.classList.remove('active');
+      });
+
+      document.getElementById(section + '-section').classList.add('active');
+      document.getElementById(section + '-card').classList.add('active');
+      activeSection = section;
+
+      // تحميل الأرقام الشخصية عند أول فتح فقط
+      if (section === 'personal-phones' && !personalPhonesLoaded) {
+        loadPersonalPhones();
       }
     }
 
@@ -1933,7 +918,8 @@
     function renderForms() {
       const grid = document.getElementById('forms-grid');
       grid.innerHTML = forms.map(form => `
-        <a href="${form.url}" target="_blank" rel="noopener noreferrer" class="form-item" onclick="showToast('جاري فتح ${form.name}', 'success')">
+        <a href="${form.url}" target="_blank" rel="noopener noreferrer" class="form-item"
+           onclick="showToast('جاري فتح ${form.name}', 'success')">
           <div class="form-icon"><i data-lucide="${form.icon}"></i></div>
           <span class="form-name">${form.name}</span>
         </a>
@@ -1941,7 +927,7 @@
       lucide.createIcons();
     }
 
-    // ==================== PHONES ====================
+    // ==================== INTERNAL PHONES (LOCAL) ====================
     function renderPhones(filter = '') {
       const list = document.getElementById('phones-list');
       const filtered = phones.filter(p => p.name.includes(filter) || p.number.includes(filter));
@@ -1967,6 +953,68 @@
       renderPhones(document.getElementById('phone-search').value);
     }
 
+    // ==================== PERSONAL PHONES (FROM SHEET) ====================
+    async function loadPersonalPhones() {
+      const list = document.getElementById('personal-phones-list');
+      list.innerHTML = '<p class="no-results">جاري تحميل الأرقام الشخصية...</p>';
+
+      try {
+        const res = await fetch(webAppUrl + '?action=personalPhones');
+        if (!res.ok) throw new Error('bad response');
+        const data = await res.json();
+
+        if (!data.success) {
+          list.innerHTML = `<p class="no-results">${data.error || 'تعذر تحميل البيانات'}</p>`;
+          return;
+        }
+
+        personalPhones = data.items || [];
+        personalPhonesLoaded = true;
+        renderPersonalPhones('');
+        showToast('تم تحميل دليل الأرقام الشخصية', 'success');
+      } catch (e) {
+        list.innerHTML = '<p class="no-results">حدث خطأ أثناء تحميل الأرقام الشخصية</p>';
+        showToast('حدث خطأ في تحميل الأرقام الشخصية', 'error');
+      }
+    }
+
+    function renderPersonalPhones(filter = '') {
+      const list = document.getElementById('personal-phones-list');
+      const f = (filter || '').trim();
+
+      const filtered = personalPhones.filter(p =>
+        (p.name && p.name.includes(f)) ||
+        (p.number && p.number.includes(f)) ||
+        (p.department && p.department.includes(f))
+      );
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<p class="no-results">لا توجد نتائج</p>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(p => `
+        <div class="phone-item">
+          <span class="phone-name">${escapeHtml(p.name || '')}${p.department ? ` <span style="color:var(--muted-foreground);font-size:.8rem;">(${escapeHtml(p.department)})</span>` : ''}</span>
+          <div class="phone-number-section">
+            <span class="phone-number">${escapeHtml(p.number || '')}</span>
+            <div class="phone-icon-circle"><i data-lucide="smartphone"></i></div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function filterPersonalPhones() {
+      renderPersonalPhones(document.getElementById('personal-phone-search').value);
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, s => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[s]));
+    }
+
     // ==================== SALARY MODAL ====================
     function openSalaryModal() {
       document.getElementById('salary-modal').classList.add('active');
@@ -1974,11 +1022,9 @@
       document.getElementById('salary-error').style.display = 'none';
       loadMonths();
     }
-
     function closeSalaryModal() {
       document.getElementById('salary-modal').classList.remove('active');
     }
-
     function closeModalOnOverlay(event) {
       if (event.target === event.currentTarget) closeSalaryModal();
     }
@@ -1990,7 +1036,7 @@
         const res = await fetch(webAppUrl + '?action=months');
         months = await res.json();
         select.innerHTML = '<option value="">اختر الشهر</option>' + months.map(m => `<option value="${m}">${m}</option>`).join('');
-      } catch (error) {
+      } catch (e) {
         showToast('حدث خطأ في تحميل قائمة الأشهر', 'error');
         select.innerHTML = '<option value="">حدث خطأ</option>';
       }
@@ -2014,7 +1060,6 @@
         errorEl.style.display = 'block';
         return;
       }
-
       if (!currentUser) {
         errorEl.textContent = 'يرجى تسجيل الدخول أولاً';
         errorEl.style.display = 'block';
@@ -2026,9 +1071,7 @@
       lucide.createIcons();
 
       try {
-        const response = await fetch(
-          `${webAppUrl}?action=query&month=${encodeURIComponent(month)}&number=${encodeURIComponent(currentUser.number)}&pass=${encodeURIComponent(currentUser.pass)}`
-        );
+        const response = await fetch(`${webAppUrl}?action=query&month=${encodeURIComponent(month)}&number=${encodeURIComponent(currentUser.number)}&pass=${encodeURIComponent(currentUser.pass)}`);
         if (!response.ok) throw new Error('خطأ في الاتصال');
         const data = await response.json();
 
@@ -2049,69 +1092,75 @@
         resultEl.innerHTML = `
           <div class="salary-header">
             <div class="salary-header-top">
-              <span>بيانات الراتب لشهر ${month}</span>
+              <span>بيانات الراتب لشهر ${escapeHtml(month)}</span>
               <i data-lucide="wallet"></i>
             </div>
-            <p class="salary-net">${safeValue(data.net)} د.ل</p>
-            <p class="salary-name">${currentUser.name || 'غير متوفر'}</p>
+            <p class="salary-net">${escapeHtml(safeValue(data.net))} د.ل</p>
+            <p class="salary-name">${escapeHtml(currentUser.name || 'غير متوفر')}</p>
           </div>
+
           <div class="salary-details">
             <div class="detail-row">
               <span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span>
-              <span class="detail-value">${safeValue(data.basic)} د.ل</span>
+              <span class="detail-value">${escapeHtml(safeValue(data.basic))} د.ل</span>
             </div>
             <div class="detail-row">
               <span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span>
-              <span class="detail-value">${safeValue(data.bonus)} د.ل</span>
+              <span class="detail-value">${escapeHtml(safeValue(data.bonus))} د.ل</span>
             </div>
             <div class="detail-row">
               <span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span>
-              <span class="detail-value">${safeValue(data.badal)} د.ل</span>
+              <span class="detail-value">${escapeHtml(safeValue(data.badal))} د.ل</span>
             </div>
             <div class="detail-row">
               <span class="detail-label"><i data-lucide="gift"></i> المكافأة</span>
-              <span class="detail-value">${safeValue(data.phoneAllowance)} د.ل</span>
+              <span class="detail-value">${escapeHtml(safeValue(data.phoneAllowance))} د.ل</span>
             </div>
             <div class="detail-row">
               <span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span>
-              <span class="detail-value">${safeValue(data.extra)} د.ل</span>
+              <span class="detail-value">${escapeHtml(safeValue(data.extra))} د.ل</span>
             </div>
+
             <div class="divider">
               <div class="detail-row highlight">
                 <span class="detail-label"><i data-lucide="calculator"></i> الإجمالي قبل الخصومات</span>
-                <span class="detail-value">${totalBefore} د.ل</span>
+                <span class="detail-value">${escapeHtml(totalBefore)} د.ل</span>
               </div>
             </div>
+
             <div class="deductions-section">
               <h4 class="deductions-title"><i data-lucide="minus"></i> تفاصيل الخصومات</h4>
               <div class="deductions-grid">
                 <div class="deduction-item">
                   <p class="deduction-label">الغياب</p>
-                  <p class="deduction-value">-${safeValue(data.absenceDeduct)}</p>
+                  <p class="deduction-value">-${escapeHtml(safeValue(data.absenceDeduct))}</p>
                 </div>
                 <div class="deduction-item">
                   <p class="deduction-label">العقوبة</p>
-                  <p class="deduction-value">-${safeValue(data.penaltyDeduct)}</p>
+                  <p class="deduction-value">-${escapeHtml(safeValue(data.penaltyDeduct))}</p>
                 </div>
                 <div class="deduction-item">
                   <p class="deduction-label">السلفة</p>
-                  <p class="deduction-value">-${safeValue(data.loanDeduct)}</p>
+                  <p class="deduction-value">-${escapeHtml(safeValue(data.loanDeduct))}</p>
                 </div>
               </div>
             </div>
+
             <div class="net-salary-box">
               <span class="net-salary-label">الراتب الصافي</span>
-              <span class="net-salary-value">${safeValue(data.net)} د.ل</span>
+              <span class="net-salary-value">${escapeHtml(safeValue(data.net))} د.ل</span>
             </div>
           </div>
+
           <button class="btn btn-secondary print-btn" onclick="window.print()">
             <i data-lucide="printer"></i> طباعة البيان
           </button>
         `;
+
         resultEl.style.display = 'block';
         lucide.createIcons();
         showToast('تم جلب بيانات الراتب بنجاح', 'success');
-      } catch (error) {
+      } catch (e) {
         errorEl.textContent = 'حدث خطأ أثناء جلب البيانات. يرجى المحاولة مرة أخرى لاحقًا.';
         errorEl.style.display = 'block';
       } finally {
@@ -2127,9 +1176,9 @@
 
       document.getElementById('coming-soon-modal-title').textContent = data.title;
       document.getElementById('coming-soon-desc').textContent = data.desc;
-      
+
       const featuresContainer = document.getElementById('coming-soon-features');
-      featuresContainer.innerHTML = data.features.map(feature => `
+      featuresContainer.innerHTML = (data.features || []).map(feature => `
         <div class="coming-soon-feature">
           <i data-lucide="check-circle"></i>
           <span>${feature}</span>
@@ -2139,11 +1188,9 @@
       document.getElementById('coming-soon-modal').classList.add('active');
       lucide.createIcons();
     }
-
     function closeComingSoonModal() {
       document.getElementById('coming-soon-modal').classList.remove('active');
     }
-
     function closeComingSoonModalOnOverlay(event) {
       if (event.target === event.currentTarget) closeComingSoonModal();
     }
@@ -2153,16 +1200,12 @@
       const toast = document.getElementById('toast');
       const icon = document.getElementById('toast-icon');
       const msg = document.getElementById('toast-message');
+
       toast.className = 'toast active ' + type;
-      
-      if (type === 'success') {
-        icon.setAttribute('data-lucide', 'check-circle');
-      } else if (type === 'error') {
-        icon.setAttribute('data-lucide', 'x-circle');
-      } else if (type === 'info') {
-        icon.setAttribute('data-lucide', 'info');
-      }
-      
+      if (type === 'success') icon.setAttribute('data-lucide', 'check-circle');
+      else if (type === 'error') icon.setAttribute('data-lucide', 'x-circle');
+      else icon.setAttribute('data-lucide', 'info');
+
       msg.textContent = message;
       lucide.createIcons();
       setTimeout(() => toast.classList.remove('active'), 3000);
