@@ -622,6 +622,12 @@
       .services-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* ==================== SERVICE WRAPPER ==================== */
+    .service-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
     .service-card {
       position: relative;
       width: 100%;
@@ -644,6 +650,7 @@
     .service-card.active {
       box-shadow: 0 0 0 2px var(--primary);
       border-color: var(--primary);
+      border-radius: 0.75rem 0.75rem 0 0;
     }
 
     .service-card-content {
@@ -672,6 +679,8 @@
     .service-icon.emerald { background: linear-gradient(135deg, #10b981, #14b8a6); }
     .service-icon.violet { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
     .service-icon.orange { background: linear-gradient(135deg, #f97316, #f59e0b); }
+    .service-icon.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
+    .service-icon.indigo { background: linear-gradient(135deg, #6366f1, #818cf8); }
 
     .service-info { flex: 1; }
 
@@ -699,11 +708,10 @@
     }
 
     /* ==================== SECTIONS ==================== */
-    .sections-container { margin-top: 1.5rem; }
-
     .section {
       display: none;
       animation: fadeInSlide 0.3s ease-out;
+      margin-top: 0;
     }
 
     .section.active { display: block; }
@@ -716,7 +724,8 @@
     .section-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 0.75rem;
+      border-top: none;
+      border-radius: 0 0 0.75rem 0.75rem;
       padding: 1rem;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
@@ -1260,6 +1269,77 @@
 
     .print-btn { width: 100%; margin-top: 1rem; }
 
+    /* ==================== COMING SOON MODAL ==================== */
+    .coming-soon-content {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .coming-soon-icon {
+      width: 5rem;
+      height: 5rem;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse-icon 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .coming-soon-icon svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      color: white;
+    }
+
+    .coming-soon-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .coming-soon-desc {
+      font-size: 1rem;
+      color: var(--muted-foreground);
+      margin-bottom: 1.5rem;
+    }
+
+    .coming-soon-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .coming-soon-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--muted);
+      border-radius: 0.5rem;
+      text-align: right;
+    }
+
+    .coming-soon-feature svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .coming-soon-feature span {
+      font-size: 0.875rem;
+      color: var(--foreground);
+    }
+
     /* ==================== TOAST ==================== */
     .toast {
       position: fixed;
@@ -1283,6 +1363,7 @@
     .toast.active { display: flex; }
     .toast.success { background: #22c55e; color: white; }
     .toast.error { background: #ef4444; color: white; }
+    .toast.info { background: #f59e0b; color: white; }
 
     .toast svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
     .toast span { font-size: 0.875rem; font-weight: 500; }
@@ -1411,107 +1492,146 @@
       </div>
 
       <div class="services-grid">
-        <button class="service-card" onclick="toggleSection('forms')" id="forms-card">
-          <div class="service-card-content">
-            <div class="service-icon sky">
-              <i data-lucide="file-text"></i>
+        <!-- النماذج -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="toggleSection('forms')" id="forms-card">
+            <div class="service-card-content">
+              <div class="service-icon sky">
+                <i data-lucide="file-text"></i>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">النماذج</h3>
+                <p class="service-desc">جميع نماذج الطلبات والإجراءات</p>
+              </div>
+              <i data-lucide="chevron-down" class="service-chevron"></i>
             </div>
-            <div class="service-info">
-              <h3 class="service-title">النماذج</h3>
-              <p class="service-desc">جميع نماذج الطلبات والإجراءات</p>
+          </button>
+          <div class="section" id="forms-section">
+            <div class="section-card">
+              <h3 class="section-header">
+                <span class="section-indicator sky"></span>
+                نماذج الطلبات
+              </h3>
+              <div class="forms-grid" id="forms-grid"></div>
             </div>
-            <i data-lucide="chevron-down" class="service-chevron"></i>
-          </div>
-        </button>
-
-        <button class="service-card" onclick="toggleSection('phones')" id="phones-card">
-          <div class="service-card-content">
-            <div class="service-icon emerald">
-              <i data-lucide="phone"></i>
-            </div>
-            <div class="service-info">
-              <h3 class="service-title">أرقام الهواتف</h3>
-              <p class="service-desc">دليل الأرقام الداخلية</p>
-            </div>
-            <i data-lucide="chevron-down" class="service-chevron"></i>
-          </div>
-        </button>
-
-        <button class="service-card" onclick="toggleSection('links')" id="links-card">
-          <div class="service-card-content">
-            <div class="service-icon violet">
-              <i data-lucide="globe"></i>
-            </div>
-            <div class="service-info">
-              <h3 class="service-title">الصفحات الرسمية</h3>
-              <p class="service-desc">روابط التواصل الاجتماعي</p>
-            </div>
-            <i data-lucide="chevron-down" class="service-chevron"></i>
-          </div>
-        </button>
-
-        <button class="service-card" onclick="openSalaryModal()" id="salary-card">
-          <div class="service-card-content">
-            <div class="service-icon orange">
-              <i data-lucide="wallet"></i>
-            </div>
-            <div class="service-info">
-              <h3 class="service-title">الاستعلام عن الراتب</h3>
-              <p class="service-desc">معرفة تفاصيل الراتب الشهري</p>
-            </div>
-            <i data-lucide="chevron-down" class="service-chevron"></i>
-          </div>
-        </button>
-      </div>
-
-      <div class="sections-container">
-        <div class="section" id="forms-section">
-          <div class="section-card">
-            <h3 class="section-header">
-              <span class="section-indicator sky"></span>
-              نماذج الطلبات
-            </h3>
-            <div class="forms-grid" id="forms-grid"></div>
           </div>
         </div>
 
-        <div class="section" id="phones-section">
-          <div class="section-card">
-            <h3 class="section-header">
-              <span class="section-indicator emerald"></span>
-              دليل الأرقام الداخلية
-            </h3>
-            <div class="search-input">
-              <i data-lucide="search"></i>
-              <input type="text" placeholder="ابحث عن قسم أو رقم..." id="phone-search" oninput="filterPhones()">
+        <!-- أرقام الهواتف -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="toggleSection('phones')" id="phones-card">
+            <div class="service-card-content">
+              <div class="service-icon emerald">
+                <i data-lucide="phone"></i>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">أرقام الهواتف</h3>
+                <p class="service-desc">دليل الأرقام الداخلية</p>
+              </div>
+              <i data-lucide="chevron-down" class="service-chevron"></i>
             </div>
-            <div class="phones-list" id="phones-list"></div>
+          </button>
+          <div class="section" id="phones-section">
+            <div class="section-card">
+              <h3 class="section-header">
+                <span class="section-indicator emerald"></span>
+                دليل الأرقام الداخلية
+              </h3>
+              <div class="search-input">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="ابحث عن قسم أو رقم..." id="phone-search" oninput="filterPhones()">
+              </div>
+              <div class="phones-list" id="phones-list"></div>
+            </div>
           </div>
         </div>
 
-        <div class="section" id="links-section">
-          <div class="section-card">
-            <h3 class="section-header">
-              <span class="section-indicator violet"></span>
-              الصفحات والمجموعات الرسمية
-            </h3>
-            <div class="social-links">
-              <a href="https://www.facebook.com/share/15ws7sBHJe/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
-                <div class="social-link-content">
-                  <i data-lucide="facebook"></i>
-                  <span>الصفحة الرسمية على فيسبوك</span>
-                </div>
-                <i data-lucide="external-link"></i>
-              </a>
-              <a href="https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
-                <div class="social-link-content">
-                  <i data-lucide="message-circle"></i>
-                  <span>مجموعة الواتساب</span>
-                </div>
-                <i data-lucide="external-link"></i>
-              </a>
+        <!-- الصفحات الرسمية -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="toggleSection('links')" id="links-card">
+            <div class="service-card-content">
+              <div class="service-icon violet">
+                <i data-lucide="globe"></i>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">الصفحات الرسمية</h3>
+                <p class="service-desc">روابط التواصل الاجتماعي</p>
+              </div>
+              <i data-lucide="chevron-down" class="service-chevron"></i>
+            </div>
+          </button>
+          <div class="section" id="links-section">
+            <div class="section-card">
+              <h3 class="section-header">
+                <span class="section-indicator violet"></span>
+                الصفحات والمجموعات الرسمية
+              </h3>
+              <div class="social-links">
+                <a href="https://www.facebook.com/share/15ws7sBHJe/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
+                  <div class="social-link-content">
+                    <i data-lucide="facebook"></i>
+                    <span>الصفحة الرسمية على فيسبوك</span>
+                  </div>
+                  <i data-lucide="external-link"></i>
+                </a>
+                <a href="https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
+                  <div class="social-link-content">
+                    <i data-lucide="message-circle"></i>
+                    <span>مجموعة الواتساب</span>
+                  </div>
+                  <i data-lucide="external-link"></i>
+                </a>
+              </div>
             </div>
           </div>
+        </div>
+
+        <!-- الاستعلام عن الراتب -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="openSalaryModal()" id="salary-card">
+            <div class="service-card-content">
+              <div class="service-icon orange">
+                <i data-lucide="wallet"></i>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">الاستعلام عن الراتب</h3>
+                <p class="service-desc">معرفة تفاصيل الراتب الشهري</p>
+              </div>
+              <i data-lucide="chevron-left" class="service-chevron"></i>
+            </div>
+          </button>
+        </div>
+
+        <!-- الأمانات -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="openComingSoonModal('amanat')" id="amanat-card">
+            <div class="service-card-content">
+              <div class="service-icon pink">
+                <i data-lucide="archive"></i>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">الأمانات</h3>
+                <p class="service-desc">إدارة الأمانات والودائع</p>
+              </div>
+              <i data-lucide="chevron-left" class="service-chevron"></i>
+            </div>
+          </button>
+        </div>
+
+        <!-- العهدة الشخصية -->
+        <div class="service-wrapper">
+          <button class="service-card" onclick="openComingSoonModal('ohda')" id="ohda-card">
+            <div class="service-card-content">
+              <div class="service-icon indigo">
+                <i data-lucide="clipboard-list"></i>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">العهدة الشخصية</h3>
+                <p class="service-desc">الاستعلام عن العهدة الشخصية</p>
+              </div>
+              <i data-lucide="chevron-left" class="service-chevron"></i>
+            </div>
+          </button>
         </div>
       </div>
     </main>
@@ -1552,6 +1672,34 @@
         </div>
 
         <div class="salary-result" id="salary-result" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== COMING SOON MODAL ==================== -->
+  <div class="modal-overlay" id="coming-soon-modal" onclick="closeComingSoonModalOnOverlay(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="coming-soon-modal-title">قريباً</h2>
+        <button class="modal-close" onclick="closeComingSoonModal()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="coming-soon-content">
+          <div class="coming-soon-icon">
+            <i data-lucide="clock"></i>
+          </div>
+          <h3 class="coming-soon-title">ستتوفر الخدمة قريباً</h3>
+          <p class="coming-soon-desc" id="coming-soon-desc">نعمل على تطوير هذه الخدمة لتقديم أفضل تجربة للمستخدمين</p>
+          <div class="coming-soon-features" id="coming-soon-features">
+            <!-- سيتم ملؤها ديناميكياً -->
+          </div>
+          <button class="btn btn-primary" onclick="closeComingSoonModal()" style="width: 100%;">
+            <i data-lucide="check"></i>
+            حسناً، فهمت
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1603,6 +1751,28 @@
       { name: "مقهى (غاندي)", number: "223" },
       { name: "مقهى (حسن)", number: "105" }
     ];
+
+    // بيانات الخدمات القادمة
+    const comingSoonData = {
+      amanat: {
+        title: "الأمانات",
+        desc: "نعمل على تطوير نظام إدارة الأمانات والودائع ليكون متاحاً قريباً",
+        features: [
+          "الاستعلام عن الأمانات المسجلة",
+          "متابعة حالة الأمانات",
+          "طلب استرداد الأمانات"
+        ]
+      },
+      ohda: {
+        title: "العهدة الشخصية",
+        desc: "نعمل على تطوير نظام الاستعلام عن العهدة الشخصية ليكون متاحاً قريباً",
+        features: [
+          "عرض قائمة العهدة الشخصية",
+          "تفاصيل كل عنصر في العهدة",
+          "طلب تحويل أو إرجاع العهدة"
+        ]
+      }
+    };
 
     // ==================== STATE ====================
     let activeSection = null;
@@ -1740,15 +1910,19 @@
     // ==================== SECTIONS ====================
     function toggleSection(section) {
       const sections = ['forms', 'phones', 'links'];
+      
       if (activeSection === section) {
+        // إغلاق القسم الحالي
         document.getElementById(section + '-section').classList.remove('active');
         document.getElementById(section + '-card').classList.remove('active');
         activeSection = null;
       } else {
+        // إغلاق جميع الأقسام أولاً
         sections.forEach(s => {
           document.getElementById(s + '-section').classList.remove('active');
           document.getElementById(s + '-card').classList.remove('active');
         });
+        // فتح القسم المحدد
         document.getElementById(section + '-section').classList.add('active');
         document.getElementById(section + '-card').classList.add('active');
         activeSection = section;
@@ -1946,13 +2120,49 @@
       }
     }
 
+    // ==================== COMING SOON MODAL ====================
+    function openComingSoonModal(type) {
+      const data = comingSoonData[type];
+      if (!data) return;
+
+      document.getElementById('coming-soon-modal-title').textContent = data.title;
+      document.getElementById('coming-soon-desc').textContent = data.desc;
+      
+      const featuresContainer = document.getElementById('coming-soon-features');
+      featuresContainer.innerHTML = data.features.map(feature => `
+        <div class="coming-soon-feature">
+          <i data-lucide="check-circle"></i>
+          <span>${feature}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('coming-soon-modal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeComingSoonModal() {
+      document.getElementById('coming-soon-modal').classList.remove('active');
+    }
+
+    function closeComingSoonModalOnOverlay(event) {
+      if (event.target === event.currentTarget) closeComingSoonModal();
+    }
+
     // ==================== TOAST ====================
     function showToast(message, type) {
       const toast = document.getElementById('toast');
       const icon = document.getElementById('toast-icon');
       const msg = document.getElementById('toast-message');
       toast.className = 'toast active ' + type;
-      icon.setAttribute('data-lucide', type === 'success' ? 'check-circle' : 'x-circle');
+      
+      if (type === 'success') {
+        icon.setAttribute('data-lucide', 'check-circle');
+      } else if (type === 'error') {
+        icon.setAttribute('data-lucide', 'x-circle');
+      } else if (type === 'info') {
+        icon.setAttribute('data-lucide', 'info');
+      }
+      
       msg.textContent = message;
       lucide.createIcons();
       setTimeout(() => toast.classList.remove('active'), 3000);
