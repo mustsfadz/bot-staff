@@ -8,29 +8,14 @@
   <title>شركة الدعم للمقاولات - نظام خدمات الموظفين</title>
   <meta name="description" content="نظام متكامل لخدمات الموظفين والاستعلامات في شركة الدعم للمقاولات" />
 
-  <!-- أيقونات الشاشة الرئيسية (تعمل على iOS ومعظم أجهزة Android) -->
   <link rel="apple-touch-icon" href="https://i.imgur.com/1BmhftX.jpeg">
-  <link rel="apple-touch-icon" sizes="120x120" href="https://i.imgur.com/1BmhftX.jpeg">
-  <link rel="apple-touch-icon" sizes="152x152" href="https://i.imgur.com/1BmhftX.jpeg">
-  <link rel="apple-touch-icon" sizes="167x167" href="https://i.imgur.com/1BmhftX.jpeg">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/1BmhftX.jpeg">
-
-  <!-- إعدادات iOS الإضافية (تجعل الموقع يفتح كتطبيق مستقل) -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="شركة الدعم للمقاولات">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-
-  <!-- باقي الأنماط كما هي ... -->
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root{
       --background:#f8fafc; --foreground:#0f172a; --card:#ffffff; --card-foreground:#0f172a;
       --primary:#0ea5e9; --primary-foreground:#ffffff; --secondary:#f1f5f9; --secondary-foreground:#334155;
@@ -43,7 +28,6 @@
       --muted:#334155; --muted-foreground:#94a3b8; --border:#334155; --input:#334155;
       --destructive:#f87171; --success:#34d399;
     }
-
     body{
       font-family:'Cairo',sans-serif; background-color:var(--background); color:var(--foreground);
       line-height:1.6; min-height:100vh; transition:background-color .3s,color .3s;
@@ -52,43 +36,25 @@
     ::-webkit-scrollbar-track{ background:transparent; }
     ::-webkit-scrollbar-thumb{ background:var(--muted-foreground); border-radius:10px; }
 
-    /* LOGIN */
     .login-page{
       min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1rem;
       background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);
       position:relative; overflow:hidden;
     }
-    .login-page::before{
-      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
-      background:radial-gradient(circle,rgba(14,165,233,.1) 0%,transparent 50%);
-      animation:pulse 15s ease-in-out infinite;
-    }
-    .login-page::after{
-      content:''; position:absolute; bottom:-50%; right:-50%; width:200%; height:200%;
-      background:radial-gradient(circle,rgba(6,182,212,.1) 0%,transparent 50%);
-      animation:pulse 20s ease-in-out infinite reverse;
-    }
-    @keyframes pulse{ 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.1);opacity:.8} }
-
     .login-container{ position:relative; z-index:10; width:100%; max-width:420px; }
     .login-card{
       background:var(--card); border:1px solid var(--border); border-radius:1.5rem; padding:2rem;
       box-shadow:0 25px 50px -12px rgba(0,0,0,.5); animation:slideUp .5s ease-out;
     }
     @keyframes slideUp{ from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-
     .login-logo{text-align:center;margin-bottom:2rem;}
     .login-logo-icon{
       width:5rem;height:5rem;margin:0 auto 1rem;border-radius:1.5rem;
-      background:linear-gradient(135deg,var(--primary),#0284c7);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 10px 40px rgba(14,165,233,.4); animation:float 3s ease-in-out infinite;
+      background:transparent; display:flex;align-items:center;justify-content:center;
     }
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-    .login-logo-icon svg{width:2.5rem;height:2.5rem;color:white;}
+    .login-logo-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 1.5rem; }
     .login-logo h1{font-size:1.5rem;font-weight:700;color:var(--foreground);margin-bottom:.25rem;}
     .login-logo p{color:var(--muted-foreground);font-size:.875rem;}
-
     .login-form{display:flex;flex-direction:column;gap:1.25rem;}
     .input-group label{display:block;font-size:.875rem;font-weight:500;color:var(--foreground);margin-bottom:.5rem;}
     .input-wrapper{position:relative;}
@@ -108,13 +74,9 @@
       position:absolute; left:1rem; top:50%; transform:translateY(-50%);
       background:none; border:none; cursor:pointer; padding:0; color:var(--muted-foreground);
     }
-    .password-toggle:hover{color:var(--primary);}
-    .password-toggle svg{position:static;transform:none;}
-
     .remember-me{display:flex;align-items:center;gap:.75rem;}
     .remember-me input{width:1.25rem;height:1.25rem;accent-color:var(--primary);cursor:pointer;}
     .remember-me label{font-size:.875rem;color:var(--muted-foreground);cursor:pointer;}
-
     .login-btn{
       width:100%; padding:1rem; border:none; border-radius:.75rem;
       background:linear-gradient(135deg,var(--primary),#0284c7);
@@ -129,12 +91,9 @@
       color:var(--destructive);font-size:.875rem;text-align:center;display:none;animation:shake .5s ease-in-out;
     }
     .login-error.show{display:block;}
-    @keyframes shake{
-      0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}
-    }
+    @keyframes shake{ 0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)} }
     .login-footer{margin-top:1.5rem;text-align:center;padding-top:1.5rem;border-top:1px solid var(--border);}
     .login-footer p{font-size:.75rem;color:var(--muted-foreground);}
-
     .theme-toggle-login{
       position:absolute; top:1rem; left:1rem; width:2.5rem; height:2.5rem; border-radius:50%;
       border:none; background:rgba(255,255,255,.1); backdrop-filter:blur(10px);
@@ -146,33 +105,28 @@
     .theme-toggle-login .sun-icon{display:none;}
     .theme-toggle-login .moon-icon{display:block;}
 
-    /* APP */
     .app-container{display:none;}
     .app-container.active{display:block;}
     .login-page.hidden{display:none;}
 
-    /* HEADER */
     .header{position:sticky;top:0;z-index:50;width:100%;border-bottom:1px solid var(--border);background:var(--background);backdrop-filter:blur(10px);}
     .header-container{max-width:56rem;margin:0 auto;padding:0 1rem;height:4rem;display:flex;align-items:center;justify-content:space-between;}
     .logo-section{display:flex;align-items:center;gap:.75rem;}
-    .logo-icon{width:2.5rem;height:2.5rem;border-radius:.75rem;background:linear-gradient(135deg,var(--primary),#0284c7);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(14,165,233,.25);}
-    .logo-icon svg{width:1.25rem;height:1.25rem;color:white;}
+    .logo-icon{width:2.5rem;height:2.5rem;border-radius:.75rem;background:transparent;display:flex;align-items:center;justify-content:center;}
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 0.75rem; }
     .logo-text{display:none;}
     @media(min-width:640px){.logo-text{display:block;}}
     .logo-text h1{font-weight:700;font-size:1.125rem;line-height:1.2;color:var(--foreground);}
     .logo-text p{font-size:.75rem;color:var(--muted-foreground);}
-
     .header-actions{display:flex;align-items:center;gap:.5rem;}
     .user-info{display:none;align-items:center;gap:.5rem;padding:.5rem .75rem;background:var(--muted);border-radius:2rem;}
     @media(min-width:640px){.user-info{display:flex;}}
     .user-avatar{width:2rem;height:2rem;border-radius:50%;background:linear-gradient(135deg,var(--primary),#0284c7);display:flex;align-items:center;justify-content:center;}
     .user-avatar svg{width:1rem;height:1rem;color:white;}
     .user-name{font-size:.875rem;font-weight:500;color:var(--foreground);}
-
     .logout-btn{width:2.5rem;height:2.5rem;border-radius:50%;border:none;background:rgba(239,68,68,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;}
     .logout-btn:hover{background:rgba(239,68,68,.2);}
     .logout-btn svg{width:1.25rem;height:1.25rem;color:var(--destructive);}
-
     .theme-toggle{width:2.5rem;height:2.5rem;border-radius:50%;border:none;background:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;}
     .theme-toggle:hover{background:var(--border);}
     .theme-toggle svg{width:1.25rem;height:1.25rem;}
@@ -181,7 +135,6 @@
     .theme-toggle .sun-icon{display:none;}
     .theme-toggle .moon-icon{display:block;color:#475569;}
 
-    /* MAIN */
     .main{max-width:56rem;margin:0 auto;padding:1.5rem 1rem;}
     .welcome-banner{
       position:relative;overflow:hidden;border-radius:1rem;
@@ -197,10 +150,7 @@
     .welcome-desc{font-size:.875rem;opacity:.9;max-width:28rem;}
     @media(min-width:640px){.welcome-desc{font-size:1rem;}}
 
-    /* SERVICES */
-    .services-grid{
-      display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem;
-    }
+    .services-grid{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
     @media(min-width:640px){.services-grid{grid-template-columns:repeat(2,1fr);}}
     .service-wrapper{display:flex;flex-direction:column;}
     .service-card{
@@ -208,10 +158,7 @@
       background:var(--card); color:var(--card-foreground); cursor:pointer; transition:all .3s; text-align:right;
     }
     .service-card:hover{box-shadow:0 10px 40px rgba(0,0,0,.1); border-color:var(--primary); transform:translateY(-2px);}
-    .service-card.active{
-      box-shadow:0 0 0 2px var(--primary); border-color:var(--primary);
-      border-radius:.75rem .75rem 0 0;
-    }
+    .service-card.active{ box-shadow:0 0 0 2px var(--primary); border-color:var(--primary); border-radius:.75rem .75rem 0 0; }
     .service-card-content{display:flex;align-items:flex-start;gap:1rem;}
     .service-icon{
       width:3rem;height:3rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -227,6 +174,7 @@
     .service-icon.indigo{background:linear-gradient(135deg,#6366f1,#818cf8);}
     .service-icon.cyan{background:linear-gradient(135deg,#06b6d4,#0ea5e9);}
     .service-icon.red{background:linear-gradient(135deg,#ef4444,#f97316);}
+    .service-icon.admin{background:linear-gradient(135deg,#7c3aed,#4f46e5);} /* Admin Color */
 
     .service-info{flex:1;}
     .service-title{font-weight:600;color:var(--foreground);margin-bottom:.25rem;}
@@ -234,7 +182,6 @@
     .service-chevron{width:1.25rem;height:1.25rem;color:var(--muted-foreground);transition:transform .3s;}
     .service-card.active .service-chevron{transform:rotate(180deg);color:var(--primary);}
 
-    /* SECTIONS under button */
     .section{display:none; animation:fadeInSlide .3s ease-out; margin-top:0;}
     .section.active{display:block;}
     @keyframes fadeInSlide{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
@@ -249,7 +196,6 @@
     .section-indicator.violet{background:#8b5cf6;}
     .section-indicator.cyan{background:#06b6d4;}
 
-    /* forms */
     .forms-grid{display:grid;grid-template-columns:1fr;gap:.75rem;}
     @media(min-width:640px){.forms-grid{grid-template-columns:repeat(2,1fr);}}
     .form-item{
@@ -262,7 +208,6 @@
     .form-icon svg{width:1.25rem;height:1.25rem;color:var(--primary);}
     .form-name{font-size:.875rem;font-weight:500;color:var(--foreground);}
 
-    /* phones */
     .search-input{position:relative;margin-bottom:1rem;}
     .search-input svg{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);width:1rem;height:1rem;color:var(--muted-foreground);}
     .search-input input{
@@ -270,7 +215,6 @@
       background:var(--background); color:var(--foreground); font-family:inherit; font-size:.875rem;
     }
     .search-input input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(14,165,233,.1);}
-
     .phones-list{max-height:20rem;overflow-y:auto;display:flex;flex-direction:column;gap:.5rem;}
     .phone-item{display:flex;align-items:center;justify-content:space-between;padding:.75rem;border-radius:.5rem;background:var(--background);border:1px solid var(--border);}
     .phone-item:hover{background:var(--muted);}
@@ -281,7 +225,6 @@
     .phone-icon-circle svg{width:1rem;height:1rem;color:#10b981;}
     .no-results{text-align:center;color:var(--muted-foreground);padding:1rem;}
 
-    /* زر النسخ */
     .copy-btn{
       width:2rem;height:2rem;border-radius:50%;border:none;
       background:rgba(14,165,233,.1);cursor:pointer;
@@ -294,7 +237,6 @@
     .copy-btn.copied{background:rgba(16,185,129,.15);}
     .copy-btn.copied svg{color:#10b981;}
 
-    /* social */
     .social-links{display:flex;flex-direction:column;gap:.75rem;}
     .social-link{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-radius:.75rem;color:white;text-decoration:none;transition:all .2s;}
     .social-link:hover{box-shadow:0 10px 30px rgba(0,0,0,.2);transform:translateY(-2px);}
@@ -306,7 +248,6 @@
     .social-link svg{width:1.5rem;height:1.5rem;}
     .social-link span{font-weight:500;}
 
-    /* footer */
     .footer{border-top:1px solid var(--border);background:var(--card);margin-top:2rem;}
     .footer-container{max-width:56rem;margin:0 auto;padding:1.5rem 1rem;display:flex;flex-direction:column;align-items:center;gap:1rem;}
     @media(min-width:640px){.footer-container{flex-direction:row;justify-content:space-between;}}
@@ -315,7 +256,6 @@
     .footer-credit span{color:var(--muted-foreground);}
     .footer-name{color:var(--muted-foreground);font-weight:bold;font-size:.75rem;}
 
-    /* modal */
     .modal-overlay{
       position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.6); backdrop-filter:blur(4px);
       display:none; align-items:center; justify-content:center; padding:1rem;
@@ -338,7 +278,6 @@
     .modal-close:hover{background:var(--border);}
     .modal-close svg{width:1.25rem;height:1.25rem;color:var(--foreground);}
     .modal-body{padding:1rem;}
-
     .form-group{margin-bottom:1rem;}
     .form-label{display:block;font-size:.875rem;font-weight:500;color:var(--foreground);margin-bottom:.5rem;}
     .form-select,.form-input{
@@ -346,12 +285,10 @@
       background:var(--background); color:var(--foreground); font-family:inherit; font-size:.875rem;
     }
     .form-select:focus,.form-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(14,165,233,.1);}
-
     .error-message{
       padding:.75rem;border-radius:.5rem;background:rgba(239,68,68,.1);color:var(--destructive);
       font-size:.875rem;text-align:center;margin-bottom:1rem;
     }
-
     .btn-group{display:flex;gap:.75rem;}
     .btn{
       flex:1; padding:.625rem 1rem; border-radius:.5rem; border:none; font-family:inherit;
@@ -366,7 +303,6 @@
     .spinner{animation:spin 1s linear infinite;}
     @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
-    /* salary result */
     .salary-result{margin-top:1rem;animation:fadeInSlide .3s ease-out;}
     .salary-header{background:linear-gradient(135deg,var(--primary),#0284c7);border-radius:.75rem;padding:1rem;color:white;margin-bottom:1rem;}
     .salary-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
@@ -393,7 +329,6 @@
     .net-salary-value{font-size:1.25rem;font-weight:700;color:var(--primary);}
     .print-btn{width:100%;margin-top:1rem;}
 
-    /* coming soon modal */
     .coming-soon-content{text-align:center;padding:2rem 1rem;}
     .coming-soon-icon{
       width:5rem;height:5rem;margin:0 auto 1.5rem;border-radius:50%;
@@ -409,7 +344,6 @@
     .coming-soon-feature svg{width:1.25rem;height:1.25rem;color:var(--primary);flex-shrink:0;}
     .coming-soon-feature span{font-size:.875rem;color:var(--foreground);}
 
-    /* toast */
     .toast{
       position:fixed; bottom:1rem; left:1rem; right:1rem;
       display:none; align-items:center; gap:.75rem; padding:.75rem 1rem; border-radius:.75rem;
@@ -439,18 +373,15 @@
       <i data-lucide="sun" class="sun-icon"></i>
       <i data-lucide="moon" class="moon-icon"></i>
     </button>
-
     <div class="login-container">
       <div class="login-card">
         <div class="login-logo">
-<div class="login-logo-icon" style="background: transparent;">
-  <img src="https://i.imgur.com/1BmhftX.jpeg" 
-       alt="شعار شركة الدعم للمقاولات" 
-       style="width: 100%; height: 100%; object-fit: contain; border-radius: 1.5rem;">
-</div>          <h1>شركة الدعم للمقاولات</h1>
+          <div class="login-logo-icon">
+            <img src="https://i.imgur.com/1BmhftX.jpeg" alt="شعار شركة الدعم للمقاولات">
+          </div>
+          <h1>شركة الدعم للمقاولات</h1>
           <p>نظام خدمات الموظفين</p>
         </div>
-
         <form class="login-form" onsubmit="handleLogin(event)">
           <div class="input-group">
             <label for="login-number">الرقم الوظيفي</label>
@@ -459,7 +390,6 @@
               <i data-lucide="user"></i>
             </div>
           </div>
-
           <div class="input-group">
             <label for="login-pass">الرمز السري</label>
             <div class="input-wrapper">
@@ -470,20 +400,16 @@
               </button>
             </div>
           </div>
-
           <div class="remember-me">
             <input type="checkbox" id="remember-me">
             <label for="remember-me">تذكرني</label>
           </div>
-
           <div class="login-error" id="login-error"></div>
-
           <button type="submit" class="login-btn" id="login-btn">
             <i data-lucide="log-in"></i>
             <span>تسجيل الدخول</span>
           </button>
         </form>
-
         <div class="login-footer">
           <p>© 2025 شركة الدعم للمقاولات - جميع الحقوق محفوظة</p>
         </div>
@@ -496,23 +422,20 @@
     <header class="header">
       <div class="header-container">
         <div class="logo-section">
-<div class="logo-icon">
-  <img src="https://i.imgur.com/1BmhftX.jpeg
-" alt="شعار الشركة" style="width:100%; height:100%; object-fit: contain; border-radius: 0.75rem;">
-</div>          <div class="logo-text"><h1>شركة الدعم</h1><p>للمقاولات</p></div>
+          <div class="logo-icon">
+            <img src="https://i.imgur.com/1BmhftX.jpeg" alt="شعار الشركة">
+          </div>
+          <div class="logo-text"><h1>شركة الدعم</h1><p>للمقاولات</p></div>
         </div>
-
         <div class="header-actions">
           <div class="user-info">
             <div class="user-avatar"><i data-lucide="user"></i></div>
             <span class="user-name" id="header-user-name">مرحباً</span>
           </div>
-
           <button class="theme-toggle" onclick="toggleDarkMode()">
             <i data-lucide="sun" class="sun-icon"></i>
             <i data-lucide="moon" class="moon-icon"></i>
           </button>
-
           <button class="logout-btn" onclick="handleLogout()" title="تسجيل الخروج">
             <i data-lucide="log-out"></i>
           </button>
@@ -530,7 +453,6 @@
       </div>
 
       <div class="services-grid">
-
         <!-- النماذج -->
         <div class="service-wrapper">
           <button class="service-card" onclick="toggleSection('forms')" id="forms-card">
@@ -589,8 +511,6 @@
                 <input type="text" placeholder="ابحث بالاسم أو الرقم..." id="personal-phone-search" oninput="filterPersonalPhones()">
               </div>
               <div class="phones-list" id="personal-phones-list"></div>
-              <div style="margin-top: .75rem; color: var(--muted-foreground); font-size: .8rem;">
-              </div>
             </div>
           </div>
         </div>
@@ -609,15 +529,11 @@
               <h3 class="section-header"><span class="section-indicator violet"></span>الصفحات والمجموعات الرسمية</h3>
               <div class="social-links">
                 <a href="https://www.facebook.com/share/15ws7sBHJe/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
-                  <div class="social-link-content">
-                    <i data-lucide="facebook"></i><span>الصفحة الرسمية على فيسبوك</span>
-                  </div>
+                  <div class="social-link-content"><i data-lucide="facebook"></i><span>الصفحة الرسمية على فيسبوك</span></div>
                   <i data-lucide="external-link"></i>
                 </a>
                 <a href="https://chat.whatsapp.com/LW5Hn0DREoz8JLwFlQYVNd?mode=r_c" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
-                  <div class="social-link-content">
-                    <i data-lucide="message-circle"></i><span>مجموعة الواتساب</span>
-                  </div>
+                  <div class="social-link-content"><i data-lucide="message-circle"></i><span>مجموعة الواتساب</span></div>
                   <i data-lucide="external-link"></i>
                 </a>
               </div>
@@ -625,12 +541,23 @@
           </div>
         </div>
 
-        <!-- الاستعلام عن الراتب -->
+        <!-- الاستعلام عن الراتب (للموظف العادي) -->
         <div class="service-wrapper">
           <button class="service-card" onclick="openSalaryModal()" id="salary-card">
             <div class="service-card-content">
               <div class="service-icon orange"><i data-lucide="wallet"></i></div>
-              <div class="service-info"><h3 class="service-title">الاستعلام عن الراتب</h3><p class="service-desc">معرفة تفاصيل الراتب الشهري</p></div>
+              <div class="service-info"><h3 class="service-title">الاستعلام عن راتبي</h3><p class="service-desc">معرفة تفاصيل الراتب الشهري الخاص بي</p></div>
+              <i data-lucide="chevron-left" class="service-chevron"></i>
+            </div>
+          </button>
+        </div>
+
+        <!-- إدارة رواتب الموظفين (للمدير فقط) -->
+        <div class="service-wrapper admin-only" id="admin-salary-wrapper" style="display: none;">
+          <button class="service-card" onclick="openAdminSalaryModal()" id="admin-salary-card">
+            <div class="service-card-content">
+              <div class="service-icon admin"><i data-lucide="shield-check"></i></div>
+              <div class="service-info"><h3 class="service-title">إدارة رواتب الموظفين</h3><p class="service-desc">الاستعلام عن رواتب أي موظف برقمه الوظيفي</p></div>
               <i data-lucide="chevron-left" class="service-chevron"></i>
             </div>
           </button>
@@ -680,7 +607,7 @@
     </footer>
   </div>
 
-  <!-- SALARY MODAL -->
+  <!-- SALARY MODAL (للموظف) -->
   <div class="modal-overlay" id="salary-modal" onclick="closeModalOnOverlay(event)">
     <div class="modal">
       <div class="modal-header">
@@ -694,15 +621,40 @@
             <option value="">جاري التحميل...</option>
           </select>
         </div>
-
         <div class="error-message" id="salary-error" style="display:none;"></div>
-
         <div class="btn-group">
           <button class="btn btn-primary" onclick="querySalary()" id="query-btn">استعلام</button>
           <button class="btn btn-secondary" onclick="closeSalaryModal()">إغلاق</button>
         </div>
-
         <div class="salary-result" id="salary-result" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN SALARY MODAL (للمدير) -->
+  <div class="modal-overlay" id="admin-salary-modal" onclick="closeAdminModalOnOverlay(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">إدارة رواتب الموظفين</h2>
+        <button class="modal-close" onclick="closeAdminSalaryModal()"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="admin-emp-number">الرقم الوظيفي للموظف</label>
+          <input type="text" class="form-input" id="admin-emp-number" placeholder="أدخل الرقم الوظيفي للموظف">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="admin-month-select">اختر الشهر</label>
+          <select class="form-select" id="admin-month-select">
+            <option value="">جاري التحميل...</option>
+          </select>
+        </div>
+        <div class="error-message" id="admin-salary-error" style="display:none;"></div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="queryAdminSalary()" id="admin-query-btn">بحث</button>
+          <button class="btn btn-secondary" onclick="closeAdminSalaryModal()">إغلاق</button>
+        </div>
+        <div class="salary-result" id="admin-salary-result" style="display:none;"></div>
       </div>
     </div>
   </div>
@@ -735,10 +687,8 @@
   </div>
 
   <script>
-    // ==================== Google Apps Script URL ====================
     const webAppUrl = "https://script.google.com/macros/s/AKfycbxODPm6-e7ulZfsgv0Q1Iz3USKdspN7MDNVi7kBK9bbMX6lgBiEXc00HUcQQCsOVUO6/exec";
 
-    // ==================== DATA (Local - forms + internal phones) ====================
     const forms = [
       { id: "طلب-إجازة", name: "طلب إجازة", icon: "file-signature", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
       { id: "طلب-سلفة", name: "طلب سلفة مالية", icon: "banknote", url: "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link" },
@@ -751,7 +701,7 @@
       { id: "طلب-إذن", name: "طلب إذن", icon: "calendar-check", url: "https://drive.google.com/file/d/1PWMVPtfFsUtbEbNZLHfKaMS9bYBq5E8f/view?usp=drive_link" },
       { id: "ترجيع-مواد", name: "ترجيع مواد للمخزن", icon: "undo-2", url: "https://drive.google.com/file/d/1kn1jsYSUmhBrT3Y94XkwVhqUsN9x_Ly5/view?usp=drive_link" },
       { id: "طلب-بذل-وأحذية", name: "طلب بذل وأحذية", icon: "footprints", url: "https://drive.google.com/file/d/1RQqTqAa9WG03UvT966ZK1axhdFipXhW5/view?usp=drive_link" },
-      { id: "كشف-متابعة", name: "كشف متابعة الحضور", icon: "user-check", url: "https://drive.google.com/file/d/1kkTmG9cqfmxLfgEELmJl-cwKe-VKGHlC/view?usp=drive_link" } ,
+      { id: "كشف-متابعة", name: "كشف متابعة الحضور", icon: "user-check", url: "https://drive.google.com/file/d/1kkTmG9cqfmxLfgEELmJl-cwKe-VKGHlC/view?usp=drive_link" },
       { id: "طلب-عمل-إضافي-جمعة", name: "طلب عمل إضافي ليوم الجمعة", icon: "clock", url: "https://drive.google.com/file/d/1QubZa914CCnjubK9wfzzWAuSaXEfKVgo/view?usp=drive_link" },
     ];
 
@@ -778,33 +728,17 @@
     ];
 
     const comingSoonData = {
-      amanat: {
-        title: "الأمانات",
-        desc: "نعمل على تطوير نظام إدارة الأمانات والودائع ليكون متاحاً قريباً",
-        features: ["الاستعلام عن الأمانات", "متابعة الحالة", "طلبات الاسترداد"]
-      },
-      ohda: {
-        title: "العهدة الشخصية",
-        desc: "نعمل على تطوير نظام العهدة الشخصية ليكون متاحاً قريباً",
-        features: ["عرض العهدة", "تفاصيل العناصر", "طلب تحويل/إرجاع"]
-      },
-      loans: {
-        title: "السلف المالية",
-        desc: "قريباً: ستتمكن من معرفة إجمالي السلفة، المسدد، والمتبقي مع تفاصيل الحسم.",
-        features: ["إجمالي السلفة", "المبلغ المسدد", "المبلغ المتبقي", "تاريخ آخر سداد"]
-      }
+      amanat: { title: "الأمانات", desc: "نعمل على تطوير نظام إدارة الأمانات والودائع ليكون متاحاً قريباً", features: ["الاستعلام عن الأمانات", "متابعة الحالة", "طلبات الاسترداد"] },
+      ohda: { title: "العهدة الشخصية", desc: "نعمل على تطوير نظام العهدة الشخصية ليكون متاحاً قريباً", features: ["عرض العهدة", "تفاصيل العناصر", "طلب تحويل/إرجاع"] },
+      loans: { title: "السلف المالية", desc: "قريباً: ستتمكن من معرفة إجمالي السلفة، المسدد، والمتبقي مع تفاصيل الحسم.", features: ["إجمالي السلفة", "المبلغ المسدد", "المبلغ المتبقي", "تاريخ آخر سداد"] }
     };
 
-    // ==================== STATE ====================
     let activeSection = null;
     let months = [];
     let currentUser = null;
-
-    // personal phones state
     let personalPhones = [];
     let personalPhonesLoaded = false;
 
-    // ==================== INIT ====================
     document.addEventListener('DOMContentLoaded', function () {
       lucide.createIcons();
       initDarkMode();
@@ -813,7 +747,6 @@
       renderPhones();
     });
 
-    // ==================== AUTH ====================
     function checkStoredLogin() {
       const storedUser = localStorage.getItem('currentUser');
       const rememberMe = localStorage.getItem('rememberMe');
@@ -832,7 +765,6 @@
       const btn = document.getElementById('login-btn');
 
       errorEl.classList.remove('show');
-
       if (!number || !pass) {
         errorEl.textContent = 'يرجى إدخال الرقم الوظيفي والرمز السري';
         errorEl.classList.add('show');
@@ -849,7 +781,13 @@
         const data = await response.json();
 
         if (data.success) {
-          currentUser = { number: data.user.number, name: data.user.name, pass: pass };
+          // ملاحظة هامة: يجب أن يقوم سكربت جوجل بإرجاع خاصية role: 'admin' للمستخدم المدير
+          currentUser = { 
+            number: data.user.number, 
+            name: data.user.name, 
+            pass: pass,
+            role: data.user.role || 'employee' // افتراضي موظف عادي إذا لم يُرجع السكربت دوراً
+          };
           if (rememberMe) {
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             localStorage.setItem('rememberMe', 'true');
@@ -887,6 +825,13 @@
       if (currentUser) {
         document.getElementById('header-user-name').textContent = currentUser.name;
         document.getElementById('welcome-user-name').textContent = currentUser.name;
+        
+        // إظهار زر المدير فقط إذا كان الدور هو admin
+        if (currentUser.role === 'admin') {
+          document.getElementById('admin-salary-wrapper').style.display = 'flex';
+        } else {
+          document.getElementById('admin-salary-wrapper').style.display = 'none';
+        }
       }
       lucide.createIcons();
     }
@@ -909,7 +854,6 @@
       lucide.createIcons();
     }
 
-    // ==================== DARK MODE ====================
     function initDarkMode() {
       const saved = localStorage.getItem('darkMode');
       if (saved === 'enabled') document.body.classList.add('dark');
@@ -919,40 +863,32 @@
       localStorage.setItem('darkMode', document.body.classList.contains('dark') ? 'enabled' : 'disabled');
     }
 
-    // ==================== SECTIONS ====================
     function toggleSection(section) {
       const sections = ['forms', 'phones', 'personal-phones', 'links'];
-
       if (activeSection === section) {
         document.getElementById(section + '-section').classList.remove('active');
         document.getElementById(section + '-card').classList.remove('active');
         activeSection = null;
         return;
       }
-
       sections.forEach(s => {
         const secEl = document.getElementById(s + '-section');
         const cardEl = document.getElementById(s + '-card');
         if (secEl) secEl.classList.remove('active');
         if (cardEl) cardEl.classList.remove('active');
       });
-
       document.getElementById(section + '-section').classList.add('active');
       document.getElementById(section + '-card').classList.add('active');
       activeSection = section;
-
-      // تحميل الأرقام الشخصية عند أول فتح فقط
       if (section === 'personal-phones' && !personalPhonesLoaded) {
         loadPersonalPhones();
       }
     }
 
-    // ==================== FORMS ====================
     function renderForms() {
       const grid = document.getElementById('forms-grid');
       grid.innerHTML = forms.map(form => `
-        <a href="${form.url}" target="_blank" rel="noopener noreferrer" class="form-item"
-           onclick="showToast('جاري فتح ${form.name}', 'success')">
+        <a href="${form.url}" target="_blank" rel="noopener noreferrer" class="form-item" onclick="showToast('جاري فتح ${form.name}', 'success')">
           <div class="form-icon"><i data-lucide="${form.icon}"></i></div>
           <span class="form-name">${form.name}</span>
         </a>
@@ -960,16 +896,13 @@
       lucide.createIcons();
     }
 
-    // ==================== INTERNAL PHONES (LOCAL) ====================
     function renderPhones(filter = '') {
       const list = document.getElementById('phones-list');
       const filtered = phones.filter(p => p.name.includes(filter) || p.number.includes(filter));
-
       if (filtered.length === 0) {
         list.innerHTML = '<p class="no-results">لا توجد نتائج للبحث</p>';
         return;
       }
-
       list.innerHTML = filtered.map(phone => `
         <div class="phone-item">
           <span class="phone-name">${phone.name}</span>
@@ -981,26 +914,19 @@
       `).join('');
       lucide.createIcons();
     }
+    function filterPhones() { renderPhones(document.getElementById('phone-search').value); }
 
-    function filterPhones() {
-      renderPhones(document.getElementById('phone-search').value);
-    }
-
-    // ==================== PERSONAL PHONES (FROM SHEET) ====================
     async function loadPersonalPhones() {
       const list = document.getElementById('personal-phones-list');
       list.innerHTML = '<p class="no-results">جاري تحميل الأرقام الشخصية...</p>';
-
       try {
         const res = await fetch(webAppUrl + '?action=personalPhones');
         if (!res.ok) throw new Error('bad response');
         const data = await res.json();
-
         if (!data.success) {
           list.innerHTML = `<p class="no-results">${data.error || 'تعذر تحميل البيانات'}</p>`;
           return;
         }
-
         personalPhones = data.items || [];
         personalPhonesLoaded = true;
         renderPersonalPhones('');
@@ -1014,18 +940,13 @@
     function renderPersonalPhones(filter = '') {
       const list = document.getElementById('personal-phones-list');
       const f = (filter || '').trim();
-
       const filtered = personalPhones.filter(p =>
-        (p.name && p.name.includes(f)) ||
-        (p.number && p.number.includes(f)) ||
-        (p.department && p.department.includes(f))
+        (p.name && p.name.includes(f)) || (p.number && p.number.includes(f)) || (p.department && p.department.includes(f))
       );
-
       if (filtered.length === 0) {
         list.innerHTML = '<p class="no-results">لا توجد نتائج</p>';
         return;
       }
-
       list.innerHTML = filtered.map(p => `
         <div class="phone-item">
           <span class="phone-name">${escapeHtml(p.name || '')}${p.department ? ` <span style="color:var(--muted-foreground);font-size:.8rem;">(${escapeHtml(p.department)})</span>` : ''}</span>
@@ -1040,87 +961,63 @@
       `).join('');
       lucide.createIcons();
     }
+    function filterPersonalPhones() { renderPersonalPhones(document.getElementById('personal-phone-search').value); }
 
-    function filterPersonalPhones() {
-      renderPersonalPhones(document.getElementById('personal-phone-search').value);
-    }
-
-    // ==================== نسخ الرقم ====================
     function copyNumber(btnElement, number) {
       if (!number) return;
-
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(number).then(() => {
-          showCopySuccess(btnElement, number);
-        }).catch(() => {
-          fallbackCopy(btnElement, number);
-        });
+        navigator.clipboard.writeText(number).then(() => showCopySuccess(btnElement, number)).catch(() => fallbackCopy(btnElement, number));
       } else {
         fallbackCopy(btnElement, number);
       }
     }
-
     function fallbackCopy(btnElement, number) {
       const textarea = document.createElement('textarea');
       textarea.value = number;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        showCopySuccess(btnElement, number);
-      } catch (e) {
-        showToast('تعذر نسخ الرقم', 'error');
-      }
+      textarea.style.position = 'fixed'; textarea.style.opacity = '0';
+      document.body.appendChild(textarea); textarea.focus(); textarea.select();
+      try { document.execCommand('copy'); showCopySuccess(btnElement, number); } 
+      catch (e) { showToast('تعذر نسخ الرقم', 'error'); }
       document.body.removeChild(textarea);
     }
-
     function showCopySuccess(btnElement, number) {
       showToast('تم نسخ الرقم: ' + number, 'success');
-
-      // تغيير أيقونة الزر مؤقتاً إلى علامة صح
       btnElement.classList.add('copied');
       const icon = btnElement.querySelector('[data-lucide]');
-      if (icon) {
-        icon.setAttribute('data-lucide', 'check');
-        lucide.createIcons();
-      }
-
-      // إعادة الأيقونة الأصلية بعد 2 ثانية
+      if (icon) { icon.setAttribute('data-lucide', 'check'); lucide.createIcons(); }
       setTimeout(() => {
         btnElement.classList.remove('copied');
         const iconBack = btnElement.querySelector('[data-lucide]');
-        if (iconBack) {
-          iconBack.setAttribute('data-lucide', 'copy');
-          lucide.createIcons();
-        }
+        if (iconBack) { iconBack.setAttribute('data-lucide', 'copy'); lucide.createIcons(); }
       }, 2000);
     }
-
     function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, s => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-      }[s]));
+      return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[s]));
     }
 
-    // ==================== SALARY MODAL ====================
+    // ==================== SALARY MODAL (عادي) ====================
     function openSalaryModal() {
       document.getElementById('salary-modal').classList.add('active');
       document.getElementById('salary-result').style.display = 'none';
       document.getElementById('salary-error').style.display = 'none';
-      loadMonths();
+      loadMonths('month-select');
     }
-    function closeSalaryModal() {
-      document.getElementById('salary-modal').classList.remove('active');
-    }
-    function closeModalOnOverlay(event) {
-      if (event.target === event.currentTarget) closeSalaryModal();
-    }
+    function closeSalaryModal() { document.getElementById('salary-modal').classList.remove('active'); }
+    function closeModalOnOverlay(event) { if (event.target === event.currentTarget) closeSalaryModal(); }
 
-    async function loadMonths() {
-      const select = document.getElementById('month-select');
+    // ==================== ADMIN SALARY MODAL ====================
+    function openAdminSalaryModal() {
+      document.getElementById('admin-salary-modal').classList.add('active');
+      document.getElementById('admin-salary-result').style.display = 'none';
+      document.getElementById('admin-salary-error').style.display = 'none';
+      document.getElementById('admin-emp-number').value = '';
+      loadMonths('admin-month-select');
+    }
+    function closeAdminSalaryModal() { document.getElementById('admin-salary-modal').classList.remove('active'); }
+    function closeAdminModalOnOverlay(event) { if (event.target === event.currentTarget) closeAdminSalaryModal(); }
+
+    async function loadMonths(selectId) {
+      const select = document.getElementById(selectId);
       select.innerHTML = '<option value="">جاري التحميل...</option>';
       try {
         const res = await fetch(webAppUrl + '?action=months');
@@ -1142,160 +1039,137 @@
       const resultEl = document.getElementById('salary-result');
       const btn = document.getElementById('query-btn');
 
-      errorEl.style.display = 'none';
-      resultEl.style.display = 'none';
+      errorEl.style.display = 'none'; resultEl.style.display = 'none';
+      if (!month) { errorEl.textContent = 'يرجى اختيار الشهر'; errorEl.style.display = 'block'; return; }
+      if (!currentUser) { errorEl.textContent = 'يرجى تسجيل الدخول أولاً'; errorEl.style.display = 'block'; return; }
 
-      if (!month) {
-        errorEl.textContent = 'يرجى اختيار الشهر';
-        errorEl.style.display = 'block';
-        return;
-      }
-      if (!currentUser) {
-        errorEl.textContent = 'يرجى تسجيل الدخول أولاً';
-        errorEl.style.display = 'block';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الاستعلام...';
-      lucide.createIcons();
+      btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الاستعلام...'; lucide.createIcons();
 
       try {
         const response = await fetch(`${webAppUrl}?action=query&month=${encodeURIComponent(month)}&number=${encodeURIComponent(currentUser.number)}&pass=${encodeURIComponent(currentUser.pass)}`);
         if (!response.ok) throw new Error('خطأ في الاتصال');
         const data = await response.json();
-
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const totalBefore = (
-          parseFloat(safeValue(data.basic)) +
-          parseFloat(safeValue(data.bonus)) +
-          parseFloat(safeValue(data.badal)) +
-          parseFloat(safeValue(data.extra)) +
-          parseFloat(safeValue(data.phoneAllowance))
-        ).toFixed(2);
-
-        resultEl.innerHTML = `
-          <div class="salary-header">
-            <div class="salary-header-top">
-              <span>بيانات الراتب لشهر ${escapeHtml(month)}</span>
-              <i data-lucide="wallet"></i>
-            </div>
-            <p class="salary-net">${escapeHtml(safeValue(data.net))} د.ل</p>
-            <p class="salary-name">${escapeHtml(currentUser.name || 'غير متوفر')}</p>
-          </div>
-
-          <div class="salary-details">
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span>
-              <span class="detail-value">${escapeHtml(safeValue(data.basic))} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span>
-              <span class="detail-value">${escapeHtml(safeValue(data.bonus))} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span>
-              <span class="detail-value">${escapeHtml(safeValue(data.badal))} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="gift"></i> المكافأة</span>
-              <span class="detail-value">${escapeHtml(safeValue(data.phoneAllowance))} د.ل</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span>
-              <span class="detail-value">${escapeHtml(safeValue(data.extra))} د.ل</span>
-            </div>
-
-            <div class="divider">
-              <div class="detail-row highlight">
-                <span class="detail-label"><i data-lucide="calculator"></i> الإجمالي قبل الخصومات</span>
-                <span class="detail-value">${escapeHtml(totalBefore)} د.ل</span>
-              </div>
-            </div>
-
-            <div class="deductions-section">
-              <h4 class="deductions-title"><i data-lucide="minus"></i> تفاصيل الخصومات</h4>
-              <div class="deductions-grid">
-                <div class="deduction-item">
-                  <p class="deduction-label">الغياب</p>
-                  <p class="deduction-value">-${escapeHtml(safeValue(data.absenceDeduct))}</p>
-                </div>
-                <div class="deduction-item">
-                  <p class="deduction-label">العقوبة</p>
-                  <p class="deduction-value">-${escapeHtml(safeValue(data.penaltyDeduct))}</p>
-                </div>
-                <div class="deduction-item">
-                  <p class="deduction-label">السلفة</p>
-                  <p class="deduction-value">-${escapeHtml(safeValue(data.loanDeduct))}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="net-salary-box">
-              <span class="net-salary-label">الراتب الصافي</span>
-              <span class="net-salary-value">${escapeHtml(safeValue(data.net))} د.ل</span>
-            </div>
-          </div>
-
-          <button class="btn btn-secondary print-btn" onclick="window.print()">
-            <i data-lucide="printer"></i> طباعة البيان
-          </button>
-        `;
-
-        resultEl.style.display = 'block';
-        lucide.createIcons();
+        if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; return; }
+        renderSalaryResult(data, month, currentUser.name, resultEl);
         showToast('تم جلب بيانات الراتب بنجاح', 'success');
       } catch (e) {
         errorEl.textContent = 'حدث خطأ أثناء جلب البيانات. يرجى المحاولة مرة أخرى لاحقًا.';
         errorEl.style.display = 'block';
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'استعلام';
+        btn.disabled = false; btn.innerHTML = 'استعلام'; lucide.createIcons();
       }
+    }
+
+    async function queryAdminSalary() {
+      const empNumber = document.getElementById('admin-emp-number').value.trim();
+      const month = document.getElementById('admin-month-select').value;
+      const errorEl = document.getElementById('admin-salary-error');
+      const resultEl = document.getElementById('admin-salary-result');
+      const btn = document.getElementById('admin-query-btn');
+
+      errorEl.style.display = 'none'; resultEl.style.display = 'none';
+      
+      if (!empNumber) { errorEl.textContent = 'يرجى إدخال الرقم الوظيفي للموظف'; errorEl.style.display = 'block'; return; }
+      if (!month) { errorEl.textContent = 'يرجى اختيار الشهر'; errorEl.style.display = 'block'; return; }
+      if (!currentUser || currentUser.role !== 'admin') { 
+        errorEl.textContent = 'غير مصرح لك باستخدام هذه الميزة'; 
+        errorEl.style.display = 'block'; 
+        return; 
+      }
+
+      btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري البحث...'; lucide.createIcons();
+
+      try {
+        // إرسال طلب خاص بالمدير، يتضمن رقم المدير للتحقق من الصلاحية في السكربت
+        const response = await fetch(`${webAppUrl}?action=adminQuery&adminNumber=${encodeURIComponent(currentUser.number)}&targetNumber=${encodeURIComponent(empNumber)}&month=${encodeURIComponent(month)}`);
+        if (!response.ok) throw new Error('خطأ في الاتصال');
+        const data = await response.json();
+        
+        if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; return; }
+        
+        renderSalaryResult(data, month, data.employeeName || 'موظف', resultEl);
+        showToast('تم جلب بيانات الراتب بنجاح', 'success');
+      } catch (e) {
+        errorEl.textContent = 'حدث خطأ أثناء جلب البيانات. تأكد من صحة الرقم الوظيفي.';
+        errorEl.style.display = 'block';
+      } finally {
+        btn.disabled = false; btn.innerHTML = 'بحث'; lucide.createIcons();
+      }
+    }
+
+    function renderSalaryResult(data, month, empName, resultEl) {
+      const totalBefore = (
+        parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.bonus)) +
+        parseFloat(safeValue(data.badal)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.phoneAllowance))
+      ).toFixed(2);
+
+      resultEl.innerHTML = `
+        <div class="salary-header">
+          <div class="salary-header-top">
+            <span>بيانات الراتب لشهر ${escapeHtml(month)}</span>
+            <i data-lucide="wallet"></i>
+          </div>
+          <p class="salary-net">${escapeHtml(safeValue(data.net))} د.ل</p>
+          <p class="salary-name">${escapeHtml(empName)}</p>
+        </div>
+        <div class="salary-details">
+          <div class="detail-row"><span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span><span class="detail-value">${escapeHtml(safeValue(data.basic))} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span><span class="detail-value">${escapeHtml(safeValue(data.bonus))} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span><span class="detail-value">${escapeHtml(safeValue(data.badal))} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="gift"></i> المكافأة</span><span class="detail-value">${escapeHtml(safeValue(data.phoneAllowance))} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span><span class="detail-value">${escapeHtml(safeValue(data.extra))} د.ل</span></div>
+          <div class="divider">
+            <div class="detail-row highlight">
+              <span class="detail-label"><i data-lucide="calculator"></i> الإجمالي قبل الخصومات</span>
+              <span class="detail-value">${escapeHtml(totalBefore)} د.ل</span>
+            </div>
+          </div>
+          <div class="deductions-section">
+            <h4 class="deductions-title"><i data-lucide="minus"></i> تفاصيل الخصومات</h4>
+            <div class="deductions-grid">
+              <div class="deduction-item"><p class="deduction-label">الغياب</p><p class="deduction-value">-${escapeHtml(safeValue(data.absenceDeduct))}</p></div>
+              <div class="deduction-item"><p class="deduction-label">العقوبة</p><p class="deduction-value">-${escapeHtml(safeValue(data.penaltyDeduct))}</p></div>
+              <div class="deduction-item"><p class="deduction-label">السلفة</p><p class="deduction-value">-${escapeHtml(safeValue(data.loanDeduct))}</p></div>
+            </div>
+          </div>
+          <div class="net-salary-box">
+            <span class="net-salary-label">الراتب الصافي</span>
+            <span class="net-salary-value">${escapeHtml(safeValue(data.net))} د.ل</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary print-btn" onclick="window.print()">
+          <i data-lucide="printer"></i> طباعة البيان
+        </button>
+      `;
+      resultEl.style.display = 'block';
+      lucide.createIcons();
     }
 
     // ==================== COMING SOON MODAL ====================
     function openComingSoonModal(type) {
       const data = comingSoonData[type];
       if (!data) return;
-
       document.getElementById('coming-soon-modal-title').textContent = data.title;
       document.getElementById('coming-soon-desc').textContent = data.desc;
-
       const featuresContainer = document.getElementById('coming-soon-features');
       featuresContainer.innerHTML = (data.features || []).map(feature => `
-        <div class="coming-soon-feature">
-          <i data-lucide="check-circle"></i>
-          <span>${feature}</span>
-        </div>
+        <div class="coming-soon-feature"><i data-lucide="check-circle"></i><span>${feature}</span></div>
       `).join('');
-
       document.getElementById('coming-soon-modal').classList.add('active');
       lucide.createIcons();
     }
-    function closeComingSoonModal() {
-      document.getElementById('coming-soon-modal').classList.remove('active');
-    }
-    function closeComingSoonModalOnOverlay(event) {
-      if (event.target === event.currentTarget) closeComingSoonModal();
-    }
+    function closeComingSoonModal() { document.getElementById('coming-soon-modal').classList.remove('active'); }
+    function closeComingSoonModalOnOverlay(event) { if (event.target === event.currentTarget) closeComingSoonModal(); }
 
     // ==================== TOAST ====================
     function showToast(message, type) {
       const toast = document.getElementById('toast');
       const icon = document.getElementById('toast-icon');
       const msg = document.getElementById('toast-message');
-
       toast.className = 'toast active ' + type;
       if (type === 'success') icon.setAttribute('data-lucide', 'check-circle');
       else if (type === 'error') icon.setAttribute('data-lucide', 'x-circle');
       else icon.setAttribute('data-lucide', 'info');
-
       msg.textContent = message;
       lucide.createIcons();
       setTimeout(() => toast.classList.remove('active'), 3000);
