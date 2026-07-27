@@ -557,7 +557,7 @@
           <button class="service-card" onclick="openAdminSalaryModal()" id="admin-salary-card">
             <div class="service-card-content">
               <div class="service-icon admin"><i data-lucide="shield-check"></i></div>
-              <div class="service-info"><h3 class="service-title">إدارة رواتب الموظفين</h3><p class="service-desc">البحث بالرقم الوظيفي أو الاسم</p></div>
+              <div class="service-info"><h3 class="service-title">إدارة رواتب الموظفين</h3><p class="service-desc">البحث بالرقم الوظيفي أو الاسم الكامل</p></div>
               <i data-lucide="chevron-left" class="service-chevron"></i>
             </div>
           </button>
@@ -631,7 +631,7 @@
     </div>
   </div>
 
-  <!-- ADMIN SALARY MODAL (للمدير) - محدث للبحث بالاسم أو الرقم -->
+  <!-- ADMIN SALARY MODAL (للمدير) - محدث للتطابق التام -->
   <div class="modal-overlay" id="admin-salary-modal" onclick="closeAdminModalOnOverlay(event)">
     <div class="modal">
       <div class="modal-header">
@@ -640,8 +640,8 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label class="form-label" for="admin-search-query">الرقم الوظيفي أو اسم الموظف</label>
-          <input type="text" class="form-input" id="admin-search-query" placeholder="مثال: 115 أو مصطفى">
+          <label class="form-label" for="admin-search-query">الرقم الوظيفي أو الاسم الكامل للموظف</label>
+          <input type="text" class="form-input" id="admin-search-query" placeholder="مثال: 115 أو محمد القاضي (يجب كتابة الاسم كاملاً)">
         </div>
         <div class="form-group">
           <label class="form-label" for="admin-month-select">اختر الشهر</label>
@@ -1058,7 +1058,7 @@
       }
     }
 
-    // ==================== ADMIN SALARY QUERY (محدّث للبحث بالاسم أو الرقم) ====================
+    // ==================== ADMIN SALARY QUERY (محدّث للتطابق التام) ====================
     async function queryAdminSalary() {
       const searchQuery = document.getElementById('admin-search-query').value.trim();
       const month = document.getElementById('admin-month-select').value;
@@ -1068,7 +1068,7 @@
 
       errorEl.style.display = 'none'; resultEl.style.display = 'none';
       
-      if (!searchQuery) { errorEl.textContent = 'يرجى إدخال الرقم الوظيفي أو اسم الموظف'; errorEl.style.display = 'block'; return; }
+      if (!searchQuery) { errorEl.textContent = 'يرجى إدخال الرقم الوظيفي أو الاسم الكامل'; errorEl.style.display = 'block'; return; }
       if (!month) { errorEl.textContent = 'يرجى اختيار الشهر'; errorEl.style.display = 'block'; return; }
       if (!currentUser || currentUser.role !== 'admin') { 
         errorEl.textContent = 'غير مصرح لك باستخدام هذه الميزة'; 
@@ -1079,7 +1079,6 @@
       btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري البحث...'; lucide.createIcons();
 
       try {
-        // إرسال طلب البحث باستخدام searchQuery بدلاً من targetNumber
         const response = await fetch(`${webAppUrl}?action=adminQuery&adminNumber=${encodeURIComponent(currentUser.number)}&searchQuery=${encodeURIComponent(searchQuery)}&month=${encodeURIComponent(month)}`);
         if (!response.ok) throw new Error('خطأ في الاتصال');
         const data = await response.json();
