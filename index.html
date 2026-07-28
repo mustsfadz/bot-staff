@@ -360,7 +360,6 @@
     .toast span{font-size:.875rem;font-weight:500;}
     @keyframes slideInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ==================== سجل الدخول ==================== */
     .log-toolbar{
       display:flex; flex-direction:column; gap:.75rem; margin-bottom:1rem;
     }
@@ -404,7 +403,6 @@
       font-family:monospace; font-size:.8rem; color:var(--muted-foreground);
       direction:ltr; text-align:right;
     }
-    /* عرض البطاقات على الموبايل */
     .log-cards{display:none;}
     @media(max-width:639px){
       .log-table{display:none;}
@@ -424,6 +422,39 @@
       .log-card-date{
         font-size:.75rem; color:var(--muted-foreground); font-family:monospace; direction:ltr;
       }
+    }
+
+    /* ==================== الإكمال التلقائي ==================== */
+    .autocomplete-wrapper{position:relative;}
+    .autocomplete-list{
+      position:absolute; top:100%; right:0; left:0; z-index:10;
+      background:var(--card); border:1px solid var(--border); border-radius:.5rem;
+      margin-top:.25rem; max-height:15rem; overflow-y:auto;
+      box-shadow:0 10px 30px rgba(0,0,0,.15);
+      display:none;
+    }
+    .autocomplete-list.active{display:block;}
+    .autocomplete-item{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:.625rem .75rem; cursor:pointer; transition:background .15s;
+      border-bottom:1px solid var(--border);
+    }
+    .autocomplete-item:last-child{border-bottom:none;}
+    .autocomplete-item:hover,.autocomplete-item.highlighted{
+      background:var(--muted);
+    }
+    .autocomplete-item-name{
+      font-size:.875rem; font-weight:500; color:var(--foreground);
+      display:flex; align-items:center; gap:.5rem;
+    }
+    .autocomplete-item-name svg{width:1rem; height:1rem; color:var(--primary);}
+    .autocomplete-item-number{
+      font-size:.75rem; font-weight:600; color:var(--primary);
+      padding:.15rem .5rem; background:rgba(14,165,233,.1); border-radius:9999px;
+    }
+    .autocomplete-empty{
+      padding:.75rem; text-align:center; font-size:.8rem;
+      color:var(--muted-foreground);
     }
 
     @media print{
@@ -625,7 +656,7 @@
           <button class="service-card" onclick="openAdminSalaryModal()" id="admin-salary-card">
             <div class="service-card-content">
               <div class="service-icon admin"><i data-lucide="shield-check"></i></div>
-              <div class="service-info"><h3 class="service-title">إدارة رواتب الموظفين</h3><p class="service-desc">البحث بالرقم الوظيفي أو الاسم الكامل</p></div>
+              <div class="service-info"><h3 class="service-title">إدارة رواتب الموظفين</h3><p class="service-desc">البحث بالرقم الوظيفي أو الاسم</p></div>
               <i data-lucide="chevron-left" class="service-chevron"></i>
             </div>
           </button>
@@ -710,7 +741,7 @@
     </div>
   </div>
 
-  <!-- ADMIN SALARY MODAL (للمدير) -->
+  <!-- ADMIN SALARY MODAL (للمدير) - مع الإكمال التلقائي -->
   <div class="modal-overlay" id="admin-salary-modal" onclick="closeAdminModalOnOverlay(event)">
     <div class="modal">
       <div class="modal-header">
@@ -719,8 +750,15 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label class="form-label" for="admin-search-query">الرقم الوظيفي أو الاسم الكامل للموظف</label>
-          <input type="text" class="form-input" id="admin-search-query" placeholder="مثال: 115 أو محمد القاضي (يجب كتابة الاسم كاملاً)">
+          <label class="form-label" for="admin-search-query">الرقم الوظيفي أو اسم الموظف</label>
+          <div class="autocomplete-wrapper">
+            <input type="text" class="form-input" id="admin-search-query" 
+                   placeholder="ابدأ بكتابة الاسم أو الرقم..." 
+                   autocomplete="off"
+                   oninput="onAdminSearchInput(event)" 
+                   onfocus="onAdminSearchFocus()">
+            <div class="autocomplete-list" id="autocomplete-list"></div>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label" for="admin-month-select">اختر الشهر</label>
@@ -845,7 +883,11 @@
     let currentUser = null;
     let personalPhones = [];
     let personalPhonesLoaded = false;
-    let loginLogData = []; // بيانات سجل الدخول
+    let loginLogData = [];
+    let allEmployeesCache = [];
+    let employeesLoaded = false;
+    let searchDebounceTimer = null;
+    let highlightedIndex = -1;
 
     document.addEventListener('DOMContentLoaded', function () {
       lucide.createIcons();
@@ -934,7 +976,6 @@
         document.getElementById('welcome-user-name').textContent = currentUser.name;
         
         const isAdmin = currentUser.role === 'admin';
-        // إظهار/إخفاء أزرار المدير
         document.getElementById('admin-salary-wrapper').style.display = isAdmin ? 'flex' : 'none';
         document.getElementById('admin-login-log-wrapper').style.display = isAdmin ? 'flex' : 'none';
       }
@@ -1100,7 +1141,6 @@
       return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[s]));
     }
 
-    // ==================== SALARY MODAL (عادي) ====================
     function openSalaryModal() {
       document.getElementById('salary-modal').classList.add('active');
       document.getElementById('salary-result').style.display = 'none';
@@ -1110,13 +1150,14 @@
     function closeSalaryModal() { document.getElementById('salary-modal').classList.remove('active'); }
     function closeModalOnOverlay(event) { if (event.target === event.currentTarget) closeSalaryModal(); }
 
-    // ==================== ADMIN SALARY MODAL ====================
     function openAdminSalaryModal() {
       document.getElementById('admin-salary-modal').classList.add('active');
       document.getElementById('admin-salary-result').style.display = 'none';
       document.getElementById('admin-salary-error').style.display = 'none';
       document.getElementById('admin-search-query').value = '';
+      document.getElementById('autocomplete-list').classList.remove('active');
       loadMonths('admin-month-select');
+      loadAllEmployees();
     }
     function closeAdminSalaryModal() { document.getElementById('admin-salary-modal').classList.remove('active'); }
     function closeAdminModalOnOverlay(event) { if (event.target === event.currentTarget) closeAdminSalaryModal(); }
@@ -1165,7 +1206,6 @@
       }
     }
 
-    // ==================== ADMIN SALARY QUERY ====================
     async function queryAdminSalary() {
       const searchQuery = document.getElementById('admin-search-query').value.trim();
       const month = document.getElementById('admin-month-select').value;
@@ -1250,7 +1290,6 @@
       lucide.createIcons();
     }
 
-    // ==================== LOGIN LOG MODAL (سجل الدخول) ====================
     function openLoginLogModal() {
       document.getElementById('login-log-modal').classList.add('active');
       document.getElementById('log-search').value = '';
@@ -1305,7 +1344,6 @@
         return;
       }
 
-      // بناء الجدول (للشاشات الكبيرة)
       let tableHtml = `
         <table class="log-table">
           <thead>
@@ -1328,7 +1366,6 @@
       });
       tableHtml += '</tbody></table>';
 
-      // بناء البطاقات (للموبايل)
       let cardsHtml = '<div class="log-cards">';
       logs.forEach(log => {
         cardsHtml += `
@@ -1360,7 +1397,147 @@
       renderLoginLog(filtered);
     }
 
-    // ==================== COMING SOON MODAL ====================
+    // ==================== الإكمال التلقائي ====================
+    async function loadAllEmployees() {
+      if (employeesLoaded) return;
+      try {
+        const res = await fetch(`${webAppUrl}?action=searchEmployees&adminNumber=${encodeURIComponent(currentUser.number)}&query=`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success) {
+          allEmployeesCache = data.employees || [];
+          employeesLoaded = true;
+        }
+      } catch (e) {
+        console.error('فشل تحميل قائمة الموظفين', e);
+      }
+    }
+
+    function onAdminSearchInput(event) {
+      const query = event.target.value.trim();
+      const list = document.getElementById('autocomplete-list');
+      
+      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+      
+      if (query.length === 0) {
+        list.classList.remove('active');
+        list.innerHTML = '';
+        return;
+      }
+      
+      searchDebounceTimer = setTimeout(() => {
+        performAutocompleteSearch(query);
+      }, 250);
+    }
+
+    function onAdminSearchFocus() {
+      loadAllEmployees();
+      const query = document.getElementById('admin-search-query').value.trim();
+      if (query.length > 0) {
+        performAutocompleteSearch(query);
+      }
+    }
+
+    async function performAutocompleteSearch(query) {
+      const list = document.getElementById('autocomplete-list');
+      const q = query.toLowerCase();
+      
+      if (employeesLoaded && allEmployeesCache.length > 0) {
+        const filtered = allEmployeesCache.filter(emp => 
+          emp.name.toLowerCase().includes(q) || emp.number.includes(q)
+        ).slice(0, 10);
+        renderAutocompleteList(filtered);
+        return;
+      }
+      
+      try {
+        const res = await fetch(`${webAppUrl}?action=searchEmployees&adminNumber=${encodeURIComponent(currentUser.number)}&query=${encodeURIComponent(query)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success) {
+          renderAutocompleteList(data.employees || []);
+        }
+      } catch (e) {
+        list.classList.remove('active');
+      }
+    }
+
+    function renderAutocompleteList(employees) {
+      const list = document.getElementById('autocomplete-list');
+      highlightedIndex = -1;
+      
+      if (employees.length === 0) {
+        list.innerHTML = '<div class="autocomplete-empty">لا توجد نتائج مطابقة</div>';
+        list.classList.add('active');
+        return;
+      }
+      
+      list.innerHTML = employees.map((emp, idx) => `
+        <div class="autocomplete-item" data-index="${idx}" 
+             data-name="${escapeHtml(emp.name)}" 
+             onmousedown="selectEmployee('${escapeHtml(emp.name)}')">
+          <span class="autocomplete-item-name">
+            <i data-lucide="user"></i>
+            <span>${escapeHtml(emp.name)}</span>
+          </span>
+          <span class="autocomplete-item-number">${escapeHtml(emp.number)}</span>
+        </div>
+      `).join('');
+      
+      list.classList.add('active');
+      lucide.createIcons();
+    }
+
+    function selectEmployee(name) {
+      const input = document.getElementById('admin-search-query');
+      input.value = name;
+      document.getElementById('autocomplete-list').classList.remove('active');
+      input.focus();
+    }
+
+    document.addEventListener('click', function(e) {
+      const wrapper = document.querySelector('.autocomplete-wrapper');
+      const list = document.getElementById('autocomplete-list');
+      if (wrapper && list && !wrapper.contains(e.target)) {
+        list.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      const list = document.getElementById('autocomplete-list');
+      if (!list || !list.classList.contains('active')) return;
+      
+      const items = list.querySelectorAll('.autocomplete-item');
+      if (items.length === 0) return;
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        highlightedIndex = (highlightedIndex + 1) % items.length;
+        updateHighlight(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        highlightedIndex = (highlightedIndex - 1 + items.length) % items.length;
+        updateHighlight(items);
+      } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+        e.preventDefault();
+        const name = items[highlightedIndex].getAttribute('data-name');
+        selectEmployee(name);
+      } else if (e.key === 'Escape') {
+        list.classList.remove('active');
+      }
+    });
+
+    function updateHighlight(items) {
+      items.forEach((item, idx) => {
+        if (idx === highlightedIndex) {
+          item.classList.add('highlighted');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('highlighted');
+        }
+      });
+    }
+
     function openComingSoonModal(type) {
       const data = comingSoonData[type];
       if (!data) return;
@@ -1376,7 +1553,6 @@
     function closeComingSoonModal() { document.getElementById('coming-soon-modal').classList.remove('active'); }
     function closeComingSoonModalOnOverlay(event) { if (event.target === event.currentTarget) closeComingSoonModal(); }
 
-    // ==================== TOAST ====================
     function showToast(message, type) {
       const toast = document.getElementById('toast');
       const icon = document.getElementById('toast-icon');
