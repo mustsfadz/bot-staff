@@ -175,6 +175,7 @@
     .service-icon.cyan{background:linear-gradient(135deg,#06b6d4,#0ea5e9);}
     .service-icon.red{background:linear-gradient(135deg,#ef4444,#f97316);}
     .service-icon.admin{background:linear-gradient(135deg,#7c3aed,#4f46e5);}
+    .service-icon.amber{background:linear-gradient(135deg,#f59e0b,#d97706);}
 
     .service-info{flex:1;}
     .service-title{font-weight:600;color:var(--foreground);margin-bottom:.25rem;}
@@ -265,10 +266,11 @@
       background:var(--card); border:1px solid var(--border); border-radius:1rem; width:100%;
       max-width:28rem; max-height:90vh; overflow-y:auto; animation:zoomIn .2s ease-out;
     }
+    .modal.modal-wide{max-width:56rem;}
     @keyframes zoomIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
     .modal-header{
       position:sticky; top:0; background:var(--card); border-bottom:1px solid var(--border);
-      padding:1rem; display:flex; align-items:center; justify-content:space-between;
+      padding:1rem; display:flex; align-items:center; justify-content:space-between; z-index:2;
     }
     .modal-title{font-size:1.125rem;font-weight:700;color:var(--foreground);}
     .modal-close{
@@ -358,8 +360,74 @@
     .toast span{font-size:.875rem;font-weight:500;}
     @keyframes slideInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
+    /* ==================== سجل الدخول ==================== */
+    .log-toolbar{
+      display:flex; flex-direction:column; gap:.75rem; margin-bottom:1rem;
+    }
+    @media(min-width:640px){
+      .log-toolbar{flex-direction:row; align-items:center; justify-content:space-between;}
+      .log-toolbar .search-input{margin-bottom:0; flex:1; max-width:20rem;}
+    }
+    .log-stats{
+      font-size:.875rem; color:var(--muted-foreground); font-weight:500;
+      padding:.5rem .75rem; background:var(--muted); border-radius:.5rem;
+      display:inline-flex; align-items:center; gap:.5rem;
+    }
+    .log-stats svg{width:1rem; height:1rem; color:var(--primary);}
+    .log-table-container{
+      max-height:60vh; overflow-y:auto; border:1px solid var(--border); border-radius:.5rem;
+    }
+    .log-table{
+      width:100%; border-collapse:collapse; font-size:.875rem;
+    }
+    .log-table thead{
+      position:sticky; top:0; background:var(--muted); z-index:1;
+    }
+    .log-table th{
+      padding:.75rem; text-align:right; font-weight:600; color:var(--foreground);
+      border-bottom:2px solid var(--border);
+    }
+    .log-table td{
+      padding:.75rem; border-bottom:1px solid var(--border); color:var(--foreground);
+    }
+    .log-table tbody tr:hover{
+      background:var(--muted);
+    }
+    .log-table tbody tr:last-child td{
+      border-bottom:none;
+    }
+    .log-badge{
+      display:inline-block; padding:.25rem .625rem; border-radius:9999px;
+      background:rgba(14,165,233,.1); color:var(--primary); font-weight:600; font-size:.8rem;
+    }
+    .log-date{
+      font-family:monospace; font-size:.8rem; color:var(--muted-foreground);
+      direction:ltr; text-align:right;
+    }
+    /* عرض البطاقات على الموبايل */
+    .log-cards{display:none;}
+    @media(max-width:639px){
+      .log-table{display:none;}
+      .log-cards{display:flex; flex-direction:column; gap:.5rem;}
+      .log-card-item{
+        padding:.75rem; border:1px solid var(--border); border-radius:.5rem;
+        background:var(--background);
+      }
+      .log-card-header{
+        display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem;
+      }
+      .log-card-name{font-weight:600; color:var(--foreground);}
+      .log-card-number{
+        padding:.2rem .5rem; border-radius:9999px;
+        background:rgba(14,165,233,.1); color:var(--primary); font-size:.75rem; font-weight:600;
+      }
+      .log-card-date{
+        font-size:.75rem; color:var(--muted-foreground); font-family:monospace; direction:ltr;
+      }
+    }
+
     @media print{
-      .header,.footer,.modal-close,.btn-group,.services-grid{display:none !important;}
+      .header,.footer,.modal-close,.btn-group,.services-grid,.log-toolbar{display:none !important;}
       .modal-overlay{position:static;background:none;backdrop-filter:none;}
       .modal{box-shadow:none;border:none;max-height:none;}
     }
@@ -563,6 +631,17 @@
           </button>
         </div>
 
+        <!-- سجل الدخول (للمدير فقط) -->
+        <div class="service-wrapper admin-only" id="admin-login-log-wrapper" style="display: none;">
+          <button class="service-card" onclick="openLoginLogModal()" id="admin-login-log-card">
+            <div class="service-card-content">
+              <div class="service-icon amber"><i data-lucide="history"></i></div>
+              <div class="service-info"><h3 class="service-title">سجل الدخول</h3><p class="service-desc">عرض جميع عمليات الدخول على النظام</p></div>
+              <i data-lucide="chevron-left" class="service-chevron"></i>
+            </div>
+          </button>
+        </div>
+
         <!-- السلف المالية (قريباً) -->
         <div class="service-wrapper">
           <button class="service-card" onclick="openComingSoonModal('loans')" id="loans-card">
@@ -631,7 +710,7 @@
     </div>
   </div>
 
-  <!-- ADMIN SALARY MODAL (للمدير) - محدث للتطابق التام -->
+  <!-- ADMIN SALARY MODAL (للمدير) -->
   <div class="modal-overlay" id="admin-salary-modal" onclick="closeAdminModalOnOverlay(event)">
     <div class="modal">
       <div class="modal-header">
@@ -655,6 +734,34 @@
           <button class="btn btn-secondary" onclick="closeAdminSalaryModal()">إغلاق</button>
         </div>
         <div class="salary-result" id="admin-salary-result" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN LOG MODAL (سجل الدخول - للمدير) -->
+  <div class="modal-overlay" id="login-log-modal" onclick="closeLoginLogModalOnOverlay(event)">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h2 class="modal-title">سجل الدخول على النظام</h2>
+        <button class="modal-close" onclick="closeLoginLogModal()"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="log-toolbar">
+          <div class="search-input">
+            <i data-lucide="search"></i>
+            <input type="text" placeholder="ابحث بالاسم أو الرقم الوظيفي..." id="log-search" oninput="filterLoginLog()">
+          </div>
+          <div class="log-stats" id="log-stats">
+            <i data-lucide="database"></i>
+            <span id="log-stats-text">0 سجل</span>
+          </div>
+        </div>
+        <div class="log-table-container" id="log-table-container">
+          <p class="no-results">اضغط على زر التحديث لجلب السجل</p>
+        </div>
+        <button class="btn btn-secondary" onclick="loadLoginLog()" style="width:100%; margin-top:1rem;" id="refresh-log-btn">
+          <i data-lucide="refresh-cw"></i> تحديث السجل
+        </button>
       </div>
     </div>
   </div>
@@ -738,6 +845,7 @@
     let currentUser = null;
     let personalPhones = [];
     let personalPhonesLoaded = false;
+    let loginLogData = []; // بيانات سجل الدخول
 
     document.addEventListener('DOMContentLoaded', function () {
       lucide.createIcons();
@@ -825,11 +933,10 @@
         document.getElementById('header-user-name').textContent = currentUser.name;
         document.getElementById('welcome-user-name').textContent = currentUser.name;
         
-        if (currentUser.role === 'admin') {
-          document.getElementById('admin-salary-wrapper').style.display = 'flex';
-        } else {
-          document.getElementById('admin-salary-wrapper').style.display = 'none';
-        }
+        const isAdmin = currentUser.role === 'admin';
+        // إظهار/إخفاء أزرار المدير
+        document.getElementById('admin-salary-wrapper').style.display = isAdmin ? 'flex' : 'none';
+        document.getElementById('admin-login-log-wrapper').style.display = isAdmin ? 'flex' : 'none';
       }
       lucide.createIcons();
     }
@@ -1058,7 +1165,7 @@
       }
     }
 
-    // ==================== ADMIN SALARY QUERY (محدّث للتطابق التام) ====================
+    // ==================== ADMIN SALARY QUERY ====================
     async function queryAdminSalary() {
       const searchQuery = document.getElementById('admin-search-query').value.trim();
       const month = document.getElementById('admin-month-select').value;
@@ -1141,6 +1248,116 @@
       `;
       resultEl.style.display = 'block';
       lucide.createIcons();
+    }
+
+    // ==================== LOGIN LOG MODAL (سجل الدخول) ====================
+    function openLoginLogModal() {
+      document.getElementById('login-log-modal').classList.add('active');
+      document.getElementById('log-search').value = '';
+      document.getElementById('log-table-container').innerHTML = '<p class="no-results">جاري تحميل السجل...</p>';
+      document.getElementById('log-stats-text').textContent = '0 سجل';
+      lucide.createIcons();
+      loadLoginLog();
+    }
+    function closeLoginLogModal() { document.getElementById('login-log-modal').classList.remove('active'); }
+    function closeLoginLogModalOnOverlay(event) { if (event.target === event.currentTarget) closeLoginLogModal(); }
+
+    async function loadLoginLog() {
+      const container = document.getElementById('log-table-container');
+      const btn = document.getElementById('refresh-log-btn');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري التحديث...';
+      lucide.createIcons();
+
+      try {
+        const res = await fetch(`${webAppUrl}?action=getLoginLog&adminNumber=${encodeURIComponent(currentUser.number)}`);
+        if (!res.ok) throw new Error('bad response');
+        const data = await res.json();
+
+        if (!data.success) {
+          container.innerHTML = `<p class="no-results">${data.error || 'تعذر تحميل السجل'}</p>`;
+          return;
+        }
+
+        loginLogData = data.logs || [];
+        renderLoginLog(loginLogData);
+        showToast('تم تحديث سجل الدخول بنجاح', 'success');
+      } catch (e) {
+        container.innerHTML = '<p class="no-results">حدث خطأ في تحميل السجل</p>';
+        showToast('حدث خطأ في تحميل السجل', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="refresh-cw"></i> تحديث السجل';
+        lucide.createIcons();
+      }
+    }
+
+    function renderLoginLog(logs) {
+      const container = document.getElementById('log-table-container');
+      const statsText = document.getElementById('log-stats-text');
+
+      statsText.textContent = `${logs.length} سجل`;
+
+      if (logs.length === 0) {
+        container.innerHTML = '<p class="no-results">لا توجد سجلات دخول</p>';
+        lucide.createIcons();
+        return;
+      }
+
+      // بناء الجدول (للشاشات الكبيرة)
+      let tableHtml = `
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th>الرقم الوظيفي</th>
+              <th>اسم الموظف</th>
+              <th>تاريخ ووقت الدخول</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      logs.forEach(log => {
+        tableHtml += `
+          <tr>
+            <td><span class="log-badge">${escapeHtml(log.number)}</span></td>
+            <td>${escapeHtml(log.name)}</td>
+            <td><span class="log-date">${escapeHtml(log.date)}</span></td>
+          </tr>
+        `;
+      });
+      tableHtml += '</tbody></table>';
+
+      // بناء البطاقات (للموبايل)
+      let cardsHtml = '<div class="log-cards">';
+      logs.forEach(log => {
+        cardsHtml += `
+          <div class="log-card-item">
+            <div class="log-card-header">
+              <span class="log-card-name">${escapeHtml(log.name)}</span>
+              <span class="log-card-number">${escapeHtml(log.number)}</span>
+            </div>
+            <div class="log-card-date">${escapeHtml(log.date)}</div>
+          </div>
+        `;
+      });
+      cardsHtml += '</div>';
+
+      container.innerHTML = tableHtml + cardsHtml;
+      lucide.createIcons();
+    }
+
+    function filterLoginLog() {
+      const query = document.getElementById('log-search').value.trim().toLowerCase();
+      if (!query) {
+        renderLoginLog(loginLogData);
+        return;
+      }
+      const filtered = loginLogData.filter(log => 
+        log.number.toLowerCase().includes(query) || 
+        log.name.toLowerCase().includes(query)
+      );
+      renderLoginLog(filtered);
     }
 
     // ==================== COMING SOON MODAL ====================
