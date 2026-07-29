@@ -1179,6 +1179,12 @@
       return value === undefined || value === null || value === '' ? '0' : value;
     }
 
+    function formatNumber(value) {
+      const num = parseFloat(safeValue(value));
+      if (isNaN(num)) return '0';
+      return num.toLocaleString('ar-LY', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    }
+
     async function querySalary() {
       const month = document.getElementById('month-select').value;
       const errorEl = document.getElementById('salary-error');
@@ -1243,10 +1249,12 @@
     }
 
     function renderSalaryResult(data, month, empName, resultEl) {
-      const totalBefore = (
-        parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.bonus)) +
-        parseFloat(safeValue(data.badal)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.phoneAllowance))
-      ).toFixed(2);
+      const totalBefore = data.totalBefore !== undefined 
+        ? data.totalBefore 
+        : (
+            parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.bonus)) +
+            parseFloat(safeValue(data.badal)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.phoneAllowance))
+          );
 
       resultEl.innerHTML = `
         <div class="salary-header">
@@ -1254,32 +1262,32 @@
             <span>بيانات الراتب لشهر ${escapeHtml(month)}</span>
             <i data-lucide="wallet"></i>
           </div>
-          <p class="salary-net">${escapeHtml(safeValue(data.net))} د.ل</p>
+          <p class="salary-net">${formatNumber(data.net)} د.ل</p>
           <p class="salary-name">${escapeHtml(empName)}</p>
         </div>
         <div class="salary-details">
-          <div class="detail-row"><span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span><span class="detail-value">${escapeHtml(safeValue(data.basic))} د.ل</span></div>
-          <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span><span class="detail-value">${escapeHtml(safeValue(data.bonus))} د.ل</span></div>
-          <div class="detail-row"><span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span><span class="detail-value">${escapeHtml(safeValue(data.badal))} د.ل</span></div>
-          <div class="detail-row"><span class="detail-label"><i data-lucide="gift"></i> المكافأة</span><span class="detail-value">${escapeHtml(safeValue(data.phoneAllowance))} د.ل</span></div>
-          <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span><span class="detail-value">${escapeHtml(safeValue(data.extra))} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span><span class="detail-value">${formatNumber(data.basic)} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span><span class="detail-value">${formatNumber(data.bonus)} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span><span class="detail-value">${formatNumber(data.badal)} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="gift"></i> المكافأة</span><span class="detail-value">${formatNumber(data.phoneAllowance)} د.ل</span></div>
+          <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span><span class="detail-value">${formatNumber(data.extra)} د.ل</span></div>
           <div class="divider">
             <div class="detail-row highlight">
               <span class="detail-label"><i data-lucide="calculator"></i> الإجمالي قبل الخصومات</span>
-              <span class="detail-value">${escapeHtml(totalBefore)} د.ل</span>
+              <span class="detail-value">${formatNumber(totalBefore)} د.ل</span>
             </div>
           </div>
           <div class="deductions-section">
             <h4 class="deductions-title"><i data-lucide="minus"></i> تفاصيل الخصومات</h4>
             <div class="deductions-grid">
-              <div class="deduction-item"><p class="deduction-label">الغياب</p><p class="deduction-value">-${escapeHtml(safeValue(data.absenceDeduct))}</p></div>
-              <div class="deduction-item"><p class="deduction-label">العقوبة</p><p class="deduction-value">-${escapeHtml(safeValue(data.penaltyDeduct))}</p></div>
-              <div class="deduction-item"><p class="deduction-label">السلفة</p><p class="deduction-value">-${escapeHtml(safeValue(data.loanDeduct))}</p></div>
+              <div class="deduction-item"><p class="deduction-label">الغياب</p><p class="deduction-value">-${formatNumber(data.absenceDeduct)}</p></div>
+              <div class="deduction-item"><p class="deduction-label">العقوبة</p><p class="deduction-value">-${formatNumber(data.penaltyDeduct)}</p></div>
+              <div class="deduction-item"><p class="deduction-label">السلفة</p><p class="deduction-value">-${formatNumber(data.loanDeduct)}</p></div>
             </div>
           </div>
           <div class="net-salary-box">
             <span class="net-salary-label">الراتب الصافي</span>
-            <span class="net-salary-value">${escapeHtml(safeValue(data.net))} د.ل</span>
+            <span class="net-salary-value">${formatNumber(data.net)} د.ل</span>
           </div>
         </div>
         <button class="btn btn-secondary print-btn" onclick="window.print()">
@@ -1462,6 +1470,7 @@
       }
     }
 
+    // ==================== الدالة المُحدَّثة ====================
     function renderAutocompleteList(employees) {
       const list = document.getElementById('autocomplete-list');
       highlightedIndex = -1;
@@ -1475,7 +1484,7 @@
       list.innerHTML = employees.map((emp, idx) => `
         <div class="autocomplete-item" data-index="${idx}" 
              data-name="${escapeHtml(emp.name)}" 
-             onmousedown="selectEmployee('${escapeHtml(emp.name)}')">
+             onmousedown="selectEmployee('${escapeHtml(emp.name).replace(/'/g, "\\'")}')">
           <span class="autocomplete-item-name">
             <i data-lucide="user"></i>
             <span>${escapeHtml(emp.name)}</span>
