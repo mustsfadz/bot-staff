@@ -1,26 +1,31 @@
-   {
-     "name": "شركة الدعم للمقاولات",
-     "short_name": "الدعم للمقاولات",
-     "description": "نظام خدمات الموظفين",
-     "start_url": "/index.html",
-     "display": "standalone",
-     "orientation": "portrait",
-     "background_color": "#0f172a",
-     "theme_color": "#0ea5e9",
-     "lang": "ar",
-     "dir": "rtl",
-     "icons": [
-       {
-         "src": "https://i.imgur.com/1BmhftX.jpeg",
-         "sizes": "192x192",
-         "type": "image/jpeg",
-         "purpose": "any maskable"
-       },
-       {
-         "src": "https://i.imgur.com/1BmhftX.jpeg",
-         "sizes": "512x512",
-         "type": "image/jpeg",
-         "purpose": "any maskable"
-       }
-     ]
-   }
+{
+  "name": "شركة الدعم للمقاولات",
+  "short_name": "الدعم للمقاولات",
+  "description": "نظام خدمات الموظفين",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0ea5e9",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
