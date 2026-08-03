@@ -13,19 +13,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<!-- OneSignal: خدمة الإشعارات الفورية (Push) -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-window.OneSignalDeferred = window.OneSignalDeferred || [];
-OneSignalDeferred.push(async function(OneSignal) {
-  await OneSignal.init({
-    appId: "0269e364-dd3a-479e-8b93-a1a8b4d4738d",
-    notifyButton: { enable: false }
-  });
-  OneSignal.User.PushSubscription.addEventListener('change', updateNotifyBellIcon);
-  updateNotifyBellIcon();
-});
-</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root{
@@ -183,7 +170,6 @@ box-shadow:0 4px 14px rgba(0,0,0,.15);transition:transform .3s;
 .service-icon.red{background:linear-gradient(135deg,#ef4444,#f97316);}
 .service-icon.admin{background:linear-gradient(135deg,#7c3aed,#4f46e5);}
 .service-icon.amber{background:linear-gradient(135deg,#f59e0b,#d97706);}
-.service-icon.teal{background:linear-gradient(135deg,#14b8a6,#0d9488);}
 .service-info{flex:1;}
 .service-title{font-weight:600;color:var(--foreground);margin-bottom:.25rem;}
 .service-desc{font-size:.875rem;color:var(--muted-foreground);}
@@ -369,8 +355,6 @@ padding:.5rem .75rem; background:var(--muted); border-radius:.5rem;
 display:inline-flex; align-items:center; gap:.5rem;
 }
 .log-stats svg{width:1rem; height:1rem; color:var(--primary);}
-#notify-bell-btn svg{color:var(--muted-foreground);transition:color .2s;}
-#notify-bell-btn.subscribed svg{color:var(--primary);}
 .log-table-container{
 max-height:60vh; overflow-y:auto; border:1px solid var(--border); border-radius:.5rem;
 }
@@ -525,9 +509,6 @@ color:var(--muted-foreground);
 <div class="user-avatar"><i data-lucide="user"></i></div>
 <span class="user-name" id="header-user-name">مرحباً</span>
 </div>
-<button class="theme-toggle" id="notify-bell-btn" onclick="toggleNotifySubscription()" title="تفعيل الإشعارات">
-<i data-lucide="bell" id="notify-bell-icon"></i>
-</button>
 <button class="theme-toggle" onclick="toggleDarkMode()">
 <i data-lucide="sun" class="sun-icon"></i>
 <i data-lucide="moon" class="moon-icon"></i>
@@ -661,16 +642,6 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
-<!-- إرسال إشعار للموظفين (للمدير فقط) -->
-<div class="service-wrapper admin-only" id="admin-push-wrapper" style="display: none;">
-<button class="service-card" onclick="openPushModal()" id="admin-push-card">
-<div class="service-card-content">
-<div class="service-icon teal"><i data-lucide="megaphone"></i></div>
-<div class="service-info"><h3 class="service-title">إرسال إشعار للموظفين</h3><p class="service-desc">إرسال إشعار فوري لجميع من فعّل الإشعارات</p></div>
-<i data-lucide="chevron-left" class="service-chevron"></i>
-</div>
-</button>
-</div>
 <!-- السلف المالية (قريباً) -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('loans')" id="loans-card">
@@ -730,26 +701,6 @@ color:var(--muted-foreground);
 <button class="btn btn-secondary" onclick="closeSalaryModal()">إغلاق</button>
 </div>
 <div class="salary-result" id="salary-result" style="display:none;"></div>
-</div>
-</div>
-</div>
-<!-- PUSH NOTIFICATION MODAL (إرسال إشعار - للمدير) -->
-<div class="modal-overlay" id="push-modal" onclick="closePushModalOnOverlay(event)">
-<div class="modal">
-<div class="modal-header">
-<h2 class="modal-title">إرسال إشعار للموظفين</h2>
-<button class="modal-close" onclick="closePushModal()"><i data-lucide="x"></i></button>
-</div>
-<div class="modal-body">
-<div class="form-group">
-<label class="form-label" for="push-message">نص الإشعار</label>
-<textarea class="form-input" id="push-message" rows="4" placeholder="مثال: تم إيداع حوافز شهر 7، يرجى مراجعة الاستعلام عن الراتب" style="resize:vertical;min-height:6rem;"></textarea>
-</div>
-<div class="error-message" id="push-error" style="display:none;"></div>
-<div class="btn-group">
-<button class="btn btn-primary" onclick="sendPushNotification()" id="push-send-btn"><i data-lucide="send"></i> إرسال للجميع</button>
-<button class="btn btn-secondary" onclick="closePushModal()">إغلاق</button>
-</div>
 </div>
 </div>
 </div>
@@ -977,7 +928,6 @@ function showApp() {
     const isAdmin = currentUser.role === 'admin';
     document.getElementById('admin-salary-wrapper').style.display = isAdmin ? 'flex' : 'none';
     document.getElementById('admin-login-log-wrapper').style.display = isAdmin ? 'flex' : 'none';
-    document.getElementById('admin-push-wrapper').style.display = isAdmin ? 'flex' : 'none';
   }
   lucide.createIcons();
 }
@@ -1288,74 +1238,6 @@ function renderSalaryResult(data, month, empName, resultEl) {
   `;
   resultEl.style.display = 'block';
   lucide.createIcons();
-}
-
-// ==================== الإشعارات الفورية (OneSignal Push) ====================
-
-function updateNotifyBellIcon() {
-  try {
-    const btn = document.getElementById('notify-bell-btn');
-    const icon = document.getElementById('notify-bell-icon');
-    if (!window.OneSignal || !btn || !icon) return;
-    const isSubscribed = OneSignal.User.PushSubscription.optedIn;
-    btn.classList.toggle('subscribed', !!isSubscribed);
-    btn.title = isSubscribed ? 'الإشعارات مفعّلة (اضغط للإيقاف)' : 'تفعيل الإشعارات';
-    icon.setAttribute('data-lucide', isSubscribed ? 'bell' : 'bell-off');
-    lucide.createIcons();
-  } catch (e) { /* OneSignal لم يُحمّل بعد */ }
-}
-
-async function toggleNotifySubscription() {
-  if (!window.OneSignal) { showToast('يرجى الانتظار قليلاً ثم المحاولة مرة أخرى', 'error'); return; }
-  try {
-    const isSubscribed = OneSignal.User.PushSubscription.optedIn;
-    if (isSubscribed) {
-      await OneSignal.User.PushSubscription.optOut();
-      showToast('تم إيقاف الإشعارات', 'info');
-    } else {
-      await OneSignal.Notifications.requestPermission();
-      await OneSignal.User.PushSubscription.optIn();
-      showToast('تم تفعيل الإشعارات بنجاح', 'success');
-    }
-  } catch (e) {
-    showToast('تعذّر تغيير حالة الإشعارات. تأكد من السماح بإذن الإشعارات من المتصفح', 'error');
-  } finally {
-    updateNotifyBellIcon();
-  }
-}
-
-function openPushModal() {
-  if (!currentUser || currentUser.role !== 'admin') { showToast('غير مصرح لك باستخدام هذه الميزة', 'error'); return; }
-  document.getElementById('push-modal').classList.add('active');
-  document.getElementById('push-message').value = '';
-  document.getElementById('push-error').style.display = 'none';
-}
-
-function closePushModal() { document.getElementById('push-modal').classList.remove('active'); }
-
-function closePushModalOnOverlay(event) { if (event.target === event.currentTarget) closePushModal(); }
-
-async function sendPushNotification() {
-  const message = document.getElementById('push-message').value.trim();
-  const errorEl = document.getElementById('push-error');
-  const btn = document.getElementById('push-send-btn');
-  errorEl.style.display = 'none';
-  if (!message) { errorEl.textContent = 'يرجى كتابة نص الإشعار'; errorEl.style.display = 'block'; return; }
-  if (!currentUser || currentUser.role !== 'admin') { errorEl.textContent = 'غير مصرح لك باستخدام هذه الميزة'; errorEl.style.display = 'block'; return; }
-  btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الإرسال...'; lucide.createIcons();
-  try {
-    const response = await fetch(`${webAppUrl}?action=sendPushNotification&adminNumber=${encodeURIComponent(currentUser.number)}&message=${encodeURIComponent(message)}`);
-    if (!response.ok) throw new Error('خطأ في الاتصال');
-    const data = await response.json();
-    if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; return; }
-    showToast('تم إرسال الإشعار بنجاح', 'success');
-    closePushModal();
-  } catch (e) {
-    errorEl.textContent = 'حدث خطأ أثناء إرسال الإشعار. يرجى المحاولة مرة أخرى لاحقًا.';
-    errorEl.style.display = 'block';
-  } finally {
-    btn.disabled = false; btn.innerHTML = '<i data-lucide="send"></i> إرسال للجميع'; lucide.createIcons();
-  }
 }
 
 function openLoginLogModal() {
