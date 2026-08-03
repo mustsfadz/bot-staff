@@ -405,7 +405,6 @@ background:rgba(14,165,233,.1); color:var(--primary); font-size:.75rem; font-wei
 font-size:.75rem; color:var(--muted-foreground); font-family:monospace; direction:ltr;
 }
 }
-/* ==================== الإكمال التلقائي ==================== */
 .autocomplete-wrapper{position:relative;}
 .autocomplete-list{
 position:absolute; top:100%; right:0; left:0; z-index:10;
@@ -442,9 +441,98 @@ color:var(--muted-foreground);
 .modal-overlay{position:static;background:none;backdrop-filter:none;}
 .modal{box-shadow:none;border:none;max-height:none;}
 }
+
+/* ==================== البصمة الجغرافية ==================== */
+.attendance-actions{
+display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin:1rem 0;
+}
+@media(max-width:480px){
+.attendance-actions{grid-template-columns:1fr;}
+}
+.attendance-btn{
+padding:1rem; border-radius:.75rem; border:none; font-family:inherit; font-weight:700; color:white;
+display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; cursor:pointer;
+transition:all .2s;
+}
+.attendance-btn svg{width:1.5rem;height:1.5rem;}
+.attendance-btn.check-in{background:linear-gradient(135deg,#10b981,#059669);}
+.attendance-btn.check-out{background:linear-gradient(135deg,#f97316,#ea580c);}
+.attendance-btn:disabled{opacity:.6;cursor:not-allowed;}
+.gps-status-box{
+display:flex; align-items:center; gap:.5rem; padding:.875rem;
+border:1px dashed var(--border); border-radius:.75rem; background:var(--muted);
+color:var(--foreground); font-size:.875rem; margin-bottom:1rem;
+}
+.gps-status-box svg{width:1.1rem;height:1.1rem;flex-shrink:0;}
+.gps-status-box.success{border-color:rgba(16,185,129,.4); background:rgba(16,185,129,.08); color:var(--success);}
+.gps-status-box.error{border-color:rgba(239,68,68,.4); background:rgba(239,68,68,.08); color:var(--destructive);}
+.attendance-note{
+display:flex; align-items:flex-start; gap:.5rem; font-size:.75rem; color:var(--muted-foreground); margin-top:1rem;
+}
+.attendance-note svg{width:1rem;height:1rem;flex-shrink:0;margin-top:.1rem;}
+.attendance-result-box{
+margin-top:1rem; padding:1rem; border-radius:.75rem; text-align:center; animation:fadeInSlide .3s ease-out;
+}
+.attendance-result-box.success{
+background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.25); color:#059669;
+}
+.attendance-result-box.error{
+background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.25); color:#dc2626;
+}
+.dark .attendance-result-box.success{color:#34d399;}
+.dark .attendance-result-box.error{color:#f87171;}
+.attendance-result-box h4{margin-bottom:.35rem;}
+.attendance-result-box p{font-size:.875rem;}
+.status-badge{
+display:inline-block; padding:.25rem .625rem; border-radius:9999px; font-size:.75rem; font-weight:700;
+}
+.status-badge.accepted{background:rgba(16,185,129,.14); color:#059669;}
+.status-badge.rejected{background:rgba(239,68,68,.14); color:#dc2626;}
+.dark .status-badge.accepted{color:#34d399;}
+.dark .status-badge.rejected{color:#f87171;}
+.log-table tr.row-rejected td{background:rgba(239,68,68,.07);}
+.log-card-item.rejected{border-color:rgba(239,68,68,.35); background:rgba(239,68,68,.05);}
+.log-card-item.accepted{border-color:rgba(16,185,129,.25);}
+.filter-controls{
+display:flex; flex-direction:column; gap:.75rem; margin-bottom:1rem;
+}
+@media(min-width:640px){
+.filter-controls{flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+.filter-controls .search-input{margin-bottom:0; flex:1; max-width:18rem;}
+.filter-controls .form-input,.filter-controls .form-select{width:auto; min-width:10rem;}
+}
+.site-card{
+border:1px solid var(--border); border-radius:.75rem; padding:1rem;
+background:var(--background); margin-bottom:.75rem;
+}
+.site-card-header{
+display:flex; justify-content:space-between; gap:.75rem; align-items:flex-start; margin-bottom:.65rem;
+}
+.site-title{font-weight:700;color:var(--foreground);}
+.site-meta{
+display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem;
+font-size:.8rem; color:var(--muted-foreground); margin-bottom:.75rem;
+}
+@media(max-width:480px){.site-meta{grid-template-columns:1fr;}}
+.site-meta span{display:flex;align-items:center;gap:.35rem;}
+.site-meta svg{width:.9rem;height:.9rem;}
+.site-actions{display:flex;gap:.5rem;flex-wrap:wrap;}
+.site-actions .btn{flex:0 0 auto; padding:.45rem .75rem; font-size:.8rem;}
+.btn-success{background:#10b981;color:white;}
+.btn-warning{background:#f59e0b;color:white;}
+.btn-success:hover{background:#059669;}
+.btn-warning:hover{background:#d97706;}
+.empty-box{
+text-align:center; color:var(--muted-foreground); padding:1.5rem;
+border:1px dashed var(--border); border-radius:.75rem;
+}
+.site-form-box{
+border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-bottom:1rem; background:var(--background);
+}
 </style>
 </head>
 <body>
+
 <!-- LOGIN PAGE -->
 <div class="login-page" id="login-page">
 <button class="theme-toggle-login" onclick="toggleDarkMode()">
@@ -494,6 +582,7 @@ color:var(--muted-foreground);
 </div>
 </div>
 </div>
+
 <!-- MAIN APP -->
 <div class="app-container" id="app-container">
 <header class="header">
@@ -519,6 +608,7 @@ color:var(--muted-foreground);
 </div>
 </div>
 </header>
+
 <main class="main">
 <div class="welcome-banner">
 <div class="welcome-content">
@@ -527,7 +617,9 @@ color:var(--muted-foreground);
 <p class="welcome-desc">نظام متكامل لإدارة طلباتك والاستعلام عن معلوماتك بكل سهولة ويسر</p>
 </div>
 </div>
+
 <div class="services-grid">
+
 <!-- النماذج -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('forms')" id="forms-card">
@@ -544,7 +636,8 @@ color:var(--muted-foreground);
 </div>
 </div>
 </div>
-<!-- أرقام الهواتف (الداخلية) -->
+
+<!-- أرقام الهواتف الداخلية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('phones')" id="phones-card">
 <div class="service-card-content">
@@ -564,6 +657,7 @@ color:var(--muted-foreground);
 </div>
 </div>
 </div>
+
 <!-- الأرقام الشخصية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('personal-phones')" id="personal-phones-card">
@@ -587,6 +681,7 @@ color:var(--muted-foreground);
 </div>
 </div>
 </div>
+
 <!-- الصفحات الرسمية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('links')" id="links-card">
@@ -612,7 +707,8 @@ color:var(--muted-foreground);
 </div>
 </div>
 </div>
-<!-- الاستعلام عن الراتب (للموظف العادي) -->
+
+<!-- الاستعلام عن الراتب -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openSalaryModal()" id="salary-card">
 <div class="service-card-content">
@@ -622,7 +718,22 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
-<!-- إدارة رواتب الموظفين (للمدير فقط) -->
+
+<!-- البصمة الجغرافية للموظف الميداني -->
+<div class="service-wrapper field-only" id="attendance-wrapper" style="display: none;">
+<button class="service-card" onclick="openAttendanceModal()" id="attendance-card">
+<div class="service-card-content">
+<div class="service-icon emerald"><i data-lucide="map-pin"></i></div>
+<div class="service-info">
+<h3 class="service-title">تسجيل الحضور</h3>
+<p class="service-desc">بصمة الموقع الجغرافي للدخول والخروج</p>
+</div>
+<i data-lucide="chevron-left" class="service-chevron"></i>
+</div>
+</button>
+</div>
+
+<!-- إدارة رواتب الموظفين -->
 <div class="service-wrapper admin-only" id="admin-salary-wrapper" style="display: none;">
 <button class="service-card" onclick="openAdminSalaryModal()" id="admin-salary-card">
 <div class="service-card-content">
@@ -632,7 +743,8 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
-<!-- سجل الدخول (للمدير فقط) -->
+
+<!-- سجل الدخول -->
 <div class="service-wrapper admin-only" id="admin-login-log-wrapper" style="display: none;">
 <button class="service-card" onclick="openLoginLogModal()" id="admin-login-log-card">
 <div class="service-card-content">
@@ -642,7 +754,36 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
-<!-- السلف المالية (قريباً) -->
+
+<!-- سجل الحضور الميداني -->
+<div class="service-wrapper admin-only" id="admin-attendance-wrapper" style="display: none;">
+<button class="service-card" onclick="openAttendanceLogModal()" id="admin-attendance-card">
+<div class="service-card-content">
+<div class="service-icon cyan"><i data-lucide="map"></i></div>
+<div class="service-info">
+<h3 class="service-title">سجل الحضور الميداني</h3>
+<p class="service-desc">متابعة حضور وانصراف الموظفين الميدانيين</p>
+</div>
+<i data-lucide="chevron-left" class="service-chevron"></i>
+</div>
+</button>
+</div>
+
+<!-- مواقع العمل -->
+<div class="service-wrapper admin-only" id="admin-sites-wrapper" style="display: none;">
+<button class="service-card" onclick="openSitesModal()" id="admin-sites-card">
+<div class="service-card-content">
+<div class="service-icon indigo"><i data-lucide="navigation"></i></div>
+<div class="service-info">
+<h3 class="service-title">مواقع العمل</h3>
+<p class="service-desc">إضافة وتعديل مواقع العمل الميدانية</p>
+</div>
+<i data-lucide="chevron-left" class="service-chevron"></i>
+</div>
+</button>
+</div>
+
+<!-- السلف المالية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('loans')" id="loans-card">
 <div class="service-card-content">
@@ -652,7 +793,8 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
-<!-- الأمانات (قريباً) -->
+
+<!-- الأمانات -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('amanat')" id="amanat-card">
 <div class="service-card-content">
@@ -662,7 +804,8 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
-<!-- العهدة الشخصية (قريباً) -->
+
+<!-- العهدة الشخصية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('ohda')" id="ohda-card">
 <div class="service-card-content">
@@ -672,8 +815,10 @@ color:var(--muted-foreground);
 </div>
 </button>
 </div>
+
 </div>
 </main>
+
 <footer class="footer">
 <div class="footer-container">
 <p class="footer-copyright">© 2025 شركة الدعم للمقاولات. جميع الحقوق محفوظة.</p>
@@ -681,7 +826,8 @@ color:var(--muted-foreground);
 </div>
 </footer>
 </div>
-<!-- SALARY MODAL (للموظف) -->
+
+<!-- SALARY MODAL -->
 <div class="modal-overlay" id="salary-modal" onclick="closeModalOnOverlay(event)">
 <div class="modal">
 <div class="modal-header">
@@ -704,7 +850,8 @@ color:var(--muted-foreground);
 </div>
 </div>
 </div>
-<!-- ADMIN SALARY MODAL (للمدير) - مع الإكمال التلقائي -->
+
+<!-- ADMIN SALARY MODAL -->
 <div class="modal-overlay" id="admin-salary-modal" onclick="closeAdminModalOnOverlay(event)">
 <div class="modal">
 <div class="modal-header">
@@ -738,7 +885,8 @@ onfocus="onAdminSearchFocus()">
 </div>
 </div>
 </div>
-<!-- LOGIN LOG MODAL (سجل الدخول - للمدير) -->
+
+<!-- LOGIN LOG MODAL -->
 <div class="modal-overlay" id="login-log-modal" onclick="closeLoginLogModalOnOverlay(event)">
 <div class="modal modal-wide">
 <div class="modal-header">
@@ -765,6 +913,135 @@ onfocus="onAdminSearchFocus()">
 </div>
 </div>
 </div>
+
+<!-- ATTENDANCE MODAL -->
+<div class="modal-overlay" id="attendance-modal" onclick="closeAttendanceModalOnOverlay(event)">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">تسجيل الحضور والانصراف</h2>
+<button class="modal-close" onclick="closeAttendanceModal()"><i data-lucide="x"></i></button>
+</div>
+<div class="modal-body">
+<div class="gps-status-box" id="gps-status">
+<i data-lucide="loader-2" class="spinner"></i>
+<span>جاري تحديد موقعك...</span>
+</div>
+
+<div class="attendance-actions">
+<button class="attendance-btn check-in" id="btn-checkin" onclick="submitAttendance('دخول صباحي')">
+<i data-lucide="sunrise"></i>
+<span>دخول صباحي</span>
+</button>
+<button class="attendance-btn check-out" id="btn-checkout" onclick="submitAttendance('خروج مسائي')">
+<i data-lucide="sunset"></i>
+<span>خروج مسائي</span>
+</button>
+</div>
+
+<div id="attendance-result" style="display:none;"></div>
+
+<div class="attendance-note">
+<i data-lucide="info"></i>
+<span>يجب السماح بالوصول إلى الموقع، وأن تكون داخل موقع عملك المسجل، وأن تكون دقة GPS مقبولة حتى تتم عملية التسجيل.</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ATTENDANCE LOG MODAL -->
+<div class="modal-overlay" id="attendance-log-modal" onclick="closeAttendanceLogModalOnOverlay(event)">
+<div class="modal modal-wide">
+<div class="modal-header">
+<h2 class="modal-title">سجل الحضور الميداني</h2>
+<button class="modal-close" onclick="closeAttendanceLogModal()"><i data-lucide="x"></i></button>
+</div>
+<div class="modal-body">
+<div class="filter-controls">
+<div class="search-input">
+<i data-lucide="search"></i>
+<input type="text" placeholder="ابحث بالاسم أو الرقم..." id="attendance-log-search" oninput="filterAttendanceLog()">
+</div>
+<input type="date" class="form-input" id="attendance-log-date" onchange="filterAttendanceLog()">
+<select class="form-select" id="attendance-log-status" onchange="filterAttendanceLog()">
+<option value="">كل الحالات</option>
+<option value="مقبول">مقبول</option>
+<option value="مرفوض">مرفوض</option>
+</select>
+<div class="log-stats">
+<i data-lucide="database"></i>
+<span id="attendance-log-stats-text">0 سجل</span>
+</div>
+</div>
+
+<div class="log-table-container" id="attendance-log-table-container">
+<p class="no-results">اضغط على زر التحديث لجلب السجل</p>
+</div>
+
+<button class="btn btn-secondary" onclick="loadAttendanceLog()" style="width:100%; margin-top:1rem;" id="refresh-attendance-log-btn">
+<i data-lucide="refresh-cw"></i> تحديث السجل
+</button>
+</div>
+</div>
+</div>
+
+<!-- SITES MODAL -->
+<div class="modal-overlay" id="sites-modal" onclick="closeSitesModalOnOverlay(event)">
+<div class="modal modal-wide">
+<div class="modal-header">
+<h2 class="modal-title">إدارة مواقع العمل</h2>
+<button class="modal-close" onclick="closeSitesModal()"><i data-lucide="x"></i></button>
+</div>
+<div class="modal-body">
+<div class="log-toolbar">
+<div class="log-stats">
+<i data-lucide="map"></i>
+<span id="sites-stats-text">0 موقع</span>
+</div>
+<button class="btn btn-primary" onclick="showAddSiteForm()" style="max-width:220px;">
+<i data-lucide="plus"></i> إضافة موقع جديد
+</button>
+</div>
+
+<div class="site-form-box" id="site-form" style="display:none;">
+<h3 id="site-form-title" style="margin-bottom:1rem;">إضافة موقع</h3>
+<div class="forms-grid">
+<div class="form-group">
+<label class="form-label">اسم الموقع</label>
+<input type="text" class="form-input" id="site-name" placeholder="مثال: مشروع طريق الساحل">
+</div>
+<div class="form-group">
+<label class="form-label">خط العرض (Lat)</label>
+<input type="text" class="form-input" id="site-lat" placeholder="32.3754" inputmode="decimal">
+</div>
+<div class="form-group">
+<label class="form-label">خط الطول (Lng)</label>
+<input type="text" class="form-input" id="site-lng" placeholder="15.0925" inputmode="decimal">
+</div>
+<div class="form-group">
+<label class="form-label">النطاق المسموح (متر)</label>
+<input type="number" class="form-input" id="site-radius" min="10" placeholder="100">
+</div>
+</div>
+<div class="error-message" id="site-form-error" style="display:none;"></div>
+<div class="btn-group">
+<button class="btn btn-primary" id="save-site-btn" onclick="saveSite()">
+<i data-lucide="save"></i> حفظ
+</button>
+<button class="btn btn-secondary" onclick="hideSiteForm()">إلغاء</button>
+</div>
+</div>
+
+<div id="sites-list-container">
+<p class="no-results">جاري التحميل...</p>
+</div>
+
+<button class="btn btn-secondary" onclick="loadSites()" style="width:100%; margin-top:1rem;" id="refresh-sites-btn">
+<i data-lucide="refresh-cw"></i> تحديث المواقع
+</button>
+</div>
+</div>
+</div>
+
 <!-- COMING SOON MODAL -->
 <div class="modal-overlay" id="coming-soon-modal" onclick="closeComingSoonModalOnOverlay(event)">
 <div class="modal">
@@ -785,13 +1062,17 @@ onfocus="onAdminSearchFocus()">
 </div>
 </div>
 </div>
+
 <!-- TOAST -->
 <div class="toast" id="toast">
 <i data-lucide="check-circle" id="toast-icon"></i>
 <span id="toast-message"></span>
 </div>
+
 <script>
 const webAppUrl = "https://script.google.com/macros/s/AKfycbxODPm6-e7ulZfsgv0Q1Iz3USKdspN7MDNVi7kBK9bbMX6lgBiEXc00HUcQQCsOVUO6/exec";
+const APP_VERSION = "attendance-v1";
+
 const forms = [
 { id: "طلب-إجازة", name: "طلب إجازة", icon: "file-signature", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
 { id: "طلب-سلفة", name: "طلب سلفة مالية", icon: "banknote", url: "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link" },
@@ -807,6 +1088,7 @@ const forms = [
 { id: "كشف-متابعة", name: "كشف متابعة الحضور", icon: "user-check", url: "https://drive.google.com/file/d/1kkTmG9cqfmxLfgEELmJl-cwKe-VKGHlC/view?usp=drive_link" },
 { id: "طلب-عمل-إضافي-جمعة", name: "طلب عمل إضافي ليوم الجمعة", icon: "clock", url: "https://drive.google.com/file/d/1QubZa914CCnjubK9wfzzWAuSaXEfKVgo/view?usp=drive_link" },
 ];
+
 const phones = [
 { name: "المدير العام", number: "116" },
 { name: "مراقبة الجودة", number: "101" },
@@ -828,14 +1110,15 @@ const phones = [
 { name: "مقهى (غاندي)", number: "223" },
 { name: "مقهى (حسن)", number: "105" }
 ];
+
 const comingSoonData = {
 amanat: { title: "الأمانات", desc: "نعمل على تطوير نظام إدارة الأمانات والودائع ليكون متاحاً قريباً", features: ["الاستعلام عن الأمانات", "متابعة الحالة", "طلبات الاسترداد"] },
 ohda: { title: "العهدة الشخصية", desc: "نعمل على تطوير نظام العهدة الشخصية ليكون متاحاً قريباً", features: ["عرض العهدة", "تفاصيل العناصر", "طلب تحويل/إرجاع"] },
 loans: { title: "السلف المالية", desc: "قريباً: ستتمكن من معرفة إجمالي السلفة، المسدد، والمتبقي مع تفاصيل الحسم.", features: ["إجمالي السلفة", "المبلغ المسدد", "المبلغ المتبقي", "تاريخ آخر سداد"] }
 };
+
 let activeSection = null;
 let months = [];
-let monthsLoaded = false;
 let currentUser = null;
 let personalPhones = [];
 let personalPhonesLoaded = false;
@@ -844,6 +1127,11 @@ let allEmployeesCache = [];
 let employeesLoaded = false;
 let searchDebounceTimer = null;
 let highlightedIndex = -1;
+
+let currentLocation = null;
+let attendanceLogData = [];
+let sitesCache = [];
+let editingSiteOriginalName = null;
 
 document.addEventListener('DOMContentLoaded', function () {
   lucide.createIcons();
@@ -856,47 +1144,66 @@ document.addEventListener('DOMContentLoaded', function () {
 function checkStoredLogin() {
   const storedUser = localStorage.getItem('currentUser');
   const rememberMe = localStorage.getItem('rememberMe');
+  const storedVersion = localStorage.getItem('appVersion');
+
+  if (storedVersion !== APP_VERSION) {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('rememberMe');
+    localStorage.removeItem('appVersion');
+    return;
+  }
+
   if (storedUser && rememberMe === 'true') {
     currentUser = JSON.parse(storedUser);
     showApp();
-    preloadMonths();
   }
 }
 
 async function handleLogin(event) {
   event.preventDefault();
+
   const number = document.getElementById('login-number').value.trim();
   const pass = document.getElementById('login-pass').value.trim();
   const rememberMe = document.getElementById('remember-me').checked;
   const errorEl = document.getElementById('login-error');
   const btn = document.getElementById('login-btn');
+
   errorEl.classList.remove('show');
+
   if (!number || !pass) {
     errorEl.textContent = 'يرجى إدخال الرقم الوظيفي والرمز السري';
     errorEl.classList.add('show');
     return;
   }
+
   btn.disabled = true;
   btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i><span>جاري التحقق...</span>';
   lucide.createIcons();
+
   try {
     const response = await fetch(`${webAppUrl}?action=login&number=${encodeURIComponent(number)}&pass=${encodeURIComponent(pass)}`);
     if (!response.ok) throw new Error('خطأ في الاتصال');
+
     const data = await response.json();
+
     if (data.success) {
       currentUser = {
         number: data.user.number,
         name: data.user.name,
         pass: pass,
-        role: data.user.role || 'employee'
+        role: data.user.role || 'employee',
+        workType: data.user.workType || '',
+        assignedSites: data.user.assignedSites || ''
       };
+
       if (rememberMe) {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('appVersion', APP_VERSION);
       }
+
       showToast(`مرحباً ${currentUser.name}`, 'success');
       showApp();
-      preloadMonths();
     } else {
       errorEl.textContent = data.error || 'بيانات الدخول غير صحيحة';
       errorEl.classList.add('show');
@@ -915,9 +1222,12 @@ function handleLogout() {
   currentUser = null;
   localStorage.removeItem('currentUser');
   localStorage.removeItem('rememberMe');
+  localStorage.removeItem('appVersion');
+
   document.getElementById('login-number').value = '';
   document.getElementById('login-pass').value = '';
   document.getElementById('remember-me').checked = false;
+
   hideApp();
   showToast('تم تسجيل الخروج بنجاح', 'success');
 }
@@ -925,13 +1235,21 @@ function handleLogout() {
 function showApp() {
   document.getElementById('login-page').classList.add('hidden');
   document.getElementById('app-container').classList.add('active');
+
   if (currentUser) {
     document.getElementById('header-user-name').textContent = currentUser.name;
     document.getElementById('welcome-user-name').textContent = currentUser.name;
+
     const isAdmin = currentUser.role === 'admin';
+    const isField = String(currentUser.workType || '').trim() === 'ميداني';
+
     document.getElementById('admin-salary-wrapper').style.display = isAdmin ? 'flex' : 'none';
     document.getElementById('admin-login-log-wrapper').style.display = isAdmin ? 'flex' : 'none';
+    document.getElementById('admin-attendance-wrapper').style.display = isAdmin ? 'flex' : 'none';
+    document.getElementById('admin-sites-wrapper').style.display = isAdmin ? 'flex' : 'none';
+    document.getElementById('attendance-wrapper').style.display = isField ? 'flex' : 'none';
   }
+
   lucide.createIcons();
 }
 
@@ -943,6 +1261,7 @@ function hideApp() {
 function togglePassword() {
   const passInput = document.getElementById('login-pass');
   const eyeIcon = document.getElementById('eye-icon');
+
   if (passInput.type === 'password') {
     passInput.type = 'text';
     eyeIcon.setAttribute('data-lucide', 'eye-off');
@@ -950,6 +1269,7 @@ function togglePassword() {
     passInput.type = 'password';
     eyeIcon.setAttribute('data-lucide', 'eye');
   }
+
   lucide.createIcons();
 }
 
@@ -965,21 +1285,25 @@ function toggleDarkMode() {
 
 function toggleSection(section) {
   const sections = ['forms', 'phones', 'personal-phones', 'links'];
+
   if (activeSection === section) {
     document.getElementById(section + '-section').classList.remove('active');
     document.getElementById(section + '-card').classList.remove('active');
     activeSection = null;
     return;
   }
+
   sections.forEach(s => {
     const secEl = document.getElementById(s + '-section');
     const cardEl = document.getElementById(s + '-card');
     if (secEl) secEl.classList.remove('active');
     if (cardEl) cardEl.classList.remove('active');
   });
+
   document.getElementById(section + '-section').classList.add('active');
   document.getElementById(section + '-card').classList.add('active');
   activeSection = section;
+
   if (section === 'personal-phones' && !personalPhonesLoaded) {
     loadPersonalPhones();
   }
@@ -999,10 +1323,12 @@ function renderForms() {
 function renderPhones(filter = '') {
   const list = document.getElementById('phones-list');
   const filtered = phones.filter(p => p.name.includes(filter) || p.number.includes(filter));
+
   if (filtered.length === 0) {
     list.innerHTML = '<p class="no-results">لا توجد نتائج للبحث</p>';
     return;
   }
+
   list.innerHTML = filtered.map(phone => `
     <div class="phone-item">
       <span class="phone-name">${phone.name}</span>
@@ -1012,22 +1338,29 @@ function renderPhones(filter = '') {
       </div>
     </div>
   `).join('');
+
   lucide.createIcons();
 }
 
-function filterPhones() { renderPhones(document.getElementById('phone-search').value); }
+function filterPhones() {
+  renderPhones(document.getElementById('phone-search').value);
+}
 
 async function loadPersonalPhones() {
   const list = document.getElementById('personal-phones-list');
   list.innerHTML = '<p class="no-results">جاري تحميل الأرقام الشخصية...</p>';
+
   try {
     const res = await fetch(webAppUrl + '?action=personalPhones');
     if (!res.ok) throw new Error('bad response');
+
     const data = await res.json();
+
     if (!data.success) {
       list.innerHTML = `<p class="no-results">${data.error || 'تعذر تحميل البيانات'}</p>`;
       return;
     }
+
     personalPhones = data.items || [];
     personalPhonesLoaded = true;
     renderPersonalPhones('');
@@ -1041,13 +1374,18 @@ async function loadPersonalPhones() {
 function renderPersonalPhones(filter = '') {
   const list = document.getElementById('personal-phones-list');
   const f = (filter || '').trim();
+
   const filtered = personalPhones.filter(p =>
-    (p.name && p.name.includes(f)) || (p.number && p.number.includes(f)) || (p.department && p.department.includes(f))
+    (p.name && p.name.includes(f)) ||
+    (p.number && p.number.includes(f)) ||
+    (p.department && p.department.includes(f))
   );
+
   if (filtered.length === 0) {
     list.innerHTML = '<p class="no-results">لا توجد نتائج</p>';
     return;
   }
+
   list.innerHTML = filtered.map(p => `
     <div class="phone-item">
       <span class="phone-name">${escapeHtml(p.name || '')}${p.department ? ` <span style="color:var(--muted-foreground);font-size:.8rem;">(${escapeHtml(p.department)})</span>` : ''}</span>
@@ -1060,15 +1398,21 @@ function renderPersonalPhones(filter = '') {
       </div>
     </div>
   `).join('');
+
   lucide.createIcons();
 }
 
-function filterPersonalPhones() { renderPersonalPhones(document.getElementById('personal-phone-search').value); }
+function filterPersonalPhones() {
+  renderPersonalPhones(document.getElementById('personal-phone-search').value);
+}
 
 function copyNumber(btnElement, number) {
   if (!number) return;
+
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(number).then(() => showCopySuccess(btnElement, number)).catch(() => fallbackCopy(btnElement, number));
+    navigator.clipboard.writeText(number)
+      .then(() => showCopySuccess(btnElement, number))
+      .catch(() => fallbackCopy(btnElement, number));
   } else {
     fallbackCopy(btnElement, number);
   }
@@ -1077,27 +1421,50 @@ function copyNumber(btnElement, number) {
 function fallbackCopy(btnElement, number) {
   const textarea = document.createElement('textarea');
   textarea.value = number;
-  textarea.style.position = 'fixed'; textarea.style.opacity = '0';
-  document.body.appendChild(textarea); textarea.focus(); textarea.select();
-  try { document.execCommand('copy'); showCopySuccess(btnElement, number); }
-  catch (e) { showToast('تعذر نسخ الرقم', 'error'); }
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  try {
+    document.execCommand('copy');
+    showCopySuccess(btnElement, number);
+  } catch (e) {
+    showToast('تعذر نسخ الرقم', 'error');
+  }
+
   document.body.removeChild(textarea);
 }
 
 function showCopySuccess(btnElement, number) {
   showToast('تم نسخ الرقم: ' + number, 'success');
   btnElement.classList.add('copied');
+
   const icon = btnElement.querySelector('[data-lucide]');
-  if (icon) { icon.setAttribute('data-lucide', 'check'); lucide.createIcons(); }
+  if (icon) {
+    icon.setAttribute('data-lucide', 'check');
+    lucide.createIcons();
+  }
+
   setTimeout(() => {
     btnElement.classList.remove('copied');
     const iconBack = btnElement.querySelector('[data-lucide]');
-    if (iconBack) { iconBack.setAttribute('data-lucide', 'copy'); lucide.createIcons(); }
+    if (iconBack) {
+      iconBack.setAttribute('data-lucide', 'copy');
+      lucide.createIcons();
+    }
   }, 2000);
 }
 
 function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[s]));
+  return String(str).replace(/[&<>"']/g, s => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[s]));
 }
 
 function openSalaryModal() {
@@ -1107,9 +1474,13 @@ function openSalaryModal() {
   loadMonths('month-select');
 }
 
-function closeSalaryModal() { document.getElementById('salary-modal').classList.remove('active'); }
+function closeSalaryModal() {
+  document.getElementById('salary-modal').classList.remove('active');
+}
 
-function closeModalOnOverlay(event) { if (event.target === event.currentTarget) closeSalaryModal(); }
+function closeModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeSalaryModal();
+}
 
 function openAdminSalaryModal() {
   document.getElementById('admin-salary-modal').classList.add('active');
@@ -1121,40 +1492,25 @@ function openAdminSalaryModal() {
   loadAllEmployees();
 }
 
-function closeAdminSalaryModal() { document.getElementById('admin-salary-modal').classList.remove('active'); }
+function closeAdminSalaryModal() {
+  document.getElementById('admin-salary-modal').classList.remove('active');
+}
 
-function closeAdminModalOnOverlay(event) { if (event.target === event.currentTarget) closeAdminSalaryModal(); }
+function closeAdminModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeAdminSalaryModal();
+}
 
-// ✅ لا نعيد تحميل قائمة الأشهر من الشبكة في كل مرة يُفتح فيها نافذة الاستعلام
-// (الأشهر لا تتغيّر إلا عند إضافة شهر جديد)، بل نحمّلها مرة واحدة ونعيد استخدامها.
-async function loadMonths(selectId, forceRefresh = false) {
+async function loadMonths(selectId) {
   const select = document.getElementById(selectId);
-  if (monthsLoaded && !forceRefresh) {
-    select.innerHTML = '<option value="">اختر الشهر</option>' + months.map(m => `<option value="${m}">${m}</option>`).join('');
-    return;
-  }
   select.innerHTML = '<option value="">جاري التحميل...</option>';
+
   try {
     const res = await fetch(webAppUrl + '?action=months');
     months = await res.json();
-    monthsLoaded = true;
     select.innerHTML = '<option value="">اختر الشهر</option>' + months.map(m => `<option value="${m}">${m}</option>`).join('');
   } catch (e) {
     showToast('حدث خطأ في تحميل قائمة الأشهر', 'error');
     select.innerHTML = '<option value="">حدث خطأ</option>';
-  }
-}
-
-// ✅ تحميل قائمة الأشهر في الخلفية مباشرة بعد الدخول، حتى تكون جاهزة
-// فور فتح نافذة الاستعلام عن الراتب دون أي انتظار.
-async function preloadMonths() {
-  if (monthsLoaded) return;
-  try {
-    const res = await fetch(webAppUrl + '?action=months');
-    months = await res.json();
-    monthsLoaded = true;
-  } catch (e) {
-    // سيُعاد المحاولة لاحقًا عند فتح نافذة الاستعلام
   }
 }
 
@@ -1167,22 +1523,47 @@ async function querySalary() {
   const errorEl = document.getElementById('salary-error');
   const resultEl = document.getElementById('salary-result');
   const btn = document.getElementById('query-btn');
-  errorEl.style.display = 'none'; resultEl.style.display = 'none';
-  if (!month) { errorEl.textContent = 'يرجى اختيار الشهر'; errorEl.style.display = 'block'; return; }
-  if (!currentUser) { errorEl.textContent = 'يرجى تسجيل الدخول أولاً'; errorEl.style.display = 'block'; return; }
-  btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الاستعلام...'; lucide.createIcons();
+
+  errorEl.style.display = 'none';
+  resultEl.style.display = 'none';
+
+  if (!month) {
+    errorEl.textContent = 'يرجى اختيار الشهر';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  if (!currentUser) {
+    errorEl.textContent = 'يرجى تسجيل الدخول أولاً';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الاستعلام...';
+  lucide.createIcons();
+
   try {
     const response = await fetch(`${webAppUrl}?action=query&month=${encodeURIComponent(month)}&number=${encodeURIComponent(currentUser.number)}&pass=${encodeURIComponent(currentUser.pass)}`);
     if (!response.ok) throw new Error('خطأ في الاتصال');
+
     const data = await response.json();
-    if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; return; }
+
+    if (data.error) {
+      errorEl.textContent = data.error;
+      errorEl.style.display = 'block';
+      return;
+    }
+
     renderSalaryResult(data, month, currentUser.name, resultEl);
     showToast('تم جلب بيانات الراتب بنجاح', 'success');
   } catch (e) {
     errorEl.textContent = 'حدث خطأ أثناء جلب البيانات. يرجى المحاولة مرة أخرى لاحقًا.';
     errorEl.style.display = 'block';
   } finally {
-    btn.disabled = false; btn.innerHTML = 'استعلام'; lucide.createIcons();
+    btn.disabled = false;
+    btn.innerHTML = 'استعلام';
+    lucide.createIcons();
   }
 }
 
@@ -1192,35 +1573,65 @@ async function queryAdminSalary() {
   const errorEl = document.getElementById('admin-salary-error');
   const resultEl = document.getElementById('admin-salary-result');
   const btn = document.getElementById('admin-query-btn');
-  errorEl.style.display = 'none'; resultEl.style.display = 'none';
-  if (!searchQuery) { errorEl.textContent = 'يرجى إدخال الرقم الوظيفي أو الاسم الكامل'; errorEl.style.display = 'block'; return; }
-  if (!month) { errorEl.textContent = 'يرجى اختيار الشهر'; errorEl.style.display = 'block'; return; }
+
+  errorEl.style.display = 'none';
+  resultEl.style.display = 'none';
+
+  if (!searchQuery) {
+    errorEl.textContent = 'يرجى إدخال الرقم الوظيفي أو الاسم الكامل';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  if (!month) {
+    errorEl.textContent = 'يرجى اختيار الشهر';
+    errorEl.style.display = 'block';
+    return;
+  }
+
   if (!currentUser || currentUser.role !== 'admin') {
     errorEl.textContent = 'غير مصرح لك باستخدام هذه الميزة';
     errorEl.style.display = 'block';
     return;
   }
-  btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري البحث...'; lucide.createIcons();
+
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري البحث...';
+  lucide.createIcons();
+
   try {
     const response = await fetch(`${webAppUrl}?action=adminQuery&adminNumber=${encodeURIComponent(currentUser.number)}&searchQuery=${encodeURIComponent(searchQuery)}&month=${encodeURIComponent(month)}`);
     if (!response.ok) throw new Error('خطأ في الاتصال');
+
     const data = await response.json();
-    if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; return; }
+
+    if (data.error) {
+      errorEl.textContent = data.error;
+      errorEl.style.display = 'block';
+      return;
+    }
+
     renderSalaryResult(data, month, data.employeeName || 'موظف', resultEl);
     showToast('تم جلب بيانات الراتب بنجاح', 'success');
   } catch (e) {
     errorEl.textContent = 'حدث خطأ أثناء جلب البيانات. تأكد من صحة البيانات.';
     errorEl.style.display = 'block';
   } finally {
-    btn.disabled = false; btn.innerHTML = 'بحث'; lucide.createIcons();
+    btn.disabled = false;
+    btn.innerHTML = 'بحث';
+    lucide.createIcons();
   }
 }
 
 function renderSalaryResult(data, month, empName, resultEl) {
   const totalBefore = (
-    parseFloat(safeValue(data.basic)) + parseFloat(safeValue(data.bonus)) +
-    parseFloat(safeValue(data.badal)) + parseFloat(safeValue(data.extra)) + parseFloat(safeValue(data.phoneAllowance))
+    parseFloat(safeValue(data.basic)) +
+    parseFloat(safeValue(data.bonus)) +
+    parseFloat(safeValue(data.badal)) +
+    parseFloat(safeValue(data.extra)) +
+    parseFloat(safeValue(data.phoneAllowance))
   ).toFixed(2);
+
   resultEl.innerHTML = `
     <div class="salary-header">
       <div class="salary-header-top">
@@ -1230,18 +1641,21 @@ function renderSalaryResult(data, month, empName, resultEl) {
       <p class="salary-net">${escapeHtml(safeValue(data.net))} د.ل</p>
       <p class="salary-name">${escapeHtml(empName)}</p>
     </div>
+
     <div class="salary-details">
       <div class="detail-row"><span class="detail-label"><i data-lucide="calculator"></i> الراتب الأساسي</span><span class="detail-value">${escapeHtml(safeValue(data.basic))} د.ل</span></div>
       <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العمل الإضافي</span><span class="detail-value">${escapeHtml(safeValue(data.bonus))} د.ل</span></div>
       <div class="detail-row"><span class="detail-label"><i data-lucide="phone"></i> بدل هاتف</span><span class="detail-value">${escapeHtml(safeValue(data.badal))} د.ل</span></div>
       <div class="detail-row"><span class="detail-label"><i data-lucide="gift"></i> المكافأة</span><span class="detail-value">${escapeHtml(safeValue(data.phoneAllowance))} د.ل</span></div>
       <div class="detail-row"><span class="detail-label"><i data-lucide="trending-up"></i> العلاوة</span><span class="detail-value">${escapeHtml(safeValue(data.extra))} د.ل</span></div>
+
       <div class="divider">
         <div class="detail-row highlight">
           <span class="detail-label"><i data-lucide="calculator"></i> الإجمالي قبل الخصومات</span>
           <span class="detail-value">${escapeHtml(totalBefore)} د.ل</span>
         </div>
       </div>
+
       <div class="deductions-section">
         <h4 class="deductions-title"><i data-lucide="minus"></i> تفاصيل الخصومات</h4>
         <div class="deductions-grid">
@@ -1250,15 +1664,18 @@ function renderSalaryResult(data, month, empName, resultEl) {
           <div class="deduction-item"><p class="deduction-label">السلفة</p><p class="deduction-value">-${escapeHtml(safeValue(data.loanDeduct))}</p></div>
         </div>
       </div>
+
       <div class="net-salary-box">
         <span class="net-salary-label">الراتب الصافي</span>
         <span class="net-salary-value">${escapeHtml(safeValue(data.net))} د.ل</span>
       </div>
     </div>
+
     <button class="btn btn-secondary print-btn" onclick="window.print()">
       <i data-lucide="printer"></i> طباعة البيان
     </button>
   `;
+
   resultEl.style.display = 'block';
   lucide.createIcons();
 }
@@ -1272,24 +1689,33 @@ function openLoginLogModal() {
   loadLoginLog();
 }
 
-function closeLoginLogModal() { document.getElementById('login-log-modal').classList.remove('active'); }
+function closeLoginLogModal() {
+  document.getElementById('login-log-modal').classList.remove('active');
+}
 
-function closeLoginLogModalOnOverlay(event) { if (event.target === event.currentTarget) closeLoginLogModal(); }
+function closeLoginLogModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeLoginLogModal();
+}
 
 async function loadLoginLog() {
   const container = document.getElementById('log-table-container');
   const btn = document.getElementById('refresh-log-btn');
+
   btn.disabled = true;
   btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري التحديث...';
   lucide.createIcons();
+
   try {
     const res = await fetch(`${webAppUrl}?action=getLoginLog&adminNumber=${encodeURIComponent(currentUser.number)}`);
     if (!res.ok) throw new Error('bad response');
+
     const data = await res.json();
+
     if (!data.success) {
       container.innerHTML = `<p class="no-results">${data.error || 'تعذر تحميل السجل'}</p>`;
       return;
     }
+
     loginLogData = data.logs || [];
     renderLoginLog(loginLogData);
     showToast('تم تحديث سجل الدخول بنجاح', 'success');
@@ -1306,12 +1732,15 @@ async function loadLoginLog() {
 function renderLoginLog(logs) {
   const container = document.getElementById('log-table-container');
   const statsText = document.getElementById('log-stats-text');
+
   statsText.textContent = `${logs.length} سجل`;
+
   if (logs.length === 0) {
     container.innerHTML = '<p class="no-results">لا توجد سجلات دخول</p>';
     lucide.createIcons();
     return;
   }
+
   let tableHtml = `
     <table class="log-table">
       <thead>
@@ -1323,6 +1752,7 @@ function renderLoginLog(logs) {
       </thead>
       <tbody>
   `;
+
   logs.forEach(log => {
     tableHtml += `
       <tr>
@@ -1332,7 +1762,9 @@ function renderLoginLog(logs) {
       </tr>
     `;
   });
+
   tableHtml += '</tbody></table>';
+
   let cardsHtml = '<div class="log-cards">';
   logs.forEach(log => {
     cardsHtml += `
@@ -1346,29 +1778,34 @@ function renderLoginLog(logs) {
     `;
   });
   cardsHtml += '</div>';
+
   container.innerHTML = tableHtml + cardsHtml;
   lucide.createIcons();
 }
 
 function filterLoginLog() {
   const query = document.getElementById('log-search').value.trim().toLowerCase();
+
   if (!query) {
     renderLoginLog(loginLogData);
     return;
   }
+
   const filtered = loginLogData.filter(log =>
     log.number.toLowerCase().includes(query) ||
     log.name.toLowerCase().includes(query)
   );
+
   renderLoginLog(filtered);
 }
 
-// ==================== الإكمال التلقائي ====================
 async function loadAllEmployees() {
   if (employeesLoaded) return;
+
   try {
     const res = await fetch(`${webAppUrl}?action=searchEmployees&adminNumber=${encodeURIComponent(currentUser.number)}&query=`);
     if (!res.ok) return;
+
     const data = await res.json();
     if (data.success) {
       allEmployeesCache = data.employees || [];
@@ -1382,12 +1819,15 @@ async function loadAllEmployees() {
 function onAdminSearchInput(event) {
   const query = event.target.value.trim();
   const list = document.getElementById('autocomplete-list');
+
   if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+
   if (query.length === 0) {
     list.classList.remove('active');
     list.innerHTML = '';
     return;
   }
+
   searchDebounceTimer = setTimeout(() => {
     performAutocompleteSearch(query);
   }, 250);
@@ -1395,23 +1835,24 @@ function onAdminSearchInput(event) {
 
 function onAdminSearchFocus() {
   loadAllEmployees();
+
   const query = document.getElementById('admin-search-query').value.trim();
   if (query.length > 0) {
     performAutocompleteSearch(query);
   }
 }
 
-// ✅ الدالة المُعدّلة مع توحيد الحروف العربية
 async function performAutocompleteSearch(query) {
   const list = document.getElementById('autocomplete-list');
   const q = query.toLowerCase();
-  const normalizedQ = normalizeArabicLocal(q); 
+  const normalizedQ = normalizeArabicLocal(q);
 
   if (employeesLoaded && allEmployeesCache.length > 0) {
     const filtered = allEmployeesCache.filter(emp =>
-      normalizeArabicLocal(emp.name).toLowerCase().includes(normalizedQ) || 
+      normalizeArabicLocal(emp.name).toLowerCase().includes(normalizedQ) ||
       emp.number.includes(normalizedQ)
     ).slice(0, 10);
+
     renderAutocompleteList(filtered);
     return;
   }
@@ -1419,6 +1860,7 @@ async function performAutocompleteSearch(query) {
   try {
     const res = await fetch(`${webAppUrl}?action=searchEmployees&adminNumber=${encodeURIComponent(currentUser.number)}&query=${encodeURIComponent(query)}`);
     if (!res.ok) return;
+
     const data = await res.json();
     if (data.success) {
       renderAutocompleteList(data.employees || []);
@@ -1428,7 +1870,6 @@ async function performAutocompleteSearch(query) {
   }
 }
 
-// ✅ دالة جديدة لتوحيد الحروف العربية في الواجهة
 function normalizeArabicLocal(text) {
   if (!text) return '';
   return String(text)
@@ -1441,15 +1882,17 @@ function normalizeArabicLocal(text) {
 function renderAutocompleteList(employees) {
   const list = document.getElementById('autocomplete-list');
   highlightedIndex = -1;
+
   if (employees.length === 0) {
     list.innerHTML = '<div class="autocomplete-empty">لا توجد نتائج مطابقة</div>';
     list.classList.add('active');
     return;
   }
+
   list.innerHTML = employees.map((emp, idx) => `
     <div class="autocomplete-item" data-index="${idx}"
-         data-name="${escapeHtml(emp.name)}"
-         onmousedown="selectEmployee('${escapeHtml(emp.name)}')">
+      data-name="${escapeHtml(emp.name)}"
+      onmousedown="selectEmployee('${escapeHtml(emp.name)}')">
       <span class="autocomplete-item-name">
         <i data-lucide="user"></i>
         <span>${escapeHtml(emp.name)}</span>
@@ -1457,6 +1900,7 @@ function renderAutocompleteList(employees) {
       <span class="autocomplete-item-number">${escapeHtml(emp.number)}</span>
     </div>
   `).join('');
+
   list.classList.add('active');
   lucide.createIcons();
 }
@@ -1471,6 +1915,7 @@ function selectEmployee(name) {
 document.addEventListener('click', function(e) {
   const wrapper = document.querySelector('.autocomplete-wrapper');
   const list = document.getElementById('autocomplete-list');
+
   if (wrapper && list && !wrapper.contains(e.target)) {
     list.classList.remove('active');
   }
@@ -1479,8 +1924,10 @@ document.addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
   const list = document.getElementById('autocomplete-list');
   if (!list || !list.classList.contains('active')) return;
+
   const items = list.querySelectorAll('.autocomplete-item');
   if (items.length === 0) return;
+
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     highlightedIndex = (highlightedIndex + 1) % items.length;
@@ -1512,31 +1959,581 @@ function updateHighlight(items) {
 function openComingSoonModal(type) {
   const data = comingSoonData[type];
   if (!data) return;
+
   document.getElementById('coming-soon-modal-title').textContent = data.title;
   document.getElementById('coming-soon-desc').textContent = data.desc;
+
   const featuresContainer = document.getElementById('coming-soon-features');
   featuresContainer.innerHTML = (data.features || []).map(feature => `
     <div class="coming-soon-feature"><i data-lucide="check-circle"></i><span>${feature}</span></div>
   `).join('');
+
   document.getElementById('coming-soon-modal').classList.add('active');
   lucide.createIcons();
 }
 
-function closeComingSoonModal() { document.getElementById('coming-soon-modal').classList.remove('active'); }
+function closeComingSoonModal() {
+  document.getElementById('coming-soon-modal').classList.remove('active');
+}
 
-function closeComingSoonModalOnOverlay(event) { if (event.target === event.currentTarget) closeComingSoonModal(); }
+function closeComingSoonModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeComingSoonModal();
+}
 
 function showToast(message, type) {
   const toast = document.getElementById('toast');
   const icon = document.getElementById('toast-icon');
   const msg = document.getElementById('toast-message');
+
   toast.className = 'toast active ' + type;
+
   if (type === 'success') icon.setAttribute('data-lucide', 'check-circle');
   else if (type === 'error') icon.setAttribute('data-lucide', 'x-circle');
   else icon.setAttribute('data-lucide', 'info');
+
   msg.textContent = message;
   lucide.createIcons();
+
   setTimeout(() => toast.classList.remove('active'), 3000);
+}
+
+// ==================== البصمة الجغرافية ====================
+function openAttendanceModal() {
+  if (!currentUser) return;
+
+  document.getElementById('attendance-modal').classList.add('active');
+  document.getElementById('attendance-result').style.display = 'none';
+  currentLocation = null;
+
+  requestLocation();
+  lucide.createIcons();
+}
+
+function closeAttendanceModal() {
+  document.getElementById('attendance-modal').classList.remove('active');
+}
+
+function closeAttendanceModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeAttendanceModal();
+}
+
+function requestLocation() {
+  const statusBox = document.getElementById('gps-status');
+
+  statusBox.className = 'gps-status-box';
+  statusBox.innerHTML = '<i data-lucide="loader-2" class="spinner"></i><span>جاري تحديد موقعك...</span>';
+  lucide.createIcons();
+
+  if (!navigator.geolocation) {
+    statusBox.className = 'gps-status-box error';
+    statusBox.innerHTML = '<i data-lucide="alert-circle"></i><span>المتصفح لا يدعم تحديد الموقع</span>';
+    lucide.createIcons();
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      currentLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        accuracy: position.coords.accuracy
+      };
+
+      statusBox.className = 'gps-status-box success';
+      statusBox.innerHTML = `<i data-lucide="check-circle"></i><span>تم تحديد موقعك بنجاح. الدقة: ${Math.round(currentLocation.accuracy)} متر</span>`;
+      lucide.createIcons();
+    },
+    (error) => {
+      let msg = 'تعذر تحديد الموقع';
+
+      if (error.code === 1) msg = 'يجب السماح بالوصول إلى الموقع لتسجيل الحضور';
+      if (error.code === 2) msg = 'الموقع غير متاح. تأكد من تفعيل GPS';
+      if (error.code === 3) msg = 'انتهت مهلة تحديد الموقع. حاول مرة أخرى';
+
+      currentLocation = null;
+      statusBox.className = 'gps-status-box error';
+      statusBox.innerHTML = `<i data-lucide="alert-circle"></i><span>${msg}</span>`;
+      lucide.createIcons();
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 0
+    }
+  );
+}
+
+function getAttendanceButtonHtml(type) {
+  if (type === 'دخول صباحي') {
+    return '<i data-lucide="sunrise"></i><span>دخول صباحي</span>';
+  }
+  return '<i data-lucide="sunset"></i><span>خروج مسائي</span>';
+}
+
+async function submitAttendance(type) {
+  if (!currentUser || !currentUser.pass) {
+    showToast('يرجى تسجيل الدخول أولاً', 'error');
+    return;
+  }
+
+  if (!currentLocation) {
+    showToast('لم يتم تحديد موقعك بعد. انتظر قليلاً ثم حاول مجدداً', 'error');
+    return;
+  }
+
+  const btn = type === 'دخول صباحي' ? document.getElementById('btn-checkin') : document.getElementById('btn-checkout');
+  const otherBtn = type === 'دخول صباحي' ? document.getElementById('btn-checkout') : document.getElementById('btn-checkin');
+  const otherType = type === 'دخول صباحي' ? 'خروج مسائي' : 'دخول صباحي';
+  const resultEl = document.getElementById('attendance-result');
+
+  btn.disabled = true;
+  otherBtn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i><span>جاري التسجيل...</span>';
+  lucide.createIcons();
+
+  try {
+    const url = `${webAppUrl}?action=attendance` +
+      `&number=${encodeURIComponent(currentUser.number)}` +
+      `&pass=${encodeURIComponent(currentUser.pass)}` +
+      `&lat=${encodeURIComponent(currentLocation.lat)}` +
+      `&lng=${encodeURIComponent(currentLocation.lng)}` +
+      `&accuracy=${encodeURIComponent(currentLocation.accuracy)}` +
+      `&type=${encodeURIComponent(type)}`;
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('bad response');
+
+    const data = await res.json();
+
+    resultEl.style.display = 'block';
+
+    if (data.success) {
+      resultEl.className = 'attendance-result-box success';
+      resultEl.innerHTML = `
+        <h4>${escapeHtml(data.message || 'تم التسجيل بنجاح')}</h4>
+        <p>الموقع: ${escapeHtml(data.site || '')}</p>
+        <p>المسافة: ${escapeHtml(String(data.distance || 0))} متر</p>
+      `;
+      showToast(data.message || 'تم التسجيل بنجاح', 'success');
+    } else {
+      resultEl.className = 'attendance-result-box error';
+      resultEl.innerHTML = `
+        <h4>${escapeHtml(data.error || 'تعذر التسجيل')}</h4>
+        ${data.distance ? `<p>المسافة عن أقرب موقع: ${escapeHtml(String(data.distance))} متر</p>` : ''}
+        ${data.site ? `<p>أقرب موقع: ${escapeHtml(data.site)}</p>` : ''}
+      `;
+      showToast(data.error || 'تعذر التسجيل', 'error');
+    }
+
+    lucide.createIcons();
+  } catch (e) {
+    resultEl.style.display = 'block';
+    resultEl.className = 'attendance-result-box error';
+    resultEl.innerHTML = '<h4>حدث خطأ في الاتصال أثناء محاولة التسجيل</h4>';
+    showToast('حدث خطأ في الاتصال', 'error');
+    lucide.createIcons();
+  } finally {
+    btn.disabled = false;
+    otherBtn.disabled = false;
+    btn.innerHTML = getAttendanceButtonHtml(type);
+    otherBtn.innerHTML = getAttendanceButtonHtml(otherType);
+    lucide.createIcons();
+  }
+}
+
+// ==================== سجل الحضور للمدير ====================
+function openAttendanceLogModal() {
+  if (!currentUser || currentUser.role !== 'admin') return;
+
+  document.getElementById('attendance-log-modal').classList.add('active');
+  document.getElementById('attendance-log-search').value = '';
+  document.getElementById('attendance-log-date').value = '';
+  document.getElementById('attendance-log-status').value = '';
+  document.getElementById('attendance-log-table-container').innerHTML = '<p class="no-results">جاري تحميل السجل...</p>';
+  document.getElementById('attendance-log-stats-text').textContent = '0 سجل';
+
+  lucide.createIcons();
+  loadAttendanceLog();
+}
+
+function closeAttendanceLogModal() {
+  document.getElementById('attendance-log-modal').classList.remove('active');
+}
+
+function closeAttendanceLogModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeAttendanceLogModal();
+}
+
+async function loadAttendanceLog() {
+  if (!currentUser || currentUser.role !== 'admin') return;
+
+  const container = document.getElementById('attendance-log-table-container');
+  const btn = document.getElementById('refresh-attendance-log-btn');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري التحديث...';
+  lucide.createIcons();
+
+  try {
+    const res = await fetch(`${webAppUrl}?action=attendanceLog&adminNumber=${encodeURIComponent(currentUser.number)}`);
+    if (!res.ok) throw new Error('bad response');
+
+    const data = await res.json();
+
+    if (!data.success) {
+      container.innerHTML = `<p class="no-results">${escapeHtml(data.error || 'تعذر تحميل سجل الحضور')}</p>`;
+      return;
+    }
+
+    attendanceLogData = data.records || [];
+    filterAttendanceLog();
+    showToast('تم تحديث سجل الحضور بنجاح', 'success');
+  } catch (e) {
+    container.innerHTML = '<p class="no-results">حدث خطأ في تحميل سجل الحضور</p>';
+    showToast('حدث خطأ في تحميل سجل الحضور', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i data-lucide="refresh-cw"></i> تحديث السجل';
+    lucide.createIcons();
+  }
+}
+
+function filterAttendanceLog() {
+  const query = document.getElementById('attendance-log-search').value.trim().toLowerCase();
+  const date = document.getElementById('attendance-log-date').value;
+  const status = document.getElementById('attendance-log-status').value;
+
+  let filtered = attendanceLogData;
+
+  if (query) {
+    filtered = filtered.filter(r =>
+      String(r.number || '').toLowerCase().includes(query) ||
+      String(r.name || '').toLowerCase().includes(query)
+    );
+  }
+
+  if (date) {
+    filtered = filtered.filter(r => String(r.date || '').startsWith(date));
+  }
+
+  if (status) {
+    filtered = filtered.filter(r => String(r.status || '').trim() === status);
+  }
+
+  renderAttendanceLog(filtered);
+}
+
+function attendanceDistanceText(record) {
+  if (record.distance === '' || record.distance === null || record.distance === undefined) return '-';
+  return `${record.distance} متر`;
+}
+
+function renderAttendanceLog(records) {
+  const container = document.getElementById('attendance-log-table-container');
+  const statsText = document.getElementById('attendance-log-stats-text');
+
+  statsText.textContent = `${records.length} سجل`;
+
+  if (records.length === 0) {
+    container.innerHTML = '<p class="no-results">لا توجد سجلات مطابقة</p>';
+    return;
+  }
+
+  let tableHtml = `
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>الموظف</th>
+          <th>العملية</th>
+          <th>التاريخ والوقت</th>
+          <th>أقرب موقع</th>
+          <th>المسافة</th>
+          <th>الدقة</th>
+          <th>الحالة</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  records.forEach(record => {
+    const rowClass = String(record.status || '').trim() === 'مرفوض' ? 'row-rejected' : 'row-accepted';
+    const badgeClass = String(record.status || '').trim() === 'مرفوض' ? 'rejected' : 'accepted';
+
+    tableHtml += `
+      <tr class="${rowClass}">
+        <td>
+          <div>${escapeHtml(record.name || '')}</div>
+          <span class="log-badge">${escapeHtml(record.number || '')}</span>
+        </td>
+        <td>${escapeHtml(record.type || '')}</td>
+        <td><span class="log-date">${escapeHtml(record.date || '')}</span></td>
+        <td>${escapeHtml(record.site || '-')}</td>
+        <td>${escapeHtml(attendanceDistanceText(record))}</td>
+        <td>${record.accuracy ? escapeHtml(String(record.accuracy)) + ' متر' : '-'}</td>
+        <td><span class="status-badge ${badgeClass}">${escapeHtml(record.status || '')}</span></td>
+      </tr>
+    `;
+  });
+
+  tableHtml += '</tbody></table>';
+
+  let cardsHtml = '<div class="log-cards">';
+
+  records.forEach(record => {
+    const cardClass = String(record.status || '').trim() === 'مرفوض' ? 'rejected' : 'accepted';
+    const badgeClass = String(record.status || '').trim() === 'مرفوض' ? 'rejected' : 'accepted';
+
+    cardsHtml += `
+      <div class="log-card-item ${cardClass}">
+        <div class="log-card-header">
+          <span class="log-card-name">${escapeHtml(record.name || '')}</span>
+          <span class="log-card-number">${escapeHtml(record.number || '')}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin-bottom:.35rem;">
+          <strong>${escapeHtml(record.type || '')}</strong>
+          <span class="status-badge ${badgeClass}">${escapeHtml(record.status || '')}</span>
+        </div>
+        <div class="log-card-date">${escapeHtml(record.date || '')}</div>
+        <div class="attendance-log-meta">الموقع: ${escapeHtml(record.site || '-')}</div>
+        <div class="attendance-log-meta">المسافة: ${escapeHtml(attendanceDistanceText(record))}</div>
+        <div class="attendance-log-meta">الدقة: ${record.accuracy ? escapeHtml(String(record.accuracy)) + ' متر' : '-'}</div>
+      </div>
+    `;
+  });
+
+  cardsHtml += '</div>';
+
+  container.innerHTML = tableHtml + cardsHtml;
+  lucide.createIcons();
+}
+
+// ==================== إدارة مواقع العمل ====================
+function openSitesModal() {
+  if (!currentUser || currentUser.role !== 'admin') return;
+
+  document.getElementById('sites-modal').classList.add('active');
+  hideSiteForm();
+  document.getElementById('sites-list-container').innerHTML = '<p class="no-results">جاري تحميل المواقع...</p>';
+  lucide.createIcons();
+  loadSites();
+}
+
+function closeSitesModal() {
+  document.getElementById('sites-modal').classList.remove('active');
+}
+
+function closeSitesModalOnOverlay(event) {
+  if (event.target === event.currentTarget) closeSitesModal();
+}
+
+async function loadSites() {
+  if (!currentUser || currentUser.role !== 'admin') return;
+
+  const container = document.getElementById('sites-list-container');
+  const btn = document.getElementById('refresh-sites-btn');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري التحديث...';
+  lucide.createIcons();
+
+  try {
+    const res = await fetch(`${webAppUrl}?action=getSites&adminNumber=${encodeURIComponent(currentUser.number)}`);
+    if (!res.ok) throw new Error('bad response');
+
+    const data = await res.json();
+
+    if (!data.success) {
+      container.innerHTML = `<p class="no-results">${escapeHtml(data.error || 'تعذر تحميل مواقع العمل')}</p>`;
+      return;
+    }
+
+    sitesCache = data.sites || [];
+    renderSites();
+    showToast('تم تحديث مواقع العمل بنجاح', 'success');
+  } catch (e) {
+    container.innerHTML = '<p class="no-results">حدث خطأ في تحميل مواقع العمل</p>';
+    showToast('حدث خطأ في تحميل مواقع العمل', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i data-lucide="refresh-cw"></i> تحديث المواقع';
+    lucide.createIcons();
+  }
+}
+
+function renderSites() {
+  const container = document.getElementById('sites-list-container');
+  const statsText = document.getElementById('sites-stats-text');
+
+  statsText.textContent = `${sitesCache.length} موقع`;
+
+  if (sitesCache.length === 0) {
+    container.innerHTML = '<div class="empty-box">لا توجد مواقع عمل بعد. اضغط على "إضافة موقع جديد".</div>';
+    lucide.createIcons();
+    return;
+  }
+
+  container.innerHTML = sitesCache.map((site, index) => {
+    const activeBadge = site.active
+      ? '<span class="status-badge accepted">نشط</span>'
+      : '<span class="status-badge rejected">معطل</span>';
+
+    return `
+      <div class="site-card">
+        <div class="site-card-header">
+          <div class="site-title">${escapeHtml(site.name)}</div>
+          ${activeBadge}
+        </div>
+
+        <div class="site-meta">
+          <span><i data-lucide="map-pin"></i> Lat: ${escapeHtml(String(site.lat ?? '-'))}</span>
+          <span><i data-lucide="map-pin"></i> Lng: ${escapeHtml(String(site.lng ?? '-'))}</span>
+          <span><i data-lucide="ruler"></i> النطاق: ${escapeHtml(String(site.radius ?? '-'))} متر</span>
+        </div>
+
+        <div class="site-actions">
+          <button class="btn btn-primary" onclick="editSite(${index})">
+            <i data-lucide="edit"></i> تعديل
+          </button>
+          <button class="btn ${site.active ? 'btn-warning' : 'btn-success'}" onclick="toggleSite(${index})">
+            <i data-lucide="power"></i> ${site.active ? 'تعطيل' : 'تفعيل'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  lucide.createIcons();
+}
+
+function showAddSiteForm() {
+  editingSiteOriginalName = null;
+  document.getElementById('site-form-title').textContent = 'إضافة موقع جديد';
+  document.getElementById('site-name').value = '';
+  document.getElementById('site-lat').value = '';
+  document.getElementById('site-lng').value = '';
+  document.getElementById('site-radius').value = '';
+  document.getElementById('site-form-error').style.display = 'none';
+  document.getElementById('site-form').style.display = 'block';
+}
+
+function editSite(index) {
+  const site = sitesCache[index];
+  if (!site) return;
+
+  editingSiteOriginalName = site.name;
+  document.getElementById('site-form-title').textContent = 'تعديل موقع: ' + site.name;
+  document.getElementById('site-name').value = site.name || '';
+  document.getElementById('site-lat').value = site.lat ?? '';
+  document.getElementById('site-lng').value = site.lng ?? '';
+  document.getElementById('site-radius').value = site.radius ?? '';
+  document.getElementById('site-form-error').style.display = 'none';
+  document.getElementById('site-form').style.display = 'block';
+}
+
+function hideSiteForm() {
+  editingSiteOriginalName = null;
+  document.getElementById('site-form').style.display = 'none';
+  document.getElementById('site-form-error').style.display = 'none';
+}
+
+function parseCoordinateLocal(value) {
+  return parseFloat(String(value || '').trim().replace(/[,،\s]/g, ''));
+}
+
+async function saveSite() {
+  const name = document.getElementById('site-name').value.trim();
+  const lat = parseCoordinateLocal(document.getElementById('site-lat').value);
+  const lng = parseCoordinateLocal(document.getElementById('site-lng').value);
+  const radius = parseFloat(document.getElementById('site-radius').value);
+  const errorEl = document.getElementById('site-form-error');
+  const btn = document.getElementById('save-site-btn');
+
+  errorEl.style.display = 'none';
+
+  if (!name) {
+    errorEl.textContent = 'يرجى إدخال اسم الموقع';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  if (isNaN(lat) || isNaN(lng)) {
+    errorEl.textContent = 'يرجى إدخال خط عرض وخط طول صحيحين';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  if (isNaN(radius) || radius <= 0) {
+    errorEl.textContent = 'يرجى إدخال نطاق مسموح صحيح بالمتر';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  const payload = { name, lat, lng, radius };
+  const siteAction = editingSiteOriginalName ? 'update' : 'add';
+
+  if (editingSiteOriginalName) {
+    payload.oldName = editingSiteOriginalName;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الحفظ...';
+  lucide.createIcons();
+
+  try {
+    const url = `${webAppUrl}?action=manageSite` +
+      `&adminNumber=${encodeURIComponent(currentUser.number)}` +
+      `&siteAction=${encodeURIComponent(siteAction)}` +
+      `&siteData=${encodeURIComponent(JSON.stringify(payload))}`;
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('bad response');
+
+    const data = await res.json();
+
+    if (!data.success) {
+      errorEl.textContent = data.error || 'تعذر حفظ الموقع';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    showToast(data.message || 'تم حفظ الموقع بنجاح', 'success');
+    hideSiteForm();
+    loadSites();
+  } catch (e) {
+    errorEl.textContent = 'حدث خطأ أثناء حفظ الموقع';
+    errorEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i data-lucide="save"></i> حفظ';
+    lucide.createIcons();
+  }
+}
+
+async function toggleSite(index) {
+  const site = sitesCache[index];
+  if (!site) return;
+
+  try {
+    const url = `${webAppUrl}?action=manageSite` +
+      `&adminNumber=${encodeURIComponent(currentUser.number)}` +
+      `&siteAction=toggle` +
+      `&siteData=${encodeURIComponent(JSON.stringify({ name: site.name }))}`;
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('bad response');
+
+    const data = await res.json();
+
+    if (!data.success) {
+      showToast(data.error || 'تعذر تغيير حالة الموقع', 'error');
+      return;
+    }
+
+    showToast(data.message || 'تم تغيير حالة الموقع', 'success');
+    loadSites();
+  } catch (e) {
+    showToast('حدث خطأ أثناء تغيير حالة الموقع', 'error');
+  }
 }
 </script>
 </body>
