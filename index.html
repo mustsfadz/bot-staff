@@ -835,6 +835,7 @@ loans: { title: "السلف المالية", desc: "قريباً: ستتمكن �
 };
 let activeSection = null;
 let months = [];
+let monthsLoaded = false;
 let currentUser = null;
 let personalPhones = [];
 let personalPhonesLoaded = false;
@@ -858,6 +859,7 @@ function checkStoredLogin() {
   if (storedUser && rememberMe === 'true') {
     currentUser = JSON.parse(storedUser);
     showApp();
+    preloadMonths();
   }
 }
 
@@ -894,6 +896,7 @@ async function handleLogin(event) {
       }
       showToast(`مرحباً ${currentUser.name}`, 'success');
       showApp();
+      preloadMonths();
     } else {
       errorEl.textContent = data.error || 'بيانات الدخول غير صحيحة';
       errorEl.classList.add('show');
@@ -1122,16 +1125,36 @@ function closeAdminSalaryModal() { document.getElementById('admin-salary-modal')
 
 function closeAdminModalOnOverlay(event) { if (event.target === event.currentTarget) closeAdminSalaryModal(); }
 
-async function loadMonths(selectId) {
+// ✅ لا نعيد تحميل قائمة الأشهر من الشبكة في كل مرة يُفتح فيها نافذة الاستعلام
+// (الأشهر لا تتغيّر إلا عند إضافة شهر جديد)، بل نحمّلها مرة واحدة ونعيد استخدامها.
+async function loadMonths(selectId, forceRefresh = false) {
   const select = document.getElementById(selectId);
+  if (monthsLoaded && !forceRefresh) {
+    select.innerHTML = '<option value="">اختر الشهر</option>' + months.map(m => `<option value="${m}">${m}</option>`).join('');
+    return;
+  }
   select.innerHTML = '<option value="">جاري التحميل...</option>';
   try {
     const res = await fetch(webAppUrl + '?action=months');
     months = await res.json();
+    monthsLoaded = true;
     select.innerHTML = '<option value="">اختر الشهر</option>' + months.map(m => `<option value="${m}">${m}</option>`).join('');
   } catch (e) {
     showToast('حدث خطأ في تحميل قائمة الأشهر', 'error');
     select.innerHTML = '<option value="">حدث خطأ</option>';
+  }
+}
+
+// ✅ تحميل قائمة الأشهر في الخلفية مباشرة بعد الدخول، حتى تكون جاهزة
+// فور فتح نافذة الاستعلام عن الراتب دون أي انتظار.
+async function preloadMonths() {
+  if (monthsLoaded) return;
+  try {
+    const res = await fetch(webAppUrl + '?action=months');
+    months = await res.json();
+    monthsLoaded = true;
+  } catch (e) {
+    // سيُعاد المحاولة لاحقًا عند فتح نافذة الاستعلام
   }
 }
 
