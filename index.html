@@ -287,6 +287,10 @@ font-size:.875rem; font-weight:500; cursor:pointer; display:flex; align-items:ce
 .btn-primary:disabled{opacity:.6;cursor:not-allowed;}
 .btn-secondary{background:var(--secondary);color:var(--secondary-foreground);}
 .btn-secondary:hover{background:var(--border);}
+.btn-success{background:#10b981;color:white;}
+.btn-success:hover{background:#059669;}
+.btn-warning{background:#f59e0b;color:white;}
+.btn-warning:hover{background:#d97706;}
 .btn svg{width:1rem;height:1rem;}
 .spinner{animation:spin 1s linear infinite;}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
@@ -442,7 +446,39 @@ color:var(--muted-foreground);
 .modal{box-shadow:none;border:none;max-height:none;}
 }
 
-/* ==================== البصمة الجغرافية ==================== */
+/* ==================== البصمة الجغرافية (محدث) ==================== */
+.clock-display {
+  text-align: center;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--muted);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+}
+.clock-display .time {
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--primary);
+  direction: ltr;
+}
+.clock-display .label {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  display: block;
+}
+.time-warning {
+  display: none;
+  color: var(--destructive);
+  font-size: 0.8rem;
+  background: rgba(239,68,68,0.1);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
 .attendance-actions{
 display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin:1rem 0;
 }
@@ -518,10 +554,6 @@ font-size:.8rem; color:var(--muted-foreground); margin-bottom:.75rem;
 .site-meta svg{width:.9rem;height:.9rem;}
 .site-actions{display:flex;gap:.5rem;flex-wrap:wrap;}
 .site-actions .btn{flex:0 0 auto; padding:.45rem .75rem; font-size:.8rem;}
-.btn-success{background:#10b981;color:white;}
-.btn-warning{background:#f59e0b;color:white;}
-.btn-success:hover{background:#059669;}
-.btn-warning:hover{background:#d97706;}
 .empty-box{
 text-align:center; color:var(--muted-foreground); padding:1.5rem;
 border:1px dashed var(--border); border-radius:.75rem;
@@ -529,6 +561,83 @@ border:1px dashed var(--border); border-radius:.75rem;
 .site-form-box{
 border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-bottom:1rem; background:var(--background);
 }
+
+/* ==================== التقارير ==================== */
+.report-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+.report-tab {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+.report-tab.active {
+  background: var(--primary);
+  color: white;
+}
+.report-tab:hover:not(.active) {
+  background: var(--muted);
+}
+.report-pane { display: none; }
+.report-pane.active { display: block; }
+.report-summary {
+  background: var(--muted);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+.report-summary .stat-item {
+  text-align: center;
+  background: var(--card);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+}
+.report-summary .stat-item .num { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+.report-summary .stat-item .label { font-size: 0.7rem; color: var(--muted-foreground); }
+.report-table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.report-table th {
+  background: var(--muted);
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.report-table td {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.report-table tr:nth-child(even) {
+  background: var(--background);
+}
+.report-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.report-actions .btn { flex: 0 0 auto; }
 </style>
 </head>
 <body>
@@ -620,7 +729,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 
 <div class="services-grid">
 
-<!-- النماذج -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('forms')" id="forms-card">
 <div class="service-card-content">
@@ -637,7 +745,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </div>
 </div>
 
-<!-- أرقام الهواتف الداخلية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('phones')" id="phones-card">
 <div class="service-card-content">
@@ -658,7 +765,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </div>
 </div>
 
-<!-- الأرقام الشخصية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('personal-phones')" id="personal-phones-card">
 <div class="service-card-content">
@@ -682,7 +788,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </div>
 </div>
 
-<!-- الصفحات الرسمية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="toggleSection('links')" id="links-card">
 <div class="service-card-content">
@@ -708,7 +813,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </div>
 </div>
 
-<!-- الاستعلام عن الراتب -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openSalaryModal()" id="salary-card">
 <div class="service-card-content">
@@ -719,7 +823,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- البصمة الجغرافية للموظف الميداني -->
 <div class="service-wrapper field-only" id="attendance-wrapper" style="display: none;">
 <button class="service-card" onclick="openAttendanceModal()" id="attendance-card">
 <div class="service-card-content">
@@ -733,7 +836,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- إدارة رواتب الموظفين -->
 <div class="service-wrapper admin-only" id="admin-salary-wrapper" style="display: none;">
 <button class="service-card" onclick="openAdminSalaryModal()" id="admin-salary-card">
 <div class="service-card-content">
@@ -744,7 +846,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- سجل الدخول -->
 <div class="service-wrapper admin-only" id="admin-login-log-wrapper" style="display: none;">
 <button class="service-card" onclick="openLoginLogModal()" id="admin-login-log-card">
 <div class="service-card-content">
@@ -755,7 +856,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- سجل الحضور الميداني -->
 <div class="service-wrapper admin-only" id="admin-attendance-wrapper" style="display: none;">
 <button class="service-card" onclick="openAttendanceLogModal()" id="admin-attendance-card">
 <div class="service-card-content">
@@ -769,7 +869,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- مواقع العمل -->
 <div class="service-wrapper admin-only" id="admin-sites-wrapper" style="display: none;">
 <button class="service-card" onclick="openSitesModal()" id="admin-sites-card">
 <div class="service-card-content">
@@ -783,7 +882,20 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- السلف المالية -->
+<!-- خدمة التقارير الجديدة -->
+<div class="service-wrapper admin-only" id="admin-reports-wrapper" style="display: none;">
+<button class="service-card" onclick="openReportsModal()" id="admin-reports-card">
+<div class="service-card-content">
+<div class="service-icon indigo"><i data-lucide="file-bar-chart"></i></div>
+<div class="service-info">
+<h3 class="service-title">التقارير</h3>
+<p class="service-desc">تقارير يومية وشهرية للحضور والانصراف</p>
+</div>
+<i data-lucide="chevron-left" class="service-chevron"></i>
+</div>
+</button>
+</div>
+
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('loans')" id="loans-card">
 <div class="service-card-content">
@@ -794,7 +906,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- الأمانات -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('amanat')" id="amanat-card">
 <div class="service-card-content">
@@ -805,7 +916,6 @@ border:1px solid var(--border); border-radius:.75rem; padding:1rem; margin-botto
 </button>
 </div>
 
-<!-- العهدة الشخصية -->
 <div class="service-wrapper">
 <button class="service-card" onclick="openComingSoonModal('ohda')" id="ohda-card">
 <div class="service-card-content">
@@ -914,7 +1024,7 @@ onfocus="onAdminSearchFocus()">
 </div>
 </div>
 
-<!-- ATTENDANCE MODAL -->
+<!-- ATTENDANCE MODAL (محدثة) -->
 <div class="modal-overlay" id="attendance-modal" onclick="closeAttendanceModalOnOverlay(event)">
 <div class="modal">
 <div class="modal-header">
@@ -922,6 +1032,13 @@ onfocus="onAdminSearchFocus()">
 <button class="modal-close" onclick="closeAttendanceModal()"><i data-lucide="x"></i></button>
 </div>
 <div class="modal-body">
+<!-- ساعة النظام -->
+<div class="clock-display">
+<span class="label">🕒 الوقت الحالي (حسب خادم النظام)</span>
+<span class="time" id="server-clock">--:--:--</span>
+<div class="time-warning" id="time-warning">⚠ ساعة هاتفك غير مطابقة لساعة النظام. يرجى ضبط الوقت.</div>
+</div>
+
 <div class="gps-status-box" id="gps-status">
 <i data-lucide="loader-2" class="spinner"></i>
 <span>جاري تحديد موقعك...</span>
@@ -942,7 +1059,7 @@ onfocus="onAdminSearchFocus()">
 
 <div class="attendance-note">
 <i data-lucide="info"></i>
-<span>يجب السماح بالوصول إلى الموقع، وأن تكون داخل موقع عملك المسجل، وأن تكون دقة GPS مقبولة حتى تتم عملية التسجيل.</span>
+<span>يجب السماح بالوصول إلى الموقع، وأن تكون داخل موقع عملك المسجل، وأن تكون دقة GPS مقبولة. الأوقات تعتمد على خادم النظام وليس هاتفك.</span>
 </div>
 </div>
 </div>
@@ -961,7 +1078,11 @@ onfocus="onAdminSearchFocus()">
 <i data-lucide="search"></i>
 <input type="text" placeholder="ابحث بالاسم أو الرقم..." id="attendance-log-search" oninput="filterAttendanceLog()">
 </div>
-<input type="date" class="form-input" id="attendance-log-date" onchange="filterAttendanceLog()">
+<select class="form-select" id="attendance-log-project" onchange="filterAttendanceLog()">
+<option value="">كل المشاريع</option>
+</select>
+<input type="date" class="form-input" id="attendance-log-date-start" placeholder="من تاريخ" onchange="filterAttendanceLog()">
+<input type="date" class="form-input" id="attendance-log-date-end" placeholder="إلى تاريخ" onchange="filterAttendanceLog()">
 <select class="form-select" id="attendance-log-status" onchange="filterAttendanceLog()">
 <option value="">كل الحالات</option>
 <option value="مقبول">مقبول</option>
@@ -980,6 +1101,61 @@ onfocus="onAdminSearchFocus()">
 <button class="btn btn-secondary" onclick="loadAttendanceLog()" style="width:100%; margin-top:1rem;" id="refresh-attendance-log-btn">
 <i data-lucide="refresh-cw"></i> تحديث السجل
 </button>
+</div>
+</div>
+</div>
+
+<!-- REPORTS MODAL (جديد) -->
+<div class="modal-overlay" id="reports-modal" onclick="closeReportsModalOnOverlay(event)">
+<div class="modal modal-wide">
+<div class="modal-header">
+<h2 class="modal-title">التقارير</h2>
+<button class="modal-close" onclick="closeReportsModal()"><i data-lucide="x"></i></button>
+</div>
+<div class="modal-body">
+<div class="report-tabs">
+<button class="report-tab active" data-tab="daily" onclick="switchReportTab('daily')">تقرير يومي</button>
+<button class="report-tab" data-tab="monthly" onclick="switchReportTab('monthly')">تقرير شهري</button>
+</div>
+
+<!-- التقرير اليومي -->
+<div class="report-pane active" id="report-daily">
+<div class="form-group">
+<label class="form-label">المشروع</label>
+<select class="form-select" id="daily-report-project">
+<option value="">اختر المشروع</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">التاريخ</label>
+<input type="date" class="form-input" id="daily-report-date">
+</div>
+<button class="btn btn-primary" onclick="generateDailyReport()"><i data-lucide="file-text"></i> عرض التقرير اليومي</button>
+<div id="daily-report-result" style="margin-top:1rem;"></div>
+</div>
+
+<!-- التقرير الشهري -->
+<div class="report-pane" id="report-monthly">
+<div class="form-group">
+<label class="form-label">اسم الموظف أو الرقم الوظيفي</label>
+<div class="autocomplete-wrapper">
+<input type="text" class="form-input" id="monthly-report-employee"
+placeholder="ابحث عن موظف..." autocomplete="off"
+oninput="onMonthlySearchInput(event)" onfocus="onMonthlySearchFocus()">
+<div class="autocomplete-list" id="monthly-autocomplete-list"></div>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">تاريخ البداية</label>
+<input type="date" class="form-input" id="monthly-report-start">
+</div>
+<div class="form-group">
+<label class="form-label">تاريخ النهاية</label>
+<input type="date" class="form-input" id="monthly-report-end">
+</div>
+<button class="btn btn-primary" onclick="generateMonthlyReport()"><i data-lucide="file-text"></i> عرض التقرير الشهري</button>
+<div id="monthly-report-result" style="margin-top:1rem;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -1010,6 +1186,10 @@ onfocus="onAdminSearchFocus()">
 <input type="text" class="form-input" id="site-name" placeholder="مثال: مشروع طريق الساحل">
 </div>
 <div class="form-group">
+<label class="form-label">العنوان</label>
+<input type="text" class="form-input" id="site-address" placeholder="العنوان التفصيلي">
+</div>
+<div class="form-group">
 <label class="form-label">خط العرض (Lat)</label>
 <input type="text" class="form-input" id="site-lat" placeholder="32.3754" inputmode="decimal">
 </div>
@@ -1020,6 +1200,22 @@ onfocus="onAdminSearchFocus()">
 <div class="form-group">
 <label class="form-label">النطاق المسموح (متر)</label>
 <input type="number" class="form-input" id="site-radius" min="10" placeholder="100">
+</div>
+<div class="form-group">
+<label class="form-label">بداية الدوام (مثال: 07:00)</label>
+<input type="text" class="form-input" id="site-start" placeholder="07:00">
+</div>
+<div class="form-group">
+<label class="form-label">نهاية تسجيل الحضور (مثال: 08:30)</label>
+<input type="text" class="form-input" id="site-checkin-end" placeholder="08:30">
+</div>
+<div class="form-group">
+<label class="form-label">بداية الانصراف (مثال: 14:00)</label>
+<input type="text" class="form-input" id="site-checkout-start" placeholder="14:00">
+</div>
+<div class="form-group">
+<label class="form-label">نهاية الانصراف (مثال: 17:00)</label>
+<input type="text" class="form-input" id="site-checkout-end" placeholder="17:00">
 </div>
 </div>
 <div class="error-message" id="site-form-error" style="display:none;"></div>
@@ -1071,7 +1267,7 @@ onfocus="onAdminSearchFocus()">
 
 <script>
 const webAppUrl = "https://script.google.com/macros/s/AKfycbxODPm6-e7ulZfsgv0Q1Iz3USKdspN7MDNVi7kBK9bbMX6lgBiEXc00HUcQQCsOVUO6/exec";
-const APP_VERSION = "attendance-v1";
+const APP_VERSION = "attendance-v2";
 
 const forms = [
 { id: "طلب-إجازة", name: "طلب إجازة", icon: "file-signature", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
@@ -1132,6 +1328,12 @@ let currentLocation = null;
 let attendanceLogData = [];
 let sitesCache = [];
 let editingSiteOriginalName = null;
+let serverClockInterval = null;
+
+// متغيرات للتقارير
+let allSitesList = [];
+let monthlySearchDebounce = null;
+let monthlyHighlightedIndex = -1;
 
 document.addEventListener('DOMContentLoaded', function () {
   lucide.createIcons();
@@ -1139,7 +1341,289 @@ document.addEventListener('DOMContentLoaded', function () {
   checkStoredLogin();
   renderForms();
   renderPhones();
+  // جلب قائمة المشاريع للتقرير
+  loadSitesForReports();
 });
+
+// ==================== الساعة الرقمية ====================
+async function updateServerClock() {
+  try {
+    const res = await fetch(webAppUrl + '?action=getServerTime');
+    if (!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    if (data.success) {
+      const serverTime = data.serverTime;
+      document.getElementById('server-clock').textContent = serverTime.split(' ')[1];
+
+      // مقارنة مع وقت الهاتف
+      const phoneNow = new Date();
+      const serverDate = new Date(serverTime);
+      const diff = Math.abs(phoneNow - serverDate) / 1000;
+      const warningEl = document.getElementById('time-warning');
+      if (diff > 10) {
+        warningEl.style.display = 'block';
+      } else {
+        warningEl.style.display = 'none';
+      }
+    }
+  } catch (e) {
+    // في حال تعذر جلب الوقت، نعرض الوقت المحلي مع تحذير
+    const now = new Date();
+    document.getElementById('server-clock').textContent = now.toLocaleTimeString('ar-LY');
+    document.getElementById('time-warning').style.display = 'block';
+    document.getElementById('time-warning').textContent = '⚠ تعذر الاتصال بالخادم. الوقت المعروض من هاتفك.';
+  }
+}
+
+// ==================== دوال التقارير (JavaScript) ====================
+async function loadSitesForReports() {
+  try {
+    const res = await fetch(webAppUrl + '?action=getSites&adminNumber=' + encodeURIComponent(currentUser.number));
+    const data = await res.json();
+    if (data.success) {
+      allSitesList = data.sites || [];
+      const select = document.getElementById('daily-report-project');
+      select.innerHTML = '<option value="">اختر المشروع</option>' +
+        allSitesList.filter(s => s.active).map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+    }
+  } catch (e) {}
+}
+
+function switchReportTab(tab) {
+  document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.report-tab[data-tab="${tab}"]`).classList.add('active');
+  document.querySelectorAll('.report-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('report-' + tab).classList.add('active');
+}
+
+function closeReportsModal() { document.getElementById('reports-modal').classList.remove('active'); }
+function closeReportsModalOnOverlay(e) { if (e.target === e.currentTarget) closeReportsModal(); }
+
+function openReportsModal() {
+  if (!currentUser || currentUser.role !== 'admin') return;
+  document.getElementById('reports-modal').classList.add('active');
+  document.getElementById('daily-report-result').innerHTML = '';
+  document.getElementById('monthly-report-result').innerHTML = '';
+  // تعيين التاريخ الحالي للتقرير اليومي
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('daily-report-date').value = today;
+  // تعيين الشهر الحالي للشهري
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+  document.getElementById('monthly-report-start').value = firstDay;
+  document.getElementById('monthly-report-end').value = lastDay;
+  loadSitesForReports();
+  loadAllEmployees();
+}
+
+function renderReportTable(reportData, summary, title, isMonthly = false) {
+  if (!reportData || reportData.length === 0) {
+    return '<p class="no-results">لا توجد بيانات لعرضها</p>';
+  }
+
+  let html = `<div class="report-table-wrap"><table class="report-table">`;
+  html += `<thead><tr>`;
+  if (isMonthly) {
+    html += `<th>التاريخ</th><th>اليوم</th><th>الحضور</th><th>الانصراف</th><th>الحالة</th><th>الملاحظات</th>`;
+  } else {
+    html += `<th>الرقم</th><th>الاسم</th><th>الحضور</th><th>الانصراف</th><th>حالة الحضور</th><th>حالة الانصراف</th><th>الملاحظات</th>`;
+  }
+  html += `</tr></thead><tbody>`;
+
+  reportData.forEach(row => {
+    html += `<tr>`;
+    if (isMonthly) {
+      html += `<td>${row.date}</td><td>${row.day}</td><td>${row.checkIn}</td><td>${row.checkOut}</td><td>${row.status}</td><td>${row.notes || '-'}</td>`;
+    } else {
+      html += `<td>${row.number}</td><td>${row.name}</td><td>${row.checkIn ? new Date(row.checkIn).toLocaleTimeString('ar-LY') : '-'}</td><td>${row.checkOut ? new Date(row.checkOut).toLocaleTimeString('ar-LY') : '-'}</td><td>${row.checkInStatus}</td><td>${row.checkOutStatus}</td><td>${row.notes || '-'}</td>`;
+    }
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+
+  // الملخص
+  if (summary) {
+    html += `<div class="report-summary">`;
+    for (const [key, value] of Object.entries(summary)) {
+      if (typeof value === 'number' || typeof value === 'string') {
+        const labelMap = {
+          totalEmployees: 'عدد الموظفين',
+          present: '✅ حضور',
+          absent: '❌ غياب',
+          late: '⏰ تأخير',
+          earlyLeave: '🚪 انصراف مبكر',
+          noCheckIn: '⚠ لم يسجل دخول',
+          noCheckOut: '⚠ لم يسجل خروج',
+          totalWorkDays: 'أيام العمل',
+          totalPresent: '✅ حضور',
+          totalAbsent: '❌ غياب',
+          totalLate: '⏰ تأخير',
+          totalEarlyLeave: '🚪 انصراف مبكر',
+          totalNoCheckIn: '⚠ لم يسجل دخول',
+          totalNoCheckOut: '⚠ لم يسجل خروج',
+          totalFriday: '🕌 جمعة',
+          totalHoliday: '🎉 عطلة',
+          attendanceRate: 'نسبة الالتزام %'
+        };
+        const label = labelMap[key] || key;
+        html += `<div class="stat-item"><div class="num">${value}</div><div class="label">${label}</div></div>`;
+      }
+    }
+    html += `</div>`;
+  }
+
+  // أزرار التصدير
+  html += `<div class="report-actions">
+    <button class="btn btn-primary" onclick="printReport()"><i data-lucide="printer"></i> طباعة</button>
+    <button class="btn btn-success" onclick="exportReportToExcel()"><i data-lucide="file-spreadsheet"></i> تصدير Excel</button>
+  </div>`;
+
+  return html;
+}
+
+function printReport() { window.print(); }
+
+function exportReportToExcel() {
+  const table = document.querySelector('.report-table');
+  if (!table) return showToast('لا يوجد جدول للتصدير', 'error');
+  // تحويل الجدول إلى CSV بسيط أو استخدام مكتبة XLSX
+  let csv = '';
+  const rows = table.querySelectorAll('tr');
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('th, td');
+    const rowData = [];
+    cells.forEach(cell => rowData.push(cell.innerText.trim()));
+    csv += rowData.join(',') + '\n';
+  });
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'تقرير_' + new Date().toISOString().slice(0,10) + '.csv';
+  link.click();
+  showToast('تم تصدير التقرير', 'success');
+}
+
+// ==================== التقرير اليومي ====================
+async function generateDailyReport() {
+  const project = document.getElementById('daily-report-project').value;
+  const date = document.getElementById('daily-report-date').value;
+  const resultDiv = document.getElementById('daily-report-result');
+
+  if (!project) return showToast('يرجى اختيار المشروع', 'error');
+  if (!date) return showToast('يرجى اختيار التاريخ', 'error');
+
+  resultDiv.innerHTML = '<p>جاري إنشاء التقرير...</p>';
+
+  try {
+    const res = await fetch(`${webAppUrl}?action=generateDailyReport&adminNumber=${encodeURIComponent(currentUser.number)}&project=${encodeURIComponent(project)}&date=${encodeURIComponent(date)}`);
+    const data = await res.json();
+
+    if (!data.success) {
+      resultDiv.innerHTML = `<div class="error-message">${data.error || 'حدث خطأ'}</div>`;
+      return;
+    }
+
+    if (data.isFriday) {
+      resultDiv.innerHTML = `<div class="attendance-result-box success"><h4>🕌 يوم الجمعة</h4><p>عطلة أسبوعية</p></div>`;
+      return;
+    }
+
+    resultDiv.innerHTML = renderReportTable(data.report, data.summary, `تقرير يومي - ${project} - ${date}`);
+    lucide.createIcons();
+  } catch (e) {
+    resultDiv.innerHTML = `<div class="error-message">حدث خطأ في الاتصال</div>`;
+  }
+}
+
+// ==================== التقرير الشهري ====================
+async function generateMonthlyReport() {
+  const employeeInput = document.getElementById('monthly-report-employee').value.trim();
+  const start = document.getElementById('monthly-report-start').value;
+  const end = document.getElementById('monthly-report-end').value;
+  const resultDiv = document.getElementById('monthly-report-result');
+
+  if (!employeeInput) return showToast('يرجى إدخال اسم أو رقم الموظف', 'error');
+  if (!start || !end) return showToast('يرجى تحديد الفترة', 'error');
+
+  // محاولة استخراج الرقم الوظيفي من النص المدخل
+  let empNumber = employeeInput;
+  // إذا كان النص يحتوي على رقم في نهايته (رقم وظيفي)
+  const numMatch = employeeInput.match(/\d+/);
+  if (numMatch) {
+    empNumber = numMatch[0];
+  } else {
+    // البحث في الكاش عن الاسم
+    const found = allEmployeesCache.find(e => e.name.includes(employeeInput));
+    if (found) empNumber = found.number;
+  }
+
+  resultDiv.innerHTML = '<p>جاري إنشاء التقرير...</p>';
+
+  try {
+    const res = await fetch(`${webAppUrl}?action=generateMonthlyReport&adminNumber=${encodeURIComponent(currentUser.number)}&employeeNumber=${encodeURIComponent(empNumber)}&startDate=${encodeURIComponent(start)}&endDate=${encodeURIComponent(end)}`);
+    const data = await res.json();
+
+    if (!data.success) {
+      resultDiv.innerHTML = `<div class="error-message">${data.error || 'حدث خطأ'}</div>`;
+      return;
+    }
+
+    let html = `<div style="margin-bottom:1rem;"><strong>الموظف:</strong> ${data.employeeName} (${data.employeeNumber})`;
+    if (data.assignedSites) html += ` | <strong>المشروع:</strong> ${data.assignedSites}`;
+    html += ` | <strong>الفترة:</strong> ${data.startDate} إلى ${data.endDate}</div>`;
+
+    html += renderReportTable(data.report, data.summary, 'تقرير شهري', true);
+    resultDiv.innerHTML = html;
+    lucide.createIcons();
+  } catch (e) {
+    resultDiv.innerHTML = `<div class="error-message">حدث خطأ في الاتصال</div>`;
+  }
+}
+
+// ==================== Autocomplete للبحث الشهري ====================
+function onMonthlySearchInput(e) {
+  const query = e.target.value.trim();
+  const list = document.getElementById('monthly-autocomplete-list');
+  if (monthlySearchDebounce) clearTimeout(monthlySearchDebounce);
+  if (query.length === 0) { list.classList.remove('active'); return; }
+  monthlySearchDebounce = setTimeout(() => performMonthlySearch(query), 250);
+}
+
+function onMonthlySearchFocus() {
+  loadAllEmployees();
+  const query = document.getElementById('monthly-report-employee').value.trim();
+  if (query.length > 0) performMonthlySearch(query);
+}
+
+function performMonthlySearch(query) {
+  const list = document.getElementById('monthly-autocomplete-list');
+  const q = query.toLowerCase();
+  const filtered = allEmployeesCache.filter(e =>
+    e.name.toLowerCase().includes(q) || e.number.includes(q)
+  ).slice(0, 10);
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="autocomplete-empty">لا توجد نتائج</div>';
+    list.classList.add('active');
+    return;
+  }
+  list.innerHTML = filtered.map(e =>
+    `<div class="autocomplete-item" onmousedown="selectMonthlyEmployee('${e.name} (${e.number})')">
+      <span class="autocomplete-item-name"><i data-lucide="user"></i> ${e.name}</span>
+      <span class="autocomplete-item-number">${e.number}</span>
+    </div>`
+  ).join('');
+  list.classList.add('active');
+  lucide.createIcons();
+}
+
+function selectMonthlyEmployee(value) {
+  document.getElementById('monthly-report-employee').value = value;
+  document.getElementById('monthly-autocomplete-list').classList.remove('active');
+}
+
+// ==================== دوال الدخول والخروج والخدمات الأساسية (مع تعديلات البصمة) ====================
 
 function checkStoredLogin() {
   const storedUser = localStorage.getItem('currentUser');
@@ -1223,6 +1707,7 @@ function handleLogout() {
   localStorage.removeItem('currentUser');
   localStorage.removeItem('rememberMe');
   localStorage.removeItem('appVersion');
+  if (serverClockInterval) clearInterval(serverClockInterval);
 
   document.getElementById('login-number').value = '';
   document.getElementById('login-pass').value = '';
@@ -1247,6 +1732,7 @@ function showApp() {
     document.getElementById('admin-login-log-wrapper').style.display = isAdmin ? 'flex' : 'none';
     document.getElementById('admin-attendance-wrapper').style.display = isAdmin ? 'flex' : 'none';
     document.getElementById('admin-sites-wrapper').style.display = isAdmin ? 'flex' : 'none';
+    document.getElementById('admin-reports-wrapper').style.display = isAdmin ? 'flex' : 'none';
     document.getElementById('attendance-wrapper').style.display = isField ? 'flex' : 'none';
   }
 
@@ -1269,7 +1755,6 @@ function togglePassword() {
     passInput.type = 'password';
     eyeIcon.setAttribute('data-lucide', 'eye');
   }
-
   lucide.createIcons();
 }
 
@@ -1997,7 +2482,7 @@ function showToast(message, type) {
   setTimeout(() => toast.classList.remove('active'), 3000);
 }
 
-// ==================== البصمة الجغرافية ====================
+// ==================== البصمة الجغرافية (محدثة) ====================
 function openAttendanceModal() {
   if (!currentUser) return;
 
@@ -2005,12 +2490,18 @@ function openAttendanceModal() {
   document.getElementById('attendance-result').style.display = 'none';
   currentLocation = null;
 
+  // بدء تشغيل الساعة
+  if (serverClockInterval) clearInterval(serverClockInterval);
+  updateServerClock();
+  serverClockInterval = setInterval(updateServerClock, 5000);
+
   requestLocation();
   lucide.createIcons();
 }
 
 function closeAttendanceModal() {
   document.getElementById('attendance-modal').classList.remove('active');
+  if (serverClockInterval) clearInterval(serverClockInterval);
 }
 
 function closeAttendanceModalOnOverlay(event) {
@@ -2091,6 +2582,9 @@ async function submitAttendance(type) {
   btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i><span>جاري التسجيل...</span>';
   lucide.createIcons();
 
+  // جلب معلومات الجهاز و IP (IP من الخادم سيتم تسجيله هناك، لكننا نمرر الجهاز)
+  const deviceInfo = navigator.userAgent || 'غير معروف';
+
   try {
     const url = `${webAppUrl}?action=attendance` +
       `&number=${encodeURIComponent(currentUser.number)}` +
@@ -2098,7 +2592,8 @@ async function submitAttendance(type) {
       `&lat=${encodeURIComponent(currentLocation.lat)}` +
       `&lng=${encodeURIComponent(currentLocation.lng)}` +
       `&accuracy=${encodeURIComponent(currentLocation.accuracy)}` +
-      `&type=${encodeURIComponent(type)}`;
+      `&type=${encodeURIComponent(type)}` +
+      `&device=${encodeURIComponent(deviceInfo)}`;
 
     const res = await fetch(url);
     if (!res.ok) throw new Error('bad response');
@@ -2110,17 +2605,19 @@ async function submitAttendance(type) {
     if (data.success) {
       resultEl.className = 'attendance-result-box success';
       resultEl.innerHTML = `
-        <h4>${escapeHtml(data.message || 'تم التسجيل بنجاح')}</h4>
+        <h4>✅ ${escapeHtml(data.message || 'تم التسجيل بنجاح')}</h4>
         <p>الموقع: ${escapeHtml(data.site || '')}</p>
         <p>المسافة: ${escapeHtml(String(data.distance || 0))} متر</p>
+        <p>وقت الخادم: ${escapeHtml(data.serverTime || '')}</p>
       `;
       showToast(data.message || 'تم التسجيل بنجاح', 'success');
     } else {
       resultEl.className = 'attendance-result-box error';
       resultEl.innerHTML = `
-        <h4>${escapeHtml(data.error || 'تعذر التسجيل')}</h4>
+        <h4>❌ ${escapeHtml(data.error || 'تعذر التسجيل')}</h4>
         ${data.distance ? `<p>المسافة عن أقرب موقع: ${escapeHtml(String(data.distance))} متر</p>` : ''}
         ${data.site ? `<p>أقرب موقع: ${escapeHtml(data.site)}</p>` : ''}
+        ${data.serverTime ? `<p>وقت الخادم: ${escapeHtml(data.serverTime)}</p>` : ''}
       `;
       showToast(data.error || 'تعذر التسجيل', 'error');
     }
@@ -2141,19 +2638,36 @@ async function submitAttendance(type) {
   }
 }
 
-// ==================== سجل الحضور للمدير ====================
+// ==================== سجل الحضور للمدير (محدث) ====================
 function openAttendanceLogModal() {
   if (!currentUser || currentUser.role !== 'admin') return;
 
   document.getElementById('attendance-log-modal').classList.add('active');
   document.getElementById('attendance-log-search').value = '';
-  document.getElementById('attendance-log-date').value = '';
+  document.getElementById('attendance-log-date-start').value = '';
+  document.getElementById('attendance-log-date-end').value = '';
   document.getElementById('attendance-log-status').value = '';
   document.getElementById('attendance-log-table-container').innerHTML = '<p class="no-results">جاري تحميل السجل...</p>';
   document.getElementById('attendance-log-stats-text').textContent = '0 سجل';
 
+  // تحميل قائمة المشاريع للفلتر
+  loadSitesForAttendanceFilter();
+
   lucide.createIcons();
   loadAttendanceLog();
+}
+
+async function loadSitesForAttendanceFilter() {
+  try {
+    const res = await fetch(webAppUrl + '?action=getSites&adminNumber=' + encodeURIComponent(currentUser.number));
+    const data = await res.json();
+    if (data.success) {
+      const select = document.getElementById('attendance-log-project');
+      const sites = data.sites || [];
+      select.innerHTML = '<option value="">كل المشاريع</option>' +
+        sites.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+    }
+  } catch (e) {}
 }
 
 function closeAttendanceLogModal() {
@@ -2175,7 +2689,22 @@ async function loadAttendanceLog() {
   lucide.createIcons();
 
   try {
-    const res = await fetch(`${webAppUrl}?action=attendanceLog&adminNumber=${encodeURIComponent(currentUser.number)}`);
+    // جمع معاملات الفلترة
+    const project = document.getElementById('attendance-log-project').value || '';
+    const search = document.getElementById('attendance-log-search').value.trim() || '';
+    const status = document.getElementById('attendance-log-status').value || '';
+    const startDate = document.getElementById('attendance-log-date-start').value || '';
+    const endDate = document.getElementById('attendance-log-date-end').value || '';
+
+    const url = `${webAppUrl}?action=attendanceLog` +
+      `&adminNumber=${encodeURIComponent(currentUser.number)}` +
+      `&project=${encodeURIComponent(project)}` +
+      `&search=${encodeURIComponent(search)}` +
+      `&status=${encodeURIComponent(status)}` +
+      `&startDate=${encodeURIComponent(startDate)}` +
+      `&endDate=${encodeURIComponent(endDate)}`;
+
+    const res = await fetch(url);
     if (!res.ok) throw new Error('bad response');
 
     const data = await res.json();
@@ -2186,7 +2715,7 @@ async function loadAttendanceLog() {
     }
 
     attendanceLogData = data.records || [];
-    filterAttendanceLog();
+    renderAttendanceLog(attendanceLogData);
     showToast('تم تحديث سجل الحضور بنجاح', 'success');
   } catch (e) {
     container.innerHTML = '<p class="no-results">حدث خطأ في تحميل سجل الحضور</p>';
@@ -2199,28 +2728,8 @@ async function loadAttendanceLog() {
 }
 
 function filterAttendanceLog() {
-  const query = document.getElementById('attendance-log-search').value.trim().toLowerCase();
-  const date = document.getElementById('attendance-log-date').value;
-  const status = document.getElementById('attendance-log-status').value;
-
-  let filtered = attendanceLogData;
-
-  if (query) {
-    filtered = filtered.filter(r =>
-      String(r.number || '').toLowerCase().includes(query) ||
-      String(r.name || '').toLowerCase().includes(query)
-    );
-  }
-
-  if (date) {
-    filtered = filtered.filter(r => String(r.date || '').startsWith(date));
-  }
-
-  if (status) {
-    filtered = filtered.filter(r => String(r.status || '').trim() === status);
-  }
-
-  renderAttendanceLog(filtered);
+  // نعيد التحميل مع الفلاتر الجديدة بدلاً من التصفية المحلية للدقة
+  loadAttendanceLog();
 }
 
 function attendanceDistanceText(record) {
@@ -2250,6 +2759,7 @@ function renderAttendanceLog(records) {
           <th>المسافة</th>
           <th>الدقة</th>
           <th>الحالة</th>
+          <th>الجهاز</th>
         </tr>
       </thead>
       <tbody>
@@ -2271,6 +2781,7 @@ function renderAttendanceLog(records) {
         <td>${escapeHtml(attendanceDistanceText(record))}</td>
         <td>${record.accuracy ? escapeHtml(String(record.accuracy)) + ' متر' : '-'}</td>
         <td><span class="status-badge ${badgeClass}">${escapeHtml(record.status || '')}</span></td>
+        <td style="font-size:0.7rem;color:var(--muted-foreground);">${escapeHtml(record.device || '-')}</td>
       </tr>
     `;
   });
@@ -2294,9 +2805,9 @@ function renderAttendanceLog(records) {
           <span class="status-badge ${badgeClass}">${escapeHtml(record.status || '')}</span>
         </div>
         <div class="log-card-date">${escapeHtml(record.date || '')}</div>
-        <div class="attendance-log-meta">الموقع: ${escapeHtml(record.site || '-')}</div>
-        <div class="attendance-log-meta">المسافة: ${escapeHtml(attendanceDistanceText(record))}</div>
-        <div class="attendance-log-meta">الدقة: ${record.accuracy ? escapeHtml(String(record.accuracy)) + ' متر' : '-'}</div>
+        <div style="font-size:.75rem;color:var(--muted-foreground);">الموقع: ${escapeHtml(record.site || '-')}</div>
+        <div style="font-size:.75rem;color:var(--muted-foreground);">المسافة: ${escapeHtml(attendanceDistanceText(record))}</div>
+        <div style="font-size:.75rem;color:var(--muted-foreground);">الجهاز: ${escapeHtml(record.device || '-')}</div>
       </div>
     `;
   });
@@ -2388,6 +2899,9 @@ function renderSites() {
           <span><i data-lucide="map-pin"></i> Lat: ${escapeHtml(String(site.lat ?? '-'))}</span>
           <span><i data-lucide="map-pin"></i> Lng: ${escapeHtml(String(site.lng ?? '-'))}</span>
           <span><i data-lucide="ruler"></i> النطاق: ${escapeHtml(String(site.radius ?? '-'))} متر</span>
+          <span><i data-lucide="clock"></i> الدوام: ${site.startTime} - ${site.checkInEnd}</span>
+          <span><i data-lucide="clock"></i> الانصراف: ${site.checkOutStart} - ${site.checkOutEnd}</span>
+          <span><i data-lucide="map-pin"></i> العنوان: ${escapeHtml(site.address || '-')}</span>
         </div>
 
         <div class="site-actions">
@@ -2409,9 +2923,14 @@ function showAddSiteForm() {
   editingSiteOriginalName = null;
   document.getElementById('site-form-title').textContent = 'إضافة موقع جديد';
   document.getElementById('site-name').value = '';
+  document.getElementById('site-address').value = '';
   document.getElementById('site-lat').value = '';
   document.getElementById('site-lng').value = '';
   document.getElementById('site-radius').value = '';
+  document.getElementById('site-start').value = '07:00';
+  document.getElementById('site-checkin-end').value = '08:30';
+  document.getElementById('site-checkout-start').value = '14:00';
+  document.getElementById('site-checkout-end').value = '17:00';
   document.getElementById('site-form-error').style.display = 'none';
   document.getElementById('site-form').style.display = 'block';
 }
@@ -2423,9 +2942,14 @@ function editSite(index) {
   editingSiteOriginalName = site.name;
   document.getElementById('site-form-title').textContent = 'تعديل موقع: ' + site.name;
   document.getElementById('site-name').value = site.name || '';
+  document.getElementById('site-address').value = site.address || '';
   document.getElementById('site-lat').value = site.lat ?? '';
   document.getElementById('site-lng').value = site.lng ?? '';
   document.getElementById('site-radius').value = site.radius ?? '';
+  document.getElementById('site-start').value = site.startTime || '07:00';
+  document.getElementById('site-checkin-end').value = site.checkInEnd || '08:30';
+  document.getElementById('site-checkout-start').value = site.checkOutStart || '14:00';
+  document.getElementById('site-checkout-end').value = site.checkOutEnd || '17:00';
   document.getElementById('site-form-error').style.display = 'none';
   document.getElementById('site-form').style.display = 'block';
 }
@@ -2442,33 +2966,25 @@ function parseCoordinateLocal(value) {
 
 async function saveSite() {
   const name = document.getElementById('site-name').value.trim();
+  const address = document.getElementById('site-address').value.trim();
   const lat = parseCoordinateLocal(document.getElementById('site-lat').value);
   const lng = parseCoordinateLocal(document.getElementById('site-lng').value);
   const radius = parseFloat(document.getElementById('site-radius').value);
+  const startTime = document.getElementById('site-start').value.trim();
+  const checkInEnd = document.getElementById('site-checkin-end').value.trim();
+  const checkOutStart = document.getElementById('site-checkout-start').value.trim();
+  const checkOutEnd = document.getElementById('site-checkout-end').value.trim();
+
   const errorEl = document.getElementById('site-form-error');
   const btn = document.getElementById('save-site-btn');
 
   errorEl.style.display = 'none';
 
-  if (!name) {
-    errorEl.textContent = 'يرجى إدخال اسم الموقع';
-    errorEl.style.display = 'block';
-    return;
-  }
+  if (!name) { errorEl.textContent = 'يرجى إدخال اسم الموقع'; errorEl.style.display = 'block'; return; }
+  if (isNaN(lat) || isNaN(lng)) { errorEl.textContent = 'يرجى إدخال خط عرض وخط طول صحيحين'; errorEl.style.display = 'block'; return; }
+  if (isNaN(radius) || radius <= 0) { errorEl.textContent = 'يرجى إدخال نطاق مسموح صحيح بالمتر'; errorEl.style.display = 'block'; return; }
 
-  if (isNaN(lat) || isNaN(lng)) {
-    errorEl.textContent = 'يرجى إدخال خط عرض وخط طول صحيحين';
-    errorEl.style.display = 'block';
-    return;
-  }
-
-  if (isNaN(radius) || radius <= 0) {
-    errorEl.textContent = 'يرجى إدخال نطاق مسموح صحيح بالمتر';
-    errorEl.style.display = 'block';
-    return;
-  }
-
-  const payload = { name, lat, lng, radius };
+  const payload = { name, address, lat, lng, radius, startTime, checkInEnd, checkOutStart, checkOutEnd };
   const siteAction = editingSiteOriginalName ? 'update' : 'add';
 
   if (editingSiteOriginalName) {
