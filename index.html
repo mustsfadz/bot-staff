@@ -186,6 +186,8 @@ body{font-family:'Cairo',sans-serif; background-color:var(--background); color:v
 .site-emp-item{display:flex; justify-content:space-between; align-items:center; padding:.75rem; background:var(--card); border:1px solid var(--border); border-radius:.5rem;}
 .site-emp-info{display:flex; align-items:center; gap:.5rem;}
 .site-emp-info .log-badge{margin:0;}
+
+/* تحسين خاصية التعيينات */
 .assign-card{border:1px solid var(--border); border-radius:.75rem; margin-bottom:.75rem; overflow:hidden; background:var(--background);}
 .assign-card-header{display:flex;justify-content:space-between;align-items:center;padding:1rem;cursor:pointer;transition:background .2s;}
 .assign-card-header:hover{background:var(--muted);}
@@ -193,8 +195,7 @@ body{font-family:'Cairo',sans-serif; background-color:var(--background); color:v
 .assign-card-num{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted-foreground);margin-top:.25rem;}
 .assign-chevron{width:1.25rem;height:1.25rem;color:var(--muted-foreground);transition:transform .3s;}
 .assign-card-header.active .assign-chevron{transform:rotate(180deg);}
-.assign-card-body{display:none;padding:1rem;padding-top:0;}
-.assign-card-body.show{display:block;}
+.assign-card-body{display:block;padding:1rem;padding-top:0;} /* تم تغيير display من none إلى block */
 .assign-sites-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem;margin:1rem 0;}
 .assign-site-checkbox{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);transition:all .2s;cursor:pointer;font-size:.875rem;}
 .assign-site-checkbox:hover{border-color:var(--primary);}
@@ -282,7 +283,7 @@ body{font-family:'Cairo',sans-serif; background-color:var(--background); color:v
 <!-- SITE EMPLOYEES MODAL -->
 <div class="modal-overlay" id="site-employees-modal" onclick="closeSiteEmpModalOnOverlay(event)"><div class="modal modal-wide"><div class="modal-header"><h2 class="modal-title" id="site-emp-modal-title">موظفو الموقع</h2><button class="modal-close" onclick="closeSiteEmpModal()"><i data-lucide="x"></i></button></div><div class="modal-body"><div id="site-emp-list-container"><p class="no-results">جاري التحميل...</p></div></div></div></div>
 
-<!-- ASSIGNMENTS MODAL -->
+<!-- ASSIGNMENTS MODAL - تم تحسينها -->
 <div class="modal-overlay" id="assignments-modal" onclick="closeAssignmentsModalOnOverlay(event)"><div class="modal modal-wide"><div class="modal-header"><h2 class="modal-title">تعيين الموظفين للمواقع الميدانية</h2><button class="modal-close" onclick="closeAssignmentsModal()"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="log-toolbar"><div class="search-input"><i data-lucide="search"></i><input type="text" placeholder="ابحث عن موظف..." id="assign-search" oninput="filterAssignments()"></div><button class="btn btn-secondary" onclick="loadAssignments()" style="max-width:150px;"><i data-lucide="refresh-cw"></i> تحديث</button></div><div id="assignments-list-container"><p class="no-results">جاري التحميل...</p></div></div></div></div>
 
 <div class="modal-overlay" id="coming-soon-modal" onclick="closeComingSoonModalOnOverlay(event)"><div class="modal"><div class="modal-header"><h2 class="modal-title" id="coming-soon-modal-title">قريباً</h2><button class="modal-close" onclick="closeComingSoonModal()"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="coming-soon-content"><div class="coming-soon-icon"><i data-lucide="clock"></i></div><h3 class="coming-soon-title">ستتوفر الخدمة قريباً</h3><p class="coming-soon-desc" id="coming-soon-desc">نعمل على تطوير هذه الخدمة لتقديم أفضل تجربة للمستخدمين</p><div class="coming-soon-features" id="coming-soon-features"></div><button class="btn btn-primary" onclick="closeComingSoonModal()" style="width:100%;"><i data-lucide="check"></i> حسناً</button></div></div></div></div>
@@ -290,7 +291,7 @@ body{font-family:'Cairo',sans-serif; background-color:var(--background); color:v
 
 <script>
 const webAppUrl = "https://script.google.com/macros/s/AKfycbxODPm6-e7ulZfsgv0Q1Iz3USKdspN7MDNVi7kBK9bbMX6lgBiEXc00HUcQQCsOVUO6/exec";
-const APP_VERSION = "attendance-v3"; // تم تحديث الإصدار
+const APP_VERSION = "attendance-v4"; // تم تحديث الإصدار
 const forms = [
 { id: "طلب-إجازة", name: "طلب إجازة", icon: "file-signature", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
 { id: "طلب-سلفة", name: "طلب سلفة مالية", icon: "banknote", url: "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link" },
@@ -461,7 +462,7 @@ function requestLocation() { const s = document.getElementById('gps-status'); s.
 function getAttendanceButtonHtml(t) { return t === 'دخول صباحي' ? '<i data-lucide="sunrise"></i><span>دخول صباحي</span>' : '<i data-lucide="sunset"></i><span>خروج مسائي</span>'; }
 async function submitAttendance(type) { if(!currentUser||!currentUser.pass){showToast('سجل الدخول','error');return;} if(!currentLocation){showToast('لم يتم تحديد موقعك','error');return;} const btn = type==='دخول صباحي'?document.getElementById('btn-checkin'):document.getElementById('btn-checkout'), otherBtn = type==='دخول صباحي'?document.getElementById('btn-checkout'):document.getElementById('btn-checkin'), otherType = type==='دخول صباحي'?'خروج مسائي':'دخول صباحي', res = document.getElementById('attendance-result'); btn.disabled=true; otherBtn.disabled=true; btn.innerHTML='<i data-lucide="loader-2" class="spinner"></i><span>جاري...</span>'; lucide.createIcons(); try { const d = await (await fetchWithTimeout(`${webAppUrl}?action=attendance&number=${encodeURIComponent(currentUser.number)}&pass=${encodeURIComponent(currentUser.pass)}&lat=${encodeURIComponent(currentLocation.lat)}&lng=${encodeURIComponent(currentLocation.lng)}&accuracy=${encodeURIComponent(currentLocation.accuracy)}&type=${encodeURIComponent(type)}`)).json(); res.style.display='block'; if(d.success){res.className='attendance-result-box success';res.innerHTML=`<h4>${escapeHtml(d.message)}</h4><p>الموقع: ${escapeHtml(d.site)}</p><p>المسافة: ${escapeHtml(String(d.distance))} متر</p>`;showToast(d.message,'success');} else{res.className='attendance-result-box error';res.innerHTML=`<h4>${escapeHtml(d.error)}</h4>${d.distance?`<p>المسافة: ${escapeHtml(String(d.distance))} متر</p>`:''}${d.site?`<p>أقرب موقع: ${escapeHtml(d.site)}</p>`:''}`;showToast(d.error,'error');} lucide.createIcons(); } catch(e){res.style.display='block';res.className='attendance-result-box error';res.innerHTML='<h4>حدث خطأ في الاتصال أو انتهت المهلة</h4>';showToast('خطأ في الاتصال','error');lucide.createIcons();} finally{btn.disabled=false;otherBtn.disabled=false;btn.innerHTML=getAttendanceButtonHtml(type);otherBtn.innerHTML=getAttendanceButtonHtml(otherType);lucide.createIcons();} }
 
-// ==================== سجل الحضور للمدير - محسن ====================
+// ==================== سجل الحضور للمدير ====================
 function openAttendanceLogModal() { if(!currentUser||currentUser.role!=='admin') return; document.getElementById('attendance-log-modal').classList.add('active'); document.getElementById('attendance-log-search').value=''; document.getElementById('attendance-log-date').value=''; document.getElementById('attendance-log-status').value=''; document.getElementById('attendance-log-table-container').innerHTML='<p class="no-results">جاري التحميل...</p>'; document.getElementById('attendance-log-stats-text').textContent='0 سجل'; lucide.createIcons(); loadAttendanceLog(); }
 function closeAttendanceLogModal() { document.getElementById('attendance-log-modal').classList.remove('active'); }
 function closeAttendanceLogModalOnOverlay(e) { if(e.target===e.currentTarget) closeAttendanceLogModal(); }
@@ -517,16 +518,173 @@ async function viewSiteEmployees(siteName) { currentViewingSiteName = siteName; 
 function renderSiteEmployees(emps) { const c = document.getElementById('site-emp-list-container'); if(emps.length===0){c.innerHTML='<div class="empty-box">لا يوجد موظفون معينون على هذا الموقع حالياً.</div>';lucide.createIcons();return;} c.innerHTML = '<div class="site-emp-list">' + emps.map(e => `<div class="site-emp-item"><div class="site-emp-info"><span class="log-badge">${escapeHtml(e.number)}</span><span>${escapeHtml(e.name)}</span></div><button class="btn btn-danger" style="flex:0 0 auto; padding:.4rem .8rem; font-size:.8rem;" onclick="removeEmpFromSite('${escapeHtml(e.number)}', '${escapeHtml(currentViewingSiteName)}')"><i data-lucide="user-x"></i> إزالة</button></div>`).join('') + '</div>'; lucide.createIcons(); }
 async function removeEmpFromSite(empNum, siteName) { if(!confirm('هل تريد إزالة هذا الموظف من الموقع؟')) return; try { const d = await (await fetchWithTimeout(`${webAppUrl}?action=removeEmpFromSite&adminNumber=${encodeURIComponent(currentUser.number)}&empNumber=${encodeURIComponent(empNum)}&siteName=${encodeURIComponent(siteName)}`)).json(); if(!d.success) throw 0; showToast(d.message,'success'); viewSiteEmployees(siteName); } catch(e){showToast('حدث خطأ','error');} }
 
-// ==================== تعيين الموظفين للمواقع ====================
-function openAssignmentsModal() { if(!currentUser||currentUser.role!=='admin') return; document.getElementById('assignments-modal').classList.add('active'); document.getElementById('assign-search').value=''; document.getElementById('assignments-list-container').innerHTML='<p class="no-results">جاري التحميل...</p>'; lucide.createIcons(); loadAssignments(); }
+// ==================== تعيين الموظفين للمواقع - النسخة المحسنة ====================
+function openAssignmentsModal() {
+  if(!currentUser||currentUser.role!=='admin') return;
+  document.getElementById('assignments-modal').classList.add('active');
+  document.getElementById('assign-search').value='';
+  document.getElementById('assignments-list-container').innerHTML='<p class="no-results">جاري التحميل...</p>';
+  lucide.createIcons();
+  loadAssignments();
+}
 function closeAssignmentsModal() { document.getElementById('assignments-modal').classList.remove('active'); }
 function closeAssignmentsModalOnOverlay(e) { if(e.target===e.currentTarget) closeAssignmentsModal(); }
-async function loadAssignments() { const c = document.getElementById('assignments-list-container'); c.innerHTML='<p class="no-results">جاري الجلب...</p>'; try { const [eRes, sRes] = await Promise.all([fetchWithTimeout(`${webAppUrl}?action=getEmployeesForAssignment&adminNumber=${encodeURIComponent(currentUser.number)}`), fetchWithTimeout(`${webAppUrl}?action=getSites&adminNumber=${encodeURIComponent(currentUser.number)}`)]); const eD = await eRes.json(), sD = await sRes.json(); if(!eD.success||!sD.success) throw 0; assignmentsData = eD.employees; availableSites = sD.sites.filter(s => s.active); renderAssignments(assignmentsData); } catch(e){c.innerHTML=`<p class="no-results">حدث خطأ أو انتهت المهلة</p>`;} }
-function renderAssignments(emps) { const c = document.getElementById('assignments-list-container'); if(availableSites.length===0){c.innerHTML=`<div class="empty-box">لا توجد مواقع نشطة. أضف مواقع أولاً.</div>`;lucide.createIcons();return;} if(emps.length===0){c.innerHTML='<p class="no-results">لا يوجد موظفين</p>';return;} c.innerHTML = emps.map(emp => { tempAssignments[emp.number] = [...emp.assignedSites]; const isF = emp.workType === 'ميداني', fb = isF ? '<span class="status-badge accepted">ميداني</span>' : '<span class="status-badge rejected">إداري</span>'; const checks = availableSites.map((s, si) => { const ic = emp.assignedSites.includes(s.name); return `<label class="assign-site-checkbox ${ic?'checked':''}"><input type="checkbox" data-site-index="${si}" onchange="updateTempAssignment('${escapeHtml(emp.number)}', ${si}, this.checked, this)" ${ic?'checked':''}><span>${escapeHtml(s.name)}</span></label>`; }).join(''); return `<div class="assign-card"><div class="assign-card-header" onclick="toggleAssignCard('${escapeHtml(emp.number)}')"><div><div class="assign-card-name">${escapeHtml(emp.name)}</div><div class="assign-card-num"><span class="log-badge">${escapeHtml(emp.number)}</span>${fb}<span>(${emp.assignedSites.length} موقع)</span></div></div><i data-lucide="chevron-down" class="assign-chevron"></i></div><div class="assign-card-body"><div class="assign-sites-grid">${checks}</div><button class="btn btn-primary assign-save-btn" onclick="saveEmployeeSites('${escapeHtml(emp.number)}')"><i data-lucide="save"></i> حفظ التعيين</button></div></div>`; }).join(''); lucide.createIcons(); }
-function toggleAssignCard(n) { const b = document.getElementById(`body-${n}`), h = b.previousElementSibling; b.classList.toggle('show'); h.classList.toggle('active'); }
-function updateTempAssignment(n, si, ic, el) { const sn = availableSites[si].name; if(!tempAssignments[n]) tempAssignments[n]=[]; if(ic){if(!tempAssignments[n].includes(sn))tempAssignments[n].push(sn);} else{tempAssignments[n]=tempAssignments[n].filter(s=>s!==sn);} const l = el.closest('.assign-site-checkbox'); if(ic)l.classList.add('checked'); else l.classList.remove('checked'); }
-async function saveEmployeeSites(n) { const sites = tempAssignments[n]||[], btn = event.target.closest('button'), ot = btn.innerHTML; btn.disabled=true; btn.innerHTML='<i data-lucide="loader-2" class="spinner"></i> جاري...'; lucide.createIcons(); try { const d = await (await fetchWithTimeout(`${webAppUrl}?action=updateEmployeeSites&adminNumber=${encodeURIComponent(currentUser.number)}&empNumber=${encodeURIComponent(n)}&sites=${encodeURIComponent(JSON.stringify(sites))}`)).json(); if(d.success){showToast(d.message,'success'); const emp=assignmentsData.find(e=>e.number===n); if(emp)emp.assignedSites=sites;} else showToast(d.error,'error'); } catch(e){showToast('خطأ أو انتهت المهلة','error');} finally{btn.disabled=false;btn.innerHTML=ot;lucide.createIcons();} }
-function filterAssignments() { const q = document.getElementById('assign-search').value.trim().toLowerCase(); renderAssignments(q ? assignmentsData.filter(e => e.name.toLowerCase().includes(q) || e.number.includes(q)) : assignmentsData); }
+
+async function loadAssignments() {
+  const c = document.getElementById('assignments-list-container');
+  c.innerHTML='<p class="no-results">جاري جلب البيانات...</p>';
+  try {
+    const [eRes, sRes] = await Promise.all([
+      fetchWithTimeout(`${webAppUrl}?action=getEmployeesForAssignment&adminNumber=${encodeURIComponent(currentUser.number)}`),
+      fetchWithTimeout(`${webAppUrl}?action=getSites&adminNumber=${encodeURIComponent(currentUser.number)}`)
+    ]);
+    const eD = await eRes.json();
+    const sD = await sRes.json();
+    if(!eD.success||!sD.success) throw new Error('فشل تحميل البيانات');
+    assignmentsData = eD.employees;
+    availableSites = sD.sites.filter(s => s.active);
+    renderAssignments(assignmentsData);
+  } catch(e) {
+    c.innerHTML = `<p class="no-results">${e.message || 'حدث خطأ أو انتهت المهلة'}</p>`;
+    showToast('فشل تحميل بيانات التعيين', 'error');
+  }
+}
+
+// دالة عرض التعيينات مع بطاقات مفتوحة وأزرار تحديد الكل
+function renderAssignments(emps) {
+  const c = document.getElementById('assignments-list-container');
+  if (availableSites.length === 0) {
+    c.innerHTML = `<div class="empty-box">⚠️ لا توجد مواقع نشطة. أضف مواقع أولاً.</div>`;
+    lucide.createIcons();
+    return;
+  }
+  if (emps.length === 0) {
+    c.innerHTML = '<p class="no-results">لا يوجد موظفين.</p>';
+    return;
+  }
+  c.innerHTML = emps.map(emp => {
+    // تهيئة التخزين المؤقت
+    tempAssignments[emp.number] = [...emp.assignedSites];
+    const isField = emp.workType === 'ميداني';
+    const badge = isField ? '<span class="status-badge accepted">ميداني</span>' : '<span class="status-badge rejected">إداري</span>';
+    const siteChecks = availableSites.map((s, idx) => {
+      const checked = emp.assignedSites.includes(s.name);
+      return `<label class="assign-site-checkbox ${checked ? 'checked' : ''}">
+        <input type="checkbox" data-site-index="${idx}" onchange="updateTempAssignment('${escapeHtml(emp.number)}', ${idx}, this.checked, this)" ${checked ? 'checked' : ''}>
+        <span>${escapeHtml(s.name)}</span>
+      </label>`;
+    }).join('');
+
+    return `<div class="assign-card">
+      <div class="assign-card-header" onclick="toggleAssignCard('${escapeHtml(emp.number)}')">
+        <div>
+          <div class="assign-card-name">${escapeHtml(emp.name)}</div>
+          <div class="assign-card-num">
+            <span class="log-badge">${escapeHtml(emp.number)}</span>
+            ${badge}
+            <span style="font-weight:600;color:var(--primary);">(${emp.assignedSites.length} موقع)</span>
+          </div>
+        </div>
+        <i data-lucide="chevron-down" class="assign-chevron"></i>
+      </div>
+      <div class="assign-card-body show" id="body-${escapeHtml(emp.number)}">
+        <div class="assign-sites-grid">${siteChecks}</div>
+        <div style="display:flex; gap:0.5rem; margin-top:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="selectAllSites('${escapeHtml(emp.number)}', true)"><i data-lucide="check-all"></i> تحديد الكل</button>
+          <button class="btn btn-secondary" onclick="selectAllSites('${escapeHtml(emp.number)}', false)"><i data-lucide="x"></i> إلغاء الكل</button>
+          <button class="btn btn-primary assign-save-btn" onclick="saveEmployeeSites('${escapeHtml(emp.number)}')"><i data-lucide="save"></i> حفظ التعيين</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  lucide.createIcons();
+}
+
+// دالة لتحديد/إلغاء تحديد جميع المواقع لموظف معين
+function selectAllSites(empNumber, select) {
+  const cardBody = document.getElementById('body-' + empNumber);
+  if (!cardBody) return;
+  const checkboxes = cardBody.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(cb => {
+    cb.checked = select;
+    const siteIndex = parseInt(cb.dataset.siteIndex);
+    const siteName = availableSites[siteIndex].name;
+    if (!tempAssignments[empNumber]) tempAssignments[empNumber] = [];
+    if (select) {
+      if (!tempAssignments[empNumber].includes(siteName)) tempAssignments[empNumber].push(siteName);
+    } else {
+      tempAssignments[empNumber] = tempAssignments[empNumber].filter(s => s !== siteName);
+    }
+    const label = cb.closest('.assign-site-checkbox');
+    if (select) label.classList.add('checked');
+    else label.classList.remove('checked');
+  });
+}
+
+// تحديث التخزين المؤقت عند تغيير خانة اختيار
+function updateTempAssignment(empNumber, siteIndex, checked, element) {
+  const siteName = availableSites[siteIndex].name;
+  if (!tempAssignments[empNumber]) tempAssignments[empNumber] = [];
+  if (checked) {
+    if (!tempAssignments[empNumber].includes(siteName)) tempAssignments[empNumber].push(siteName);
+  } else {
+    tempAssignments[empNumber] = tempAssignments[empNumber].filter(s => s !== siteName);
+  }
+  const label = element.closest('.assign-site-checkbox');
+  if (checked) label.classList.add('checked');
+  else label.classList.remove('checked');
+  // تحديث عدد المواقع المعروض
+  const card = element.closest('.assign-card');
+  const countSpan = card.querySelector('.assign-card-num span:last-child');
+  if (countSpan) countSpan.textContent = `(${tempAssignments[empNumber].length} موقع)`;
+}
+
+// حفظ التعيينات لموظف معين
+async function saveEmployeeSites(empNumber) {
+  const sites = tempAssignments[empNumber] || [];
+  const card = document.querySelector(`#body-${escapeHtml(empNumber)}`).closest('.assign-card');
+  const btn = card.querySelector('.assign-save-btn');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> جاري الحفظ...';
+  lucide.createIcons();
+  try {
+    const response = await fetchWithTimeout(`${webAppUrl}?action=updateEmployeeSites&adminNumber=${encodeURIComponent(currentUser.number)}&empNumber=${encodeURIComponent(empNumber)}&sites=${encodeURIComponent(JSON.stringify(sites))}`);
+    const data = await response.json();
+    if (data.success) {
+      showToast(`تم تحديث مواقع الموظف بنجاح`, 'success');
+      // تحديث البيانات المحلية
+      const emp = assignmentsData.find(e => e.number === empNumber);
+      if (emp) emp.assignedSites = sites;
+      // تحديث عدد المواقع
+      const countSpan = card.querySelector('.assign-card-num span:last-child');
+      if (countSpan) countSpan.textContent = `(${sites.length} موقع)`;
+    } else {
+      showToast(data.error || 'حدث خطأ أثناء الحفظ', 'error');
+    }
+  } catch (e) {
+    showToast('فشل الحفظ: ' + (e.message || 'انتهت المهلة'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+    lucide.createIcons();
+  }
+}
+
+// تبديل عرض البطاقة (طي/فتح)
+function toggleAssignCard(empNumber) {
+  const body = document.getElementById('body-' + empNumber);
+  if (!body) return;
+  body.classList.toggle('show');
+  const header = body.previousElementSibling;
+  if (header) header.classList.toggle('active');
+}
+
+// تصفية قائمة الموظفين حسب البحث
+function filterAssignments() {
+  const q = document.getElementById('assign-search').value.trim().toLowerCase();
+  renderAssignments(q ? assignmentsData.filter(e => e.name.toLowerCase().includes(q) || e.number.includes(q)) : assignmentsData);
+}
 </script>
 </body>
 </html>
