@@ -319,6 +319,37 @@ let activeSection = null, months = [], currentUser = null, personalPhones = [], 
 let loginLogData = [], allEmployeesCache = [], employeesLoaded = false, searchDebounceTimer = null, highlightedIndex = -1;
 let currentLocation = null, attendanceLogData = [], sitesCache = [], editingSiteOriginalName = null;
 let assignmentsData = [], availableSites = [], tempAssignments = {}, currentViewingSiteName = '';
+const SESSION_DURATION_MS = 10 * 60 * 1000;
+let sessionExpiresAt = 0, sessionTimeoutId = null;
+
+function startSessionTimeout(expiresAt = Date.now() + SESSION_DURATION_MS) {
+  sessionExpiresAt = Number(expiresAt);
+  localStorage.setItem('sessionExpiresAt', String(sessionExpiresAt));
+  scheduleSessionLogout();
+}
+
+function scheduleSessionLogout() {
+  if (sessionTimeoutId) clearTimeout(sessionTimeoutId);
+  if (!currentUser || !sessionExpiresAt) return;
+  const remaining = sessionExpiresAt - Date.now();
+  if (remaining <= 0) {
+    autoLogoutExpiredSession();
+    return;
+  }
+  sessionTimeoutId = setTimeout(autoLogoutExpiredSession, remaining);
+}
+
+function autoLogoutExpiredSession() {
+  if (!currentUser || Date.now() < sessionExpiresAt) {
+    scheduleSessionLogout();
+    return;
+  }
+  handleLogout('انتهت الجلسة بعد مرور 10 دقائق. يرجى تسجيل الدخول مرة أخرى.');
+}
+
+function checkSessionExpiry() {
+  if (currentUser && sessionExpiresAt && Date.now() >= sessionExpiresAt) autoLogoutExpiredSession();
+}
 
 // ========== دوال مساعدة جديدة للتعامل مع المهلة والتخزين المؤقت ==========
 function fetchWithTimeout(url, timeout = 15000) {
@@ -343,10 +374,18 @@ function setMonthsCache(months) {
 }
 
 document.addEventListener('DOMContentLoaded', function () { lucide.createIcons(); initDarkMode(); checkStoredLogin(); renderForms(); renderPhones(); });
+document.addEventListener('visibilitychange', function () { if (!document.hidden) checkSessionExpiry(); });
+window.addEventListener('focus', checkSessionExpiry);
+window.addEventListener('pageshow', checkSessionExpiry);
+setInterval(checkSessionExpiry, 30000);
 function checkStoredLogin() {
 const storedUser = localStorage.getItem('currentUser'), rememberMe = localStorage.getItem('rememberMe'), storedVersion = localStorage.getItem('appVersion');
 if (storedVersion !== APP_VERSION) { localStorage.clear(); return; }
-if (storedUser && rememberMe === 'true') { currentUser = JSON.parse(storedUser); showApp(); }
+if (storedUser && rememberMe === 'true') {
+  const storedExpiry = Number(localStorage.getItem('sessionExpiresAt') || 0);
+  if (!storedExpiry || Date.now() >= storedExpiry) { localStorage.clear(); return; }
+  currentUser = JSON.parse(storedUser); startSessionTimeout(storedExpiry); showApp();
+}
 }
 async function handleLogin(event) {
 event.preventDefault();
@@ -360,6 +399,7 @@ const response = await fetchWithTimeout(`${webAppUrl}?action=login&number=${enco
 const data = await response.json();
 if (data.success) {
 currentUser = { number: data.user.number, name: data.user.name, pass, role: data.user.role || 'employee', workType: data.user.workType || '', assignedSites: data.user.assignedSites || '' };
+startSessionTimeout();
 if (rememberMe) { localStorage.setItem('currentUser', JSON.stringify(currentUser)); localStorage.setItem('rememberMe', 'true'); localStorage.setItem('appVersion', APP_VERSION); }
 showToast(`مرحباً ${currentUser.name}`, 'success'); showApp();
 } else { errorEl.textContent = data.error || 'بيانات الدخول غير صحيحة'; errorEl.classList.add('show'); }
@@ -370,7 +410,7 @@ errorEl.classList.add('show');
 } 
 finally { btn.disabled = false; btn.innerHTML = '<i data-lucide="log-in"></i><span>تسجيل الدخول</span>'; lucide.createIcons(); }
 }
-function handleLogout() { currentUser = null; localStorage.clear(); document.getElementById('login-number').value = ''; document.getElementById('login-pass').value = ''; document.getElementById('remember-me').checked = false; hideApp(); showToast('تم تسجيل الخروج', 'success'); }
+function handleLogout(message = 'تم تسجيل الخروج') { if (sessionTimeoutId) clearTimeout(sessionTimeoutId); sessionTimeoutId = null; sessionExpiresAt = 0; currentUser = null; localStorage.clear(); document.getElementById('login-number').value = ''; document.getElementById('login-pass').value = ''; document.getElementById('remember-me').checked = false; hideApp(); showToast(message, 'success'); }
 function showApp() {
 document.getElementById('login-page').classList.add('hidden'); document.getElementById('app-container').classList.add('active');
 if (currentUser) {
