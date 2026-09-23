@@ -10,8 +10,10 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="dns-prefetch" href="https://script.google.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root{
@@ -291,7 +293,7 @@ body{font-family:'Cairo',sans-serif; background-color:var(--background); color:v
 
 <script>
 const webAppUrl = "https://script.google.com/macros/s/AKfycbxODPm6-e7ulZfsgv0Q1Iz3USKdspN7MDNVi7kBK9bbMX6lgBiEXc00HUcQQCsOVUO6/exec";
-const APP_VERSION = "attendance-v4"; // تم تحديث الإصدار
+const APP_VERSION = "attendance-v5-performance";
 const forms = [
 { id: "طلب-إجازة", name: "طلب إجازة", icon: "file-signature", url: "https://drive.google.com/file/d/14F9mOApxw9GrZXp-O9ti3YQMVZqHaf-m/view?usp=drive_link" },
 { id: "طلب-سلفة", name: "طلب سلفة مالية", icon: "banknote", url: "https://drive.google.com/file/d/1YFIuOCv3oLgLzkS0LTfUwKUMPvelwgZ6/view?usp=drive_link" },
@@ -351,12 +353,53 @@ function checkSessionExpiry() {
   if (currentUser && sessionExpiresAt && Date.now() >= sessionExpiresAt) autoLogoutExpiredSession();
 }
 
-// ========== دوال مساعدة جديدة للتعامل مع المهلة والتخزين المؤقت ==========
-function fetchWithTimeout(url, timeout = 15000) {
-  return Promise.race([
-    fetch(url),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('انتهت مهلة الطلب')), timeout))
-  ]);
+// ========== طبقة اتصال محسنة: إلغاء فعلي، منع التكرار، وإعادة محاولة آمنة ==========
+const pendingRequests = new Map();
+const RETRYABLE_READ_ACTIONS = new Set([
+  'months', 'personalPhones', 'getLoginLog', 'searchEmployees',
+  'attendanceLog', 'getSites', 'getSiteEmployees', 'getEmployeesForAssignment'
+]);
+
+function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+function fetchWithTimeout(url, timeout = 25000) {
+  const requestUrl = String(url);
+  let action = '';
+  try { action = new URL(requestUrl, location.href).searchParams.get('action') || ''; } catch (e) {}
+  const retryCount = RETRYABLE_READ_ACTIONS.has(action) ? 1 : 0;
+
+  // إذا كان الطلب نفسه جارياً، نشارك نتيجته بدلاً من إرسال نسخة أخرى للخادم.
+  if (pendingRequests.has(requestUrl)) {
+    return pendingRequests.get(requestUrl).then(response => response.clone());
+  }
+
+  const request = (async () => {
+    let lastError;
+    for (let attempt = 0; attempt <= retryCount; attempt++) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
+      try {
+        const response = await fetch(requestUrl, {
+          signal: controller.signal,
+          cache: 'no-store',
+          credentials: 'omit'
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response;
+      } catch (error) {
+        lastError = error;
+        if (attempt < retryCount) await wait(400 * (attempt + 1));
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+    if (lastError && lastError.name === 'AbortError') throw new Error('انتهت مهلة الطلب');
+    throw lastError || new Error('تعذر الاتصال بالخادم');
+  })();
+
+  pendingRequests.set(requestUrl, request);
+  request.finally(() => pendingRequests.delete(requestUrl)).catch(() => {});
+  return request.then(response => response.clone());
 }
 
 function getMonthsFromCache() {
@@ -438,7 +481,7 @@ if (section === 'personal-phones' && !personalPhonesLoaded) loadPersonalPhones()
 function renderForms() { document.getElementById('forms-grid').innerHTML = forms.map(f => `<a href="${f.url}" target="_blank" rel="noopener noreferrer" class="form-item"><div class="form-icon"><i data-lucide="${f.icon}"></i></div><span class="form-name">${f.name}</span></a>`).join(''); lucide.createIcons(); }
 function renderPhones(filter = '') { const list = document.getElementById('phones-list'), f = phones.filter(p => p.name.includes(filter) || p.number.includes(filter)); list.innerHTML = f.length === 0 ? '<p class="no-results">لا توجد نتائج</p>' : f.map(p => `<div class="phone-item"><span class="phone-name">${p.name}</span><div class="phone-number-section"><span class="phone-number">${p.number}</span><div class="phone-icon-circle"><i data-lucide="phone"></i></div></div></div>`).join(''); lucide.createIcons(); }
 function filterPhones() { renderPhones(document.getElementById('phone-search').value); }
-async function loadPersonalPhones() { const list = document.getElementById('personal-phones-list'); list.innerHTML = '<p class="no-results">جاري التحميل...</p>'; try { const data = await (await fetch(webAppUrl + '?action=personalPhones')).json(); if(!data.success) throw 0; personalPhones = data.items; personalPhonesLoaded = true; renderPersonalPhones(''); } catch(e) { list.innerHTML = '<p class="no-results">حدث خطأ</p>'; } }
+async function loadPersonalPhones() { const list = document.getElementById('personal-phones-list'); list.innerHTML = '<p class="no-results">جاري التحميل...</p>'; try { const data = await (await fetchWithTimeout(webAppUrl + '?action=personalPhones')).json(); if(!data.success) throw new Error(data.error || 'فشل التحميل'); personalPhones = data.items; personalPhonesLoaded = true; renderPersonalPhones(''); } catch(e) { list.innerHTML = `<p class="no-results">${escapeHtml(e.message || 'حدث خطأ')}</p>`; } }
 function renderPersonalPhones(filter = '') { const list = document.getElementById('personal-phones-list'), f = (filter||'').trim(), filtered = personalPhones.filter(p => (p.name&&p.name.includes(f))||(p.number&&p.number.includes(f))||(p.department&&p.department.includes(f))); list.innerHTML = filtered.length === 0 ? '<p class="no-results">لا توجد نتائج</p>' : filtered.map(p => `<div class="phone-item"><span class="phone-name">${escapeHtml(p.name)}${p.department?` <span style="color:var(--muted-foreground);font-size:.8rem;">(${escapeHtml(p.department)})</span>`:''}</span><div class="phone-number-section"><button class="copy-btn" onclick="copyNumber(this, '${escapeHtml(p.number)}')"><i data-lucide="copy"></i></button><span class="phone-number">${escapeHtml(p.number)}</span><div class="phone-icon-circle"><i data-lucide="smartphone"></i></div></div></div>`).join(''); lucide.createIcons(); }
 function filterPersonalPhones() { renderPersonalPhones(document.getElementById('personal-phone-search').value); }
 function copyNumber(btn, num) { if(!num) return; navigator.clipboard.writeText(num).then(()=>showCopySuccess(btn,num)).catch(()=>{const t=document.createElement('textarea');t.value=num;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);showCopySuccess(btn,num);}); }
